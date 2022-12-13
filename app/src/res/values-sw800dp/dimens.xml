@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<dimen name="app_bar_height">347.8261dp</dimen>
+	<dimen name="fab_margin">30.9179dp</dimen>
+	<dimen name="text_margin">30.9179dp</dimen>
+	<dimen name="text_guide_margin_top">133.3333dp</dimen>
+	<dimen name="text_guide_title_width">325.6039dp</dimen>
+	<dimen name="text_guide_title_height">32.8502dp</dimen>
+	<dimen name="image_guide_close_width">32.8502dp</dimen>
+	<dimen name="text_guide_close_height">32.8502dp</dimen>
+</resources>
