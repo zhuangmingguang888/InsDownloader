@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color_bg_guide">#41444A</color>
+    <color name="text_guide_method_color">#EE468C</color>
+    <color name="indicator_guide_normal_color">#FCFCFC</color>
 </resources>

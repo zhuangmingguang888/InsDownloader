@@ -2,10 +2,49 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="text_guide_margin_top">69dp</dimen>
+    <dimen name="text_guide_margin_top">20dp</dimen>
+    <dimen name="text_guide_margin_left">122.5dp</dimen>
+
     <dimen name="text_guide_title_width">168.5dp</dimen>
     <dimen name="text_guide_title_height">17dp</dimen>
+    <dimen name="text_guide_title_size">21dp</dimen>
 
     <dimen name="image_guide_close_width">17dp</dimen>
-    <dimen name="text_guide_close_height">17dp</dimen>
+
+    <dimen name="image_guide_close_margin_right">24dp</dimen>
+    <dimen name="image_guide_close_margin_left">82dp</dimen>
+
+    <dimen name="text_guide_method_width">76.5dp</dimen>
+    <dimen name="text_guide_method_height">15.5dp</dimen>
+    <dimen name="text_guide_method_margin_left">29dp</dimen>
+    <dimen name="text_guide_method_size">19dp</dimen>
+    
+    <dimen name="image_guide_tips_width_height">36dp</dimen>
+    <dimen name="image_guide_tips_margin_left">27dp</dimen>
+
+    <dimen name="text_guide_serial_number_width">5dp</dimen>
+    <dimen name="text_guide_serial_number_height">16dp</dimen>
+    <dimen name="text_guide_serial_number_size">24dp</dimen>
+
+    <dimen name="text_guide_operator_margin_left">7.5dp</dimen>
+
+    <dimen name="text_guide_sub_operator_margin_left">27dp</dimen>
+    <dimen name="text_guide_sub_operator_margin_top">20.5dp</dimen>
+    <dimen name="text_guide_sub_operator_size">12dp</dimen>
+
+
+    <dimen name="image_guide_width">364dp</dimen>
+    <dimen name="image_guide_height">460dp</dimen>
+    <dimen name="image_guide_margin_top">16.5dp</dimen>
+    <dimen name="image_guide_margin_left">25dp</dimen>
+
+    <dimen name="button_guide_margin_left_right">30dp</dimen>
+    <dimen name="button_guide_margin_bottom">52dp</dimen>
+    <dimen name="button_guide_margin_top">101dp</dimen>
+    <dimen name="button_guide_height">59dp</dimen>
+
+    <dimen name="indicator_guide_margin_bottom">100dp</dimen>
+    <dimen name="indicator_guide_width_height">10dp</dimen>
+
+
 </resources>

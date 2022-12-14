@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<dimen name="app_bar_height">257.3913dp</dimen>
+	<dimen name="fab_margin">22.8792dp</dimen>
+	<dimen name="text_margin">22.8792dp</dimen>
+	<dimen name="text_guide_margin_top">28.5990dp</dimen>
+	<dimen name="text_guide_margin_left">175.1691dp</dimen>
+	<dimen name="text_guide_title_width">240.9469dp</dimen>
+	<dimen name="text_guide_title_height">24.3092dp</dimen>
+	<dimen name="text_guide_title_size">30.0290dp</dimen>
+	<dimen name="image_guide_close_width">24.3092dp</dimen>
+	<dimen name="image_guide_close_margin_right">34.3188dp</dimen>
+	<dimen name="image_guide_close_margin_left">117.2560dp</dimen>
+	<dimen name="text_guide_method_width">109.3913dp</dimen>
+	<dimen name="text_guide_method_height">22.1643dp</dimen>
+	<dimen name="text_guide_method_margin_left">41.4686dp</dimen>
+	<dimen name="text_guide_method_size">27.1691dp</dimen>
+	<dimen name="image_guide_tips_width_height">51.4783dp</dimen>
+	<dimen name="image_guide_tips_margin_left">38.6087dp</dimen>
+	<dimen name="text_guide_serial_number_width">7.1498dp</dimen>
+	<dimen name="text_guide_serial_number_height">22.8792dp</dimen>
+	<dimen name="text_guide_serial_number_size">34.3188dp</dimen>
+	<dimen name="text_guide_operator_margin_left">10.7246dp</dimen>
+	<dimen name="text_guide_sub_operator_margin_left">38.6087dp</dimen>
+	<dimen name="text_guide_sub_operator_margin_top">29.3140dp</dimen>
+	<dimen name="text_guide_sub_operator_size">17.1594dp</dimen>
+	<dimen name="image_guide_width">520.5024dp</dimen>
+	<dimen name="image_guide_height">657.7778dp</dimen>
+	<dimen name="image_guide_margin_top">23.5942dp</dimen>
+	<dimen name="image_guide_margin_left">35.7488dp</dimen>
+	<dimen name="button_guide_margin_left_right">42.8986dp</dimen>
+	<dimen name="button_guide_margin_bottom">14.2995dp</dimen>
+</resources>

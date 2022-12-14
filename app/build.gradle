@@ -1,19 +1,19 @@
-plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-android-extensions'
-}
+apply plugin: 'com.android.application'
 
 android {
-    namespace 'com.tree.insdownloader'
-    compileSdk 32
+    compileSdkVersion 31
+    buildToolsVersion "30.0.0"
 
     defaultConfig {
         applicationId "com.tree.insdownloader"
-        minSdk 23
-        targetSdk 32
+        minSdkVersion 23
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     buildTypes {
@@ -22,13 +22,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
     }
 
     sourceSets {
@@ -39,24 +36,31 @@ android {
             manifest.srcFile 'src/AndroidManifest.xml'
         }
     }
-
-    dataBinding {
-        enabled = true
-    }
-
-    buildFeatures {
-        viewBinding true
-    }
-
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.navigation:navigation-fragment:2.4.1'
+    implementation 'androidx.navigation:navigation-ui:2.4.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
+    implementation 'io.github.youth5201314:banner:2.2.2'
+    def lifecycle_version = "2.0.0"
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation 'io.github.youth5201314:banner:2.2.2'
+
+
 }

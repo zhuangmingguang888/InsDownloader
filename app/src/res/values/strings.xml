@@ -2,6 +2,26 @@
     <string name="app_name">InsDownloader</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="how_to_download">How to Download</string>
 
+    <string name="text_guide_how_to_download">How to Download</string>
+    <string name="text_guide_method1">Method 1</string>
+    <string name="text_guide_method2">Method 2</string>
+
+    <string name="text_guide_serial_number_one">1</string>
+    <string name="text_guide_serial_number_two">2</string>
+
+    <string name="text_guide_operator_one">Open Instant Downloader and paste link</string>
+
+    <string name="text_guide_operator_two">Select Instant Downloader to download desired image/video</string>
+    <string name="text_guide_sub_operator_two">Done! your image or video will be downloaded automatixally</string>
+
+    <string name="text_guide_operator_three">Open app and Copy link</string>
+    <string name="text_guide_sub_operator_three">Go to the Instant Downloader APP after copy the link</string>
+
+    <string name="text_guide_operator_four">Open Instant Downloader and paste link</string>
+    <string name="text_guide_sub_operator_four">Done! your image or video will be downloaded automatixally</string>
+
+
+    <string name="button_guide_next">NEXT</string>
+    <string name="button_guide_finish">FINISH</string>
 </resources>

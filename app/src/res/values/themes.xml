@@ -19,6 +19,10 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:fitsSystemWindows">true</item>
+        <item name="colorPrimary">@color/color_bg_guide</item>
+        <item name="colorOnPrimary">@color/color_bg_guide</item>
+        <item name="android:statusBarColor">@color/color_bg_guide</item>
+
     </style>
 
     <style name="Theme.InsDownloader.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
