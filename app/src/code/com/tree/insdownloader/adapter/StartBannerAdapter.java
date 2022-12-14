@@ -36,18 +36,18 @@ public class StartBannerAdapter extends BannerAdapter<StartBannerBean, StartBann
 
     @Override
     public void onBindView(BannerViewHolder holder, StartBannerBean data, int position, int size) {
-        holder.imageViewGuide.setImageResource(data.getImageId());
-        holder.textViewMethod.setText(data.getMethodName());
-        holder.textViewOperator.setText(data.getOperatorName());
+        holder.binding.imgGuide.setImageResource(data.getImageId());
+        holder.binding.tvGuideMethod.setText(data.getMethodName());
+        holder.binding.tvGuideOperator.setText(data.getOperatorName());
         if (data.getSubOperatorName() == 0) {
-            holder.textViewSubOperator.setVisibility(View.INVISIBLE);
+            holder.binding.tvGuideSubOperator.setVisibility(View.INVISIBLE);
         } else {
-            holder.textViewSubOperator.setVisibility(View.VISIBLE);
-            holder.textViewSubOperator.setText(data.getSubOperatorName());
+            holder.binding.tvGuideSubOperator.setVisibility(View.VISIBLE);
+            holder.binding.tvGuideSubOperator.setText(data.getSubOperatorName());
         }
-        holder.textViewSerialNumber.setText(data.getSerialNumber());
+        holder.binding.tvGuideSerialNumber.setText(data.getSerialNumber());
 
-        holder.imageViewGuideClose.setOnClickListener(new View.OnClickListener() {
+        holder.binding.imgGuideClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //关闭activity
@@ -58,27 +58,19 @@ public class StartBannerAdapter extends BannerAdapter<StartBannerBean, StartBann
 
     class BannerViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageViewGuideClose;
-        private ImageView imageViewGuide;
-        private TextView textViewMethod;
-        private TextView textViewSerialNumber;
-        private TextView textViewOperator;
-        private TextView textViewSubOperator;
+        private ItemGuideBindingBinding binding;
+
         public BannerViewHolder(@NonNull View itemView) {
             super(itemView);
             Typeface semiBold = Typeface.createFromAsset(itemView.getContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
             Typeface italic = Typeface.createFromAsset(itemView.getContext().getAssets(), ITALIC_ASSETS_PATH);
-            imageViewGuide = itemView.findViewById(R.id.img_guide);
-            imageViewGuideClose = itemView.findViewById(R.id.img_guide_close);
-            textViewMethod = itemView.findViewById(R.id.tv_guide_method);
-            textViewOperator = itemView.findViewById(R.id.tv_guide_operator);
-            textViewSerialNumber = itemView.findViewById(R.id.tv_guide_serial_number);
-            textViewSubOperator = itemView.findViewById(R.id.tv_guide_sub_operator);
 
-            textViewMethod.setTypeface(semiBold);
-            textViewOperator.setTypeface(semiBold);
-            textViewSerialNumber.setTypeface(semiBold);
-            textViewSubOperator.setTypeface(italic);
+            binding = ItemGuideBindingBinding.bind(itemView);
+            binding.tvGuideMethod.setTypeface(semiBold);
+            binding.tvGuideOperator.setTypeface(semiBold);
+            binding.tvGuideSerialNumber.setTypeface(semiBold);
+            binding.tvGuideSubOperator.setTypeface(italic);
+
         }
     }
 
