@@ -3,8 +3,8 @@ package com.tree.insdownloader.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class StartActivityViewModel extends ViewModel {
+public class SelectDialogViewModel extends ViewModel {
 
-    public MutableLiveData<Integer> next = new MutableLiveData<>();
+    public MutableLiveData<String> datas = new MutableLiveData<>();
 
 }

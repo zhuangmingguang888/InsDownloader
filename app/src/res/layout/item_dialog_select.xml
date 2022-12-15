@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+     <!--   <CheckBox
+            android:layout_width="22.5dp"
+            android:layout_height="22.5dp"
+            android:background="@drawable/ic_check_select"
+            android:button="@null"></CheckBox>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

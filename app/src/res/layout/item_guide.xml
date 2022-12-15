@@ -117,7 +117,8 @@
         android:layout_height="@dimen/image_guide_height"
         android:layout_marginLeft="@dimen/image_guide_margin_left"
         android:layout_marginTop="@dimen/image_guide_margin_top"
-        android:src="@mipmap/ic_guide_1">
+        android:src="@mipmap/ic_guide_1"
+        >
     </ImageView>
 
 

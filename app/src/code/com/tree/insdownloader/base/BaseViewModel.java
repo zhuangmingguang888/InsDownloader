@@ -14,6 +14,5 @@ public abstract class BaseViewModel extends AndroidViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-
     }
 }

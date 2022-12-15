@@ -7,16 +7,13 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.bean.StartBannerBean;
-import com.tree.insdownloader.databinding.ItemGuideBindingBinding;
+import com.tree.insdownloader.databinding.ItemGuideBinding;
 import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
@@ -29,8 +26,7 @@ public class StartBannerAdapter extends BannerAdapter<StartBannerBean, StartBann
 
     @Override
     public BannerViewHolder onCreateHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_guide_binding,parent,false);
-        //DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_guide_binding,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_guide,parent,false);
         return new BannerViewHolder(itemView);
     }
 
@@ -50,7 +46,7 @@ public class StartBannerAdapter extends BannerAdapter<StartBannerBean, StartBann
         holder.binding.imgGuideClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //关闭activity
+
             }
         });
     }
@@ -58,14 +54,14 @@ public class StartBannerAdapter extends BannerAdapter<StartBannerBean, StartBann
 
     class BannerViewHolder extends RecyclerView.ViewHolder {
 
-        private ItemGuideBindingBinding binding;
+        private ItemGuideBinding binding;
 
         public BannerViewHolder(@NonNull View itemView) {
             super(itemView);
             Typeface semiBold = Typeface.createFromAsset(itemView.getContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
             Typeface italic = Typeface.createFromAsset(itemView.getContext().getAssets(), ITALIC_ASSETS_PATH);
 
-            binding = ItemGuideBindingBinding.bind(itemView);
+            binding = ItemGuideBinding.bind(itemView);
             binding.tvGuideMethod.setTypeface(semiBold);
             binding.tvGuideOperator.setTypeface(semiBold);
             binding.tvGuideSerialNumber.setTypeface(semiBold);

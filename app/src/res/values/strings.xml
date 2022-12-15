@@ -24,4 +24,38 @@
 
     <string name="button_guide_next">NEXT</string>
     <string name="button_guide_finish">FINISH</string>
+
+
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_disclaimer">Disclaimer</string>
+    <string name="menu_theme">Theme</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_rate_us">Rate Us</string>
+    <string name="menu_how_to_work">How to Work</string>
+    <string name="menu_about_us">About Us</string>
+    <string name="menu_manage_subscriptions">Manage Subscriptions</string>
+    <string name="menu_privacy_policy">Privacy Policy</string>
+    <string name="menu_language_options">Language Options</string>
+
+    <string name="text_header_download">Downloader</string>
+
+    <string name="text_disclaimer">Disclaimer</string>
+    <string name="text_disclaimer_content">1.Please get the PERMISSION from the owner before you repost videos or photos.
+
+\n\n2.We are not responsible for any intellectual property violation that results from an unauthorized repost of a video or photo.
+
+\n\n3.This app is not affiliated with Instagram.
+</string>
+
+    <string name="text_disclaimer_button">Got It</string>
+
+    <string name="text_theme_title">Theme</string>
+
+
 </resources>
