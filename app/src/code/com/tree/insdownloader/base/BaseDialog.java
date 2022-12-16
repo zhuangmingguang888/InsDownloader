@@ -24,7 +24,7 @@ public abstract class BaseDialog<VDB extends ViewDataBinding> extends Dialog {
     public BaseDialog(@NonNull Context context) {
         super(context);
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), getLayoutID(), null, false);
-        setContentView(mContentView.getRootView());
+        setContentView(binding.getRoot());
         initWindow();
         initView();
     }

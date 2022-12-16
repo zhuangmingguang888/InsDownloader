@@ -11,8 +11,10 @@
     <color name="text_guide_method_color">#EE468C</color>
     <color name="indicator_guide_normal_color">#FCFCFC</color>
     <color name="one_pixel">#333333</color>
-    <color name="text_disclaimer">#000000</color>
     <color name="text_disclaimer_content">#4B4B4B</color>
+    <color name="text_disclaimer">#000000</color>
     <color name="text_theme_unselect">#A3A3A3</color>
-
+    <color name="view_background">#666666</color>
+    <color name="text_unselect">#767676</color>
+    <color name="text_select">#EE468C</color>
 </resources>

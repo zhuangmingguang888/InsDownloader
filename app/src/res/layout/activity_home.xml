@@ -2,26 +2,147 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.drawerlayout.widget.DrawerLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/home_drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/teal_200"
-            ></FrameLayout>
+            android:orientation="vertical"
+            >
+            <!--top-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/image_guide_margin_left"
+                >
+
+                <ImageView
+                    android:id="@+id/toolbar_img_more"
+                    android:layout_width="@dimen/button_guide_margin_left_right"
+                    android:layout_height="@dimen/button_guide_margin_left_right"
+                    android:src="@mipmap/ic_menu_more"
+                    ></ImageView>
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_header_download"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/text_guide_title_size"
+                    android:textColor="@color/text_disclaimer"
+                    ></TextView>
+
+                <ImageView
+                    android:id="@+id/toolbar_img_help"
+                    android:layout_width="@dimen/button_guide_margin_left_right"
+                    android:layout_height="@dimen/button_guide_margin_left_right"
+                    android:src="@mipmap/ic_menu_help"
+                    android:layout_toLeftOf="@id/toolbar_img_ins"
+                    android:layout_marginRight="@dimen/layout_padding_23"
+                    ></ImageView>
+
+
+                <ImageView
+                    android:id="@+id/toolbar_img_ins"
+                    android:layout_width="@dimen/button_guide_margin_left_right"
+                    android:layout_height="@dimen/button_guide_margin_left_right"
+                    android:src="@mipmap/ic_menu_ins"
+                    android:layout_alignParentRight="true"
+                    ></ImageView>
+
+            </RelativeLayout>
+
+            <!--fragment-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_line"
+                android:background="@color/one_pixel"
+                android:layout_above="@id/home_bottom"
+                android:alpha="0.1"
+                ></View>
+            <!--bottom-->
+            <LinearLayout
+                android:id="@+id/home_bottom"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/dialog_appraise_sub_title_size"
+                android:layout_marginTop="@dimen/layout_margin"
+                >
+
+                <LinearLayout
+                    android:id="@+id/ll_tab_bottom1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <ImageView
+                        android:id="@+id/image_home"
+                        android:layout_width="@dimen/button_guide_margin_left_right"
+                        android:layout_height="@dimen/button_guide_margin_left_right"
+                        ></ImageView>
+
+                    <TextView
+                        android:id="@+id/text_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:textSize="@dimen/text_home_size"
+                        ></TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_tab_bottom2"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    >
+
+                    <ImageView
+                        android:id="@+id/image_download"
+                        android:layout_width="@dimen/button_guide_margin_left_right"
+                        android:layout_height="@dimen/button_guide_margin_left_right"
+                        ></ImageView>
+
+                    <TextView
+                        android:id="@+id/text_download"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:textSize="@dimen/text_home_size"
+                        android:textColor="@color/one_pixel"
+                        ></TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:headerLayout="@layout/nav_header_home"
-            android:fitsSystemWindows="true"
-            app:menu="@menu/activity_home_drawer"
             android:layout_gravity="left"
-            ></com.google.android.material.navigation.NavigationView>
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_home"
+            app:menu="@menu/activity_home_drawer"></com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
-
+    </FrameLayout>
 </layout>

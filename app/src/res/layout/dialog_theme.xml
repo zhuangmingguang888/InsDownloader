@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data ></data>
+
+    <data></data>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/ic_dialog_background"
-        android:padding="@dimen/button_guide_margin_left_right">
+        >
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="@color/text_disclaimer"
             android:text="@string/text_theme_title"
             android:textSize="@dimen/text_guide_serial_number_size"></TextView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_select"
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/tv_title"
-            android:layout_marginTop="@dimen/button_guide_margin_left_right"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_select"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tv_title"
+                android:layout_marginTop="@dimen/button_guide_margin_left_right"></androidx.recyclerview.widget.RecyclerView>
+        </RadioGroup>
+
     </RelativeLayout>
 </layout>

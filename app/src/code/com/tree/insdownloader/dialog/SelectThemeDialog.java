@@ -23,29 +23,37 @@ import com.tree.insdownloader.databinding.DialogThemeBinding;
 import com.tree.insdownloader.util.DisplayUtil;
 import com.tree.insdownloader.viewmodel.SelectDialogViewModel;
 
+import java.util.List;
+
 public class SelectThemeDialog extends BaseDialog<DialogThemeBinding> {
 
     private SelectThemeDialogAdapter selectThemeDialogAdapter;
+    private List<String> titles;
 
-    public SelectThemeDialog(@NonNull Context context) {
+    public SelectThemeDialog(Context context, List<String> titles) {
         super(context);
-        selectThemeDialogAdapter = new SelectThemeDialogAdapter();
+        this.selectThemeDialogAdapter = new SelectThemeDialogAdapter(titles);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerSelect.setLayoutManager(linearLayoutManager);
+        binding.recyclerSelect.setAdapter(selectThemeDialogAdapter);
     }
 
     @Override
     protected void initView() {
-        Typeface semiBold = Typeface.createFromAsset(mContentView.getContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
+        Typeface semiBold = Typeface.createFromAsset(getContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
         binding.tvTitle.setTypeface(semiBold);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        binding.recyclerSelect.setLayoutManager(linearLayoutManager);
-
-
     }
 
-    public void setData(String[] strNames) {
-        if (strNames!=null && strNames.length == 0) return;
-        selectThemeDialogAdapter.setStrNames(strNames);
+    public void setData(String strName) {
+        if (TextUtils.isEmpty(strName)) return;
+        selectThemeDialogAdapter.setTitle(strName);
+    }
+
+    public void showContent() {
+        if (!isShowing()) {
+            show();
+        }
     }
 
     @Override
@@ -55,11 +63,24 @@ public class SelectThemeDialog extends BaseDialog<DialogThemeBinding> {
 
     @Override
     protected void initWindow() {
+    /*    Window window = getWindow();
+        WindowManager.LayoutParams layoutParams = window.getAttributes();
+        layoutParams.width = (int) (DisplayUtil.getDisplayWidthInPx(getContext())*0.8f);
+        layoutParams.height = layoutParams.width;
+        window.setAttributes(layoutParams);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));*/
+    }
+
+    public void resetWindow(int count) {
+
+        int displayHeight = DisplayUtil.getDisplayHeightInPx(getContext());
+        int dp2px = DisplayUtil.dp2px(62);
         Window window = getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.width = DisplayUtil.dp2px(DisplayUtil.getDisplayWidthInPx(getContext()) * 0.8f);
-        layoutParams.height = DisplayUtil.dp2px(DisplayUtil.getDisplayWidthInPx(getContext()) * 0.8f);
+        layoutParams.width = (int) (DisplayUtil.getDisplayWidthInPx(getContext())*0.8f);
+        layoutParams.height = dp2px * (count + 1);
         window.setAttributes(layoutParams);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
     }
 }

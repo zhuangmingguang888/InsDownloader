@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_dialog_background"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dialog_appraise_logo_width_height"
+            android:layout_height="@dimen/dialog_appraise_logo_width_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/text_guide_margin_top"
+            android:src="@mipmap/ic_rate"></ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/text_guide_method_height"
+            android:text="@string/text_appraise_title"
+            android:textColor="@color/text_disclaimer"
+            android:textSize="@dimen/dialog_appraise_title_size"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_appraise_sub_title"
+            android:textColor="@color/text_disclaimer_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textSize="@dimen/dialog_appraise_sub_title_size"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_appraise_unselect"></ImageView>
+
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_appraise_unselect"></ImageView>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_appraise_unselect"></ImageView>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_appraise_unselect"></ImageView>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_appraise_unselect"></ImageView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

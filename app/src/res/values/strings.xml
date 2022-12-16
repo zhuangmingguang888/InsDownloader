@@ -57,5 +57,15 @@
 
     <string name="text_theme_title">Theme</string>
 
+    <string name="text_appraise_title">Rate Us</string>
+    <string name="text_appraise_sub_title">Your Good Rating Inspire us to Serve you
+Batter Services</string>
 
+    <string name="menu_help">help</string>
+    <string name="menu_ins">ins</string>
+
+    <string name="toolbar_title">Downloader</string>
+
+    <string name="text_bottom_home">Home</string>
+    <string name="text_bottom_download">Download</string>
 </resources>
