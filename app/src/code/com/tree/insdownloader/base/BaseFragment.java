@@ -31,11 +31,19 @@ public abstract class BaseFragment<VM extends ViewModel, VDB extends ViewDataBin
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
+        binding = DataBindingUtil.inflate(inflater, getLayoutId(),container,false);
         binding.setLifecycleOwner(this);
-        createViewModel();
         return binding.getRoot();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        createViewModel();
+        processLogic();
+    }
+
+    public abstract void processLogic();
 
     public abstract int getLayoutId();
 

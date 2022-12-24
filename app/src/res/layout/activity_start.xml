@@ -1,58 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     >
-    <data>
-
-    </data>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_bg_guide"
+        android:background="@color/black"
         >
 
-        <com.tree.insdownloader.view.banner.MyBanner
-            android:id="@+id/start_banner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:banner_indicator_selected_width="@dimen/indicator_guide_width_height"
-            app:banner_indicator_normal_width="@dimen/indicator_guide_width_height"
-            app:banner_indicator_marginBottom="@dimen/indicator_guide_margin_bottom"
-            />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/start_banner"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/button_guide_margin_bottom"
-            >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_guide_height"
-                android:layout_marginLeft="@dimen/button_guide_margin_left_right"
-                android:layout_marginRight="@dimen/button_guide_margin_left_right"
-                android:layout_below="@id/start_banner"
-                android:background="@drawable/ic_guide_button_background"
-                ></TextView>
-
-            <TextView
-                android:id="@+id/tv_guide_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_guide_method_size"
-                android:text="@string/button_guide_next"
-                >
-            </TextView>
-        </FrameLayout>
 
     </FrameLayout>
+
 
 
 

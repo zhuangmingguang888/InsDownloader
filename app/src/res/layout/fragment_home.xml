@@ -2,20 +2,83 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background=""
+            android:layout_marginLeft="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_26"
+            android:background="@drawable/url_background"
+            >
+            <ImageView
+                android:id="@+id/image_url"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_marginLeft="@dimen/dp_14"
+                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginBottom="@dimen/dp_17"
+                android:src="@mipmap/ic_edit_title"
+                ></ImageView>
+
+            <TextView
+                android:id="@+id/tv_edit_tips"
+                android:layout_toRightOf="@id/image_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/edit_tips"
+                android:textSize="@dimen/sp_18"
+                android:textColor="@color/text_edit_tips"
+                android:layout_marginLeft="@dimen/dp_8"
+                ></TextView>
+
+            <ImageView
+                android:id="@+id/img_edit_paste"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/dp_46"
+                android:layout_height="@dimen/dp_46"
+                android:src="@mipmap/ic_edit_unpaste"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_8"
+                ></ImageView>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_download"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_49"
+            android:layout_marginLeft="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_26"
+            android:layout_marginTop="@dimen/dp_29"
+            android:background="@drawable/ic_guide_button_background"
             >
 
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp_20"
+                android:text="@string/text_bottom_download"
+                >
+            </TextView>
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 
 
 </layout>

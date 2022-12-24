@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">Ins下载器</string>
+
+    <string name="text_guide_how_to_download">如何下载</string>
+    <string name="text_guide_method1">方法 1</string>
+    <string name="text_guide_method2">方法 2</string>
+
+    <string name="text_guide_serial_number_one">1</string>
+    <string name="text_guide_serial_number_two">2</string>
+
+    <string name="text_guide_operator_one">打开Ins下载器并且粘贴链接</string>
+
+    <string name="text_guide_operator_two">选择Ins下载器来下载所需的图像/视频</string>
+    <string name="text_guide_sub_operator_two">已完成!您的图像或视频将被自动下载</string>
+
+    <string name="text_guide_operator_three">打开应用程序并且复制链接</string>
+    <string name="text_guide_sub_operator_three">在复制该链接后，进入Ins下载器下载</string>
+
+    <string name="text_guide_operator_four">打开Ins下载器并且粘贴</string>
+    <string name="text_guide_sub_operator_four">已完成!您的图像或视频将被自动下载</string>
+
+
+    <string name="button_guide_next">下一页</string>
+    <string name="button_guide_finish">完成</string>
+
+
+    <string name="menu_disclaimer">免责声明</string>
+    <string name="menu_theme">主题</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_rate_us">支持我们</string>
+    <string name="menu_how_to_work">如何使用</string>
+    <string name="menu_about_us">关于我们</string>
+    <string name="menu_manage_subscriptions">订阅管理</string>
+    <string name="menu_privacy_policy">隐私政策</string>
+    <string name="menu_language_options">语言设置</string>
+
+    <string name="text_header_download">Downloader</string>
+
+    <string name="text_disclaimer">免责声明</string>
+    <string name="text_disclaimer_content">1.在您转发视频或照片之前，请获得业主的许可。
+
+\n\n2.由于未经授权转发视频或照片而导致的任何知识产权侵犯，我们不负责。
+
+\n\n3.此应用程序与Instagram无关。
+</string>
+
+    <string name="text_disclaimer_button">明白</string>
+
+    <string name="text_theme_title">主题</string>
+
+    <string name="text_appraise_title">支持我们</string>
+    <string name="text_appraise_sub_title">你的良好评价激励我们更好的为您服务
+</string>
+
+    <string name="menu_help">帮助</string>
+    <string name="menu_ins">ins</string>
+
+    <string name="toolbar_title">Downloader</string>
+
+    <string name="text_bottom_home">主页</string>
+    <string name="text_bottom_download">下载</string>
+    <string name="edit_tips">把链接粘贴到这</string>
+
+    <string name="dialog_select_theme_default">系统默认</string>
+    <string name="dialog_select_theme_dark">暗色主题</string>
+    <string name="dialog_select_theme_light">亮色主题</string>
+
+    <string name="dialog_select_language_english">英语</string>
+    <string name="dialog_select_language_afrikaans">南非语</string>
+    <string name="dialog_select_language_arabic">阿拉伯语</string>
+    <string name="dialog_select_language_chinese">中文</string>
+    <string name="dialog_select_language_czech">捷克语</string>
+    <string name="dialog_select_language_danish">丹麦语</string>
+    <string name="dialog_select_language_dutch">荷兰语</string>
+    <string name="dialog_select_language_french">法语</string>
+
+    <string name="text_privacy_title1">欢迎来到</string>
+    <string name="text_privacy_title2">DOWNLOADER</string>
+    <string name="text_privacy_title3">可以轻松地从网上下载视频到您的设备上。</string>
+    <string name="text_privacy_button">继续</string>
+    <string name="text_privacy_content_url">点击“继续”，即表示您已阅读了我们的隐私政策。</string>
+    <string name="text_privacy_content">隐私政策。</string>
+
+
+</resources>

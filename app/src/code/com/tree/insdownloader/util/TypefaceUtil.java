@@ -5,9 +5,11 @@ import static com.tree.insdownloader.config.JosefinSansFont.SEMI_BOLD_ASSETS_PAT
 import android.content.Context;
 import android.graphics.Typeface;
 
+import com.tree.insdownloader.app.App;
+
 public class TypefaceUtil {
 
-    public static Typeface getTypeFace(String typePath, Context context) {
-        return Typeface.createFromAsset(context.getAssets(), SEMI_BOLD_ASSETS_PATH);
+    public static Typeface getSemiBoldTypeFace(){
+        return Typeface.createFromAsset(App.getAppContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
     }
 }

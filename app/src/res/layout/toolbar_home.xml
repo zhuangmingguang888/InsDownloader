@@ -1,42 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="25dp"
-    >
+    android:padding="@dimen/dp_20">
 
     <ImageView
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:src="@mipmap/ic_menu_more"
-        ></ImageView>
+        android:id="@+id/toolbar_img_more"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        android:src="@mipmap/ic_menu_more"></ImageView>
 
     <TextView
+        android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_header_download"
         android:layout_centerInParent="true"
-        android:textSize="21dp"
+        android:layout_centerVertical="true"
+        android:text="@string/text_header_download"
         android:textColor="@color/text_disclaimer"
-        ></TextView>
+        android:textSize="@dimen/sp_21"></TextView>
 
     <ImageView
         android:id="@+id/toolbar_img_help"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:src="@mipmap/ic_menu_help"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        android:layout_marginRight="@dimen/dp_23"
         android:layout_toLeftOf="@id/toolbar_img_ins"
-        android:layout_marginRight="23.5dp"
-        ></ImageView>
+        android:src="@mipmap/ic_menu_help"></ImageView>
 
 
     <ImageView
         android:id="@+id/toolbar_img_ins"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:src="@mipmap/ic_menu_ins"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
         android:layout_alignParentRight="true"
-        ></ImageView>
+        android:src="@mipmap/ic_menu_ins"></ImageView>
 
 </RelativeLayout>

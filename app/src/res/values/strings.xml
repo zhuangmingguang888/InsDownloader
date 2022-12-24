@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">InsDownloader</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="action_settings">Settings</string>
 
     <string name="text_guide_how_to_download">How to Download</string>
     <string name="text_guide_method1">Method 1</string>
@@ -24,15 +22,6 @@
 
     <string name="button_guide_next">NEXT</string>
     <string name="button_guide_finish">FINISH</string>
-
-
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-
     <string name="menu_disclaimer">Disclaimer</string>
     <string name="menu_theme">Theme</string>
     <string name="menu_share">Share</string>
@@ -68,4 +57,27 @@ Batter Services</string>
 
     <string name="text_bottom_home">Home</string>
     <string name="text_bottom_download">Download</string>
+    <string name="edit_tips">Paste URL here...</string>
+
+    <string name="dialog_select_theme_default">System default</string>
+    <string name="dialog_select_theme_dark">Dark theme</string>
+    <string name="dialog_select_theme_light">Light theme</string>
+
+    <string name="dialog_select_language_english">English</string>
+    <string name="dialog_select_language_afrikaans">Afrikaans</string>
+    <string name="dialog_select_language_arabic">Arabic</string>
+    <string name="dialog_select_language_chinese">Chinese</string>
+    <string name="dialog_select_language_czech">Czech</string>
+    <string name="dialog_select_language_danish">Danish</string>
+    <string name="dialog_select_language_dutch">Dutch</string>
+    <string name="dialog_select_language_french">French</string>
+
+    <string name="text_privacy_title1">WELCOME TO</string>
+    <string name="text_privacy_title2">DOWNLOADER</string>
+    <string name="text_privacy_title3">Easily download videos from the web to your device.</string>
+    <string name="text_privacy_button">CONTINUE</string>
+    <string name="text_privacy_content_url">By clicking "Continue", you indicate that you have read our Privacy Policy.</string>
+    <string name="text_privacy_content">Privacy Policy.</string>
+
+
 </resources>

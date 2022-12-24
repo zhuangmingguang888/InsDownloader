@@ -1,7 +1,10 @@
 package com.tree.insdownloader.base;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -11,7 +14,10 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.tree.insdownloader.AppManager;
+import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.util.ApiUtil;
+import com.tree.insdownloader.util.LocaleUtil;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -26,15 +32,16 @@ public abstract class BaseActivity<VM extends ViewModel, VDB extends ViewDataBin
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
         if (ApiUtil.isMOrHeight()) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            Window window = getWindow();
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         binding = DataBindingUtil.setContentView(this, getContentViewId());
         binding.setLifecycleOwner(this);
+        AppManager.getInstance().addActivity(this);
         createViewModel();
         processLogic();
-
     }
+
 
     public void createViewModel() {
         if (mViewModel == null) {

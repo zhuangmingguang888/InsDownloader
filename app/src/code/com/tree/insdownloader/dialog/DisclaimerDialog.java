@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class DisclaimerDialog extends BaseDialog {
 
     @Override
     protected void initView() {
+        FrameLayout disclaimerGoFl = mContentView.findViewById(R.id.fl_go_it);
         TextView disclaimerText = mContentView.findViewById(R.id.dialog_text_disclaimer);
         TextView disclaimerGo = mContentView.findViewById(R.id.tv_disclaimer_go);
         TextView disclaimerContentText = mContentView.findViewById(R.id.dialog_text_disclaimer_content);
@@ -35,6 +37,15 @@ public class DisclaimerDialog extends BaseDialog {
         disclaimerText.setTypeface(semiBold);
         disclaimerContentText.setTypeface(semiBold);
         disclaimerGo.setTypeface(semiBold);
+        disclaimerGoFl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isShowing()) {
+                    dismiss();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -46,8 +57,8 @@ public class DisclaimerDialog extends BaseDialog {
     public void initWindow() {
         Window window = getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.width = DisplayUtil.dp2px(DisplayUtil.getDisplayWidthInPx(getContext()) * 0.8f);
-        layoutParams.height = DisplayUtil.dp2px(DisplayUtil.getDisplayWidthInPx(getContext()) * 0.8f);
+        layoutParams.width = (int) (DisplayUtil.getDisplayWidthInPx(getContext()) * 0.9f);
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(layoutParams);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }

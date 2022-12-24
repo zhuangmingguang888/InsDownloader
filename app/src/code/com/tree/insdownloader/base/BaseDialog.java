@@ -16,15 +16,14 @@ import com.tree.insdownloader.R;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public abstract class BaseDialog<VDB extends ViewDataBinding> extends Dialog {
+public abstract class BaseDialog extends Dialog {
 
-    protected VDB binding;
     protected View mContentView;
 
     public BaseDialog(@NonNull Context context) {
         super(context);
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), getLayoutID(), null, false);
-        setContentView(binding.getRoot());
+        mContentView = LayoutInflater.from(context).inflate(getLayoutID(),null);
+        setContentView(mContentView);
         initWindow();
         initView();
     }

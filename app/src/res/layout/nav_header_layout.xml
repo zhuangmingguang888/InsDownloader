@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     >
-    
+
     <ImageView
         android:id="@+id/nav_header_log"
-        android:layout_width="@dimen/nav_header_logo_width_height"
-        android:layout_height="@dimen/nav_header_logo_width_height"
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_75"
+        android:layout_marginTop="@dimen/dp_67"
         android:src="@mipmap/ic_header_logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/text_guide_margin_top"
         ></ImageView>
 
     <TextView
         android:id="@+id/nav_header_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_guide_serial_number_size"
+        android:textSize="@dimen/sp_24"
         android:text="@string/text_header_download"
         android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/nav_header_log"
-        android:layout_marginTop="@dimen/text_guide_margin_top"
-        android:layout_marginBottom="@dimen/text_guide_margin_top"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_34"
 
         ></TextView>
 
@@ -37,4 +38,4 @@
         ></View>
 
 
-</RelativeLayout>
+</LinearLayout>

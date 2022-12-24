@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/fl_guide"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_guide">
+
+    <com.tree.insdownloader.view.banner.MyBanner
+        android:id="@+id/start_banner"
+        app:banner_indicator_marginBottom="@dimen/dp_50"
+        app:banner_indicator_normal_width="@dimen/dp_10"
+        app:banner_indicator_selected_width="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/fl_guide_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/dp_20">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_59"
+            android:layout_below="@id/start_banner"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30"
+            android:background="@drawable/ic_guide_button_background"></TextView>
+
+        <TextView
+            android:id="@+id/tv_guide_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/button_guide_next"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_19"
+            android:textStyle="bold"></TextView>
+    </FrameLayout>
+
+</FrameLayout>

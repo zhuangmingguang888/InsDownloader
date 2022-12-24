@@ -1,95 +1,61 @@
 package com.tree.insdownloader.view.activity;
 
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 
-import com.tree.insdownloader.R;
-import com.tree.insdownloader.adapter.StartBannerAdapter;
-import com.tree.insdownloader.base.BaseActivity;
-import com.tree.insdownloader.bean.StartBannerBean;
-import com.tree.insdownloader.databinding.ActivityStartBinding;
 import com.tree.insdownloader.util.ApiUtil;
-import com.tree.insdownloader.util.LogUtil;
 import com.tree.insdownloader.util.PermissionUtil;
-import com.tree.insdownloader.view.banner.MyBanner;
-import com.tree.insdownloader.view.banner.MyBannerConfig;
-import com.tree.insdownloader.view.banner.MyCircleIndicator;
-import com.tree.insdownloader.viewmodel.StartActivityViewModel;
-import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
-import com.youth.banner.listener.OnPageChangeListener;
-
-import java.util.ArrayList;
+import com.tree.insdownloader.util.SharedPreferencesUtil;
+import com.tree.insdownloader.view.widget.MyGuideView;
+import com.tree.insdownloader.view.widget.MyPrivacyView;
 
 
-public class StartActivity extends BaseActivity<StartActivityViewModel, ActivityStartBinding> {
+public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = "StartActivity";
     private static final int TIME_GO_HOME = 5000;
     private Handler mHandler;
     private GoHomeRunnable goHomeRunnable = new GoHomeRunnable();
     private boolean hasStoragePermission;
-    private StartBannerAdapter myBannerAdapter;
-    private int nextItem;
 
-    private void initSplashThread() {
-        HandlerThread thread = new HandlerThread("timeThread");
-        thread.start();
-        mHandler = new Handler(thread.getLooper());
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        processLogic();
+    }
+
+    private void initHandler() {
+        mHandler = new Handler(getMainLooper());
     }
 
     private void checkStoragePermission(Activity activity) {
         PermissionUtil.verifyStoragePermissions(activity);
     }
 
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_start;
-    }
-
-    @Override
     public void processLogic() {
-        initSplashThread();
-        initData();
-        initUi();
         checkStoragePermission(this);
+        initHandler();
+        initUi();
     }
 
-    private void initData() {
-        StartBannerBean guideBeanOne = new StartBannerBean(R.mipmap.ic_guide_1, R.string.text_guide_method1, R.string.text_guide_serial_number_one, R.string.text_guide_operator_one, 0);
-        StartBannerBean guideBeanTwo = new StartBannerBean(R.mipmap.ic_guide_2, R.string.text_guide_method1, R.string.text_guide_serial_number_two, R.string.text_guide_operator_two, R.string.text_guide_sub_operator_two);
-        StartBannerBean guideBeanThree = new StartBannerBean(R.mipmap.ic_guide_3, R.string.text_guide_method2, R.string.text_guide_serial_number_one, R.string.text_guide_operator_three, R.string.text_guide_sub_operator_three);
-        StartBannerBean guideBeanFour = new StartBannerBean(R.mipmap.ic_guide_4, R.string.text_guide_method2, R.string.text_guide_serial_number_two, R.string.text_guide_operator_four, R.string.text_guide_sub_operator_four);
 
-        ArrayList<StartBannerBean> bannerBeans = new ArrayList<>();
-        bannerBeans.add(guideBeanOne);
-        bannerBeans.add(guideBeanTwo);
-        bannerBeans.add(guideBeanThree);
-        bannerBeans.add(guideBeanFour);
-
-        myBannerAdapter = new StartBannerAdapter(bannerBeans);
-    }
-
-    private void startHomeDelay() {
-        if (hasStoragePermission) {
-            mHandler.post(goHomeRunnable);
-        } else {
-            //提示无授予完整权限
-        }
+    private void goHome() {
+        mHandler.post(goHomeRunnable);
     }
 
     private void clearMessage() {
@@ -97,46 +63,43 @@ public class StartActivity extends BaseActivity<StartActivityViewModel, Activity
     }
 
     private void initUi() {
-        binding.startBanner.setAdapter(myBannerAdapter, false);
-        binding.startBanner.init();
-        binding.startBanner.addOnPageChangeListener(new OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        boolean isFirstIn = SharedPreferencesUtil.getBoolean(this, "isFirstIn", true);
+        if (isFirstIn) {
+            SharedPreferencesUtil.saveBoolean(this, "isFirstIn", false);
+            FrameLayout frameLayout = new FrameLayout(this);
+            setContentView(frameLayout);
+            ViewGroup.LayoutParams layoutParams = frameLayout.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            frameLayout.setLayoutParams(layoutParams);
 
-            }
+            MyPrivacyView privacyView = new MyPrivacyView(this);
+            MyGuideView guideView = new MyGuideView(this);
+            frameLayout.addView(privacyView);
 
-            @Override
-            public void onPageSelected(int position) {
-                mViewModel.next.setValue(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        binding.tvGuideNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModel.next.setValue(++nextItem);
-            }
-        });
-
-        mViewModel.next.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer position) {
-                int realCount = myBannerAdapter.getRealCount() - 1;
-                if (position < realCount) {
-                    binding.tvGuideNext.setText(R.string.button_guide_next);
-                    binding.startBanner.setCurrentItem(position);
-                } else if (position == realCount) {
-                    binding.tvGuideNext.setText(R.string.button_guide_finish);
-                    binding.startBanner.setCurrentItem(realCount);
-                } else {
-                    startHomeDelay();
+            privacyView.setListener(() -> {
+                frameLayout.removeView(privacyView);
+                frameLayout.addView(guideView);
+            });
+            guideView.setListener(new MyGuideView.OnGuideItemListener() {
+                @Override
+                public void onFinish() {
+                    frameLayout.removeAllViews();
+                    goHome();
                 }
-            }
-        });
+
+                @Override
+                public void onClose() {
+                    frameLayout.removeAllViews();
+                    goHome();
+                }
+            });
+        } else {
+            goHome();
+        }
+        if (ApiUtil.isMOrHeight()) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
     }
 
     @Override
@@ -148,6 +111,8 @@ public class StartActivity extends BaseActivity<StartActivityViewModel, Activity
                     hasStoragePermission = true;
                 } else {
                     hasStoragePermission = false;
+                    clearMessage();
+                    finish();
                 }
             }
         }
@@ -159,11 +124,11 @@ public class StartActivity extends BaseActivity<StartActivityViewModel, Activity
         if (requestCode == PermissionUtil.REQUEST_EXTERNAL_STORAGE) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                startHomeDelay();
                 hasStoragePermission = true;
             } else {
                 hasStoragePermission = false;
                 clearMessage();
+                finish();
             }
         }
     }
@@ -172,7 +137,11 @@ public class StartActivity extends BaseActivity<StartActivityViewModel, Activity
 
         @Override
         public void run() {
-
+            //跳转home
+            Intent intent = new Intent(StartActivity.this, HomeActivity.class);
+            startActivity(intent);
+            clearMessage();
+            finish();
         }
     }
 

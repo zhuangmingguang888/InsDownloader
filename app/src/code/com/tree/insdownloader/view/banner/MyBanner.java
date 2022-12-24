@@ -2,6 +2,7 @@ package com.tree.insdownloader.view.banner;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -10,11 +11,10 @@ import com.tree.insdownloader.R;
 import com.tree.insdownloader.adapter.StartBannerAdapter;
 import com.tree.insdownloader.bean.StartBannerBean;
 import com.tree.insdownloader.util.DisplayUtil;
+import com.tree.insdownloader.util.StatusBarUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.config.BannerConfig;
 import com.youth.banner.transformer.AlphaPageTransformer;
-import com.youth.banner.util.BannerUtils;
-
 import java.lang.reflect.Field;
 
 public class MyBanner extends Banner<StartBannerBean, StartBannerAdapter> {
@@ -23,8 +23,9 @@ public class MyBanner extends Banner<StartBannerBean, StartBannerAdapter> {
     private Context context;
     private int indicatorNormalWidth;
     private int indicatorSelectedWidth;
-    private int indicatorMarginBottom;
 
+    private int indicatorMarginBottom;
+    private int statusBarHeight;
 
     public MyBanner(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -38,6 +39,9 @@ public class MyBanner extends Banner<StartBannerBean, StartBannerAdapter> {
 
     public void init() {
         try {
+            statusBarHeight= StatusBarUtil.getStatusBarHeight(context);
+
+            setTranslationY(statusBarHeight);
             setIndicator(indicator, false);
             setIndicatorNormalWidth(indicatorNormalWidth);
             setIndicatorSelectedWidth(indicatorSelectedWidth);
@@ -45,10 +49,8 @@ public class MyBanner extends Banner<StartBannerBean, StartBannerAdapter> {
             setIndicatorSelectedColor(context.getColor(R.color.text_guide_method_color));
             setPageTransformer(new AlphaPageTransformer());
             setIndicatorNormalColor(context.getColor(R.color.indicator_guide_normal_color));
-
             LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-            layoutParams.bottomMargin = indicatorMarginBottom;
             addView(indicator, layoutParams);
 
         } catch (Exception e) {

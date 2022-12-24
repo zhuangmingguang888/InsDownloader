@@ -32,13 +32,4 @@ public class MyDrawerLayout extends LinearLayout {
         setLayoutParams(layoutParams);
     }
 
-    public void initHeaderLayout() {
-        View headerView = LayoutInflater.from(mContext).inflate(R.layout.nav_header_home, this,false);
-        TextView headerText = headerView.findViewById(R.id.nav_header_text);
-        Typeface semiBold = Typeface.createFromAsset(mContext.getAssets(), SEMI_BOLD_ASSETS_PATH);
-        headerText.setTypeface(semiBold);
-
-        addView(headerView);
-    }
-
 }

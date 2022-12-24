@@ -17,4 +17,9 @@
     <color name="view_background">#666666</color>
     <color name="text_unselect">#767676</color>
     <color name="text_select">#EE468C</color>
+    <color name="text_edit_tips">#898C93</color>
+    <color name="text_color_privacy">#212121</color>
+    <color name="text_color_privacy_url">#999999</color>
+
+
 </resources>
