@@ -1,11 +1,11 @@
 package com.tree.insdownloader.base;
 
-import android.content.Context;
-import android.graphics.Color;
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +15,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.tree.insdownloader.AppManager;
-import com.tree.insdownloader.app.App;
-import com.tree.insdownloader.util.ApiUtil;
-import com.tree.insdownloader.util.LocaleUtil;
+import com.tree.insdownloader.ThemeManager;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -29,12 +27,9 @@ public abstract class BaseActivity<VM extends ViewModel, VDB extends ViewDataBin
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        initTheme();
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
-        if (ApiUtil.isMOrHeight()) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
         binding = DataBindingUtil.setContentView(this, getContentViewId());
         binding.setLifecycleOwner(this);
         AppManager.getInstance().addActivity(this);
@@ -42,6 +37,16 @@ public abstract class BaseActivity<VM extends ViewModel, VDB extends ViewDataBin
         processLogic();
     }
 
+    private void initTheme() {
+        Window window = getWindow();
+        window.getDecorView().setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ThemeManager.getInstance().initTheme();
+    }
 
     public void createViewModel() {
         if (mViewModel == null) {

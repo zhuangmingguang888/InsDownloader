@@ -14,8 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.tree.insdownloader.R;
+import com.tree.insdownloader.ThemeManager;
 import com.tree.insdownloader.base.BaseDialog;
-import com.tree.insdownloader.databinding.DialogAppraiseBinding;
 import com.tree.insdownloader.util.DisplayUtil;
 
 public class AppraiseDialog extends BaseDialog implements CompoundButton.OnCheckedChangeListener {
@@ -31,6 +31,15 @@ public class AppraiseDialog extends BaseDialog implements CompoundButton.OnCheck
         TextView textRateSubTitle = mContentView.findViewById(R.id.text_rate_sub_title);
         textRateTitle.setTypeface(semiBold);
         textRateSubTitle.setTypeface(semiBold);
+        if (ThemeManager.getInstance().isDarkMode()) {
+            mContentView.setBackgroundColor(Color.parseColor("#262626"));
+            textRateTitle.setTextColor(Color.parseColor("#FFFFFF"));
+            textRateSubTitle.setTextColor(Color.parseColor("#CFCFCF"));
+        } else {
+            mContentView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            textRateTitle.setTextColor(Color.parseColor("#000000"));
+            textRateSubTitle.setTextColor(Color.parseColor("#4B4B4B"));
+        }
 
     }
 

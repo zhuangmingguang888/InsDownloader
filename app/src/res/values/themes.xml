@@ -1,34 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.InsDownloader.light.NoActionBar" parent="Theme.AppCompat">
+    <style name="Theme.InsDownloader.NoActionBar" parent="Theme.AppCompat">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowBackground">@color/white</item>
+        //开启暗黑模式
+        <item name="android:forceDarkAllowed">true</item>
     </style>
 
-    <style name="Theme.InsDownloader.dark.NoActionBar" parent="Theme.InsDownloader.light.NoActionBar">
-        <item name="android:windowBackground">#181818</item>
-    </style>
-
-    <style name="Theme.InsDownloader.light.dialog" parent="@android:style/Theme.Dialog" >
-        <!-- 背景 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:background">@null</item>
-        <!-- 边框 -->
-        <item name="android:windowFrame">@null</item>
-        <!-- 浮于Activity之上 -->
-        <item name="android:windowIsFloating">true</item>
-        <!-- 半透明 -->
-        <!--<item name="android:windowIsTranslucent">true</item>-->
-        <!-- 无标题 -->
-        <item name="android:windowNoTitle">true</item>
-        <!-- Dialog以外的区域模糊效果 -->
-        <!--<item name="android:backgroundDimEnabled">true</item>-->
-        <!-- Dialog进入及退出动画 -->
-        <!--<item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>-->
+    <style name="Theme.InsDownloader.light" parent="Theme.InsDownloader.NoActionBar">
     </style>
 </resources>

@@ -80,6 +80,10 @@
     <string name="text_privacy_button">继续</string>
     <string name="text_privacy_content_url">点击“继续”，即表示您已阅读了我们的隐私政策。</string>
     <string name="text_privacy_content">隐私政策。</string>
-
+    <string name="text_about_us">关于我们</string>
+    <string name="text_download_photo">照片</string>
+    <string name="text_download_video">视频</string>
+    <string name="text_download_placeholder">没有图片</string>
+    <string name="text_home_frequently">最近浏览</string>
 
 </resources>

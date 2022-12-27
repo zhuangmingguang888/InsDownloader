@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.media.Image;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.tree.insdownloader.base.BaseActivity;
 import com.tree.insdownloader.databinding.ActivityHomeBinding;
 import com.tree.insdownloader.view.fragment.DownloadFragment;
 import com.tree.insdownloader.view.fragment.HomeFragment;
+import com.tree.insdownloader.view.widget.MyNavigationView;
 import com.tree.insdownloader.viewmodel.HomeActivityViewModel;
 
 import java.util.Locale;
@@ -63,9 +65,14 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
         ImageView toolbarImgMore = findViewById(R.id.toolbar_img_more);
         LinearLayout llTabBottom1 = findViewById(R.id.ll_tab_bottom1);
         LinearLayout llTabBottom2 = findViewById(R.id.ll_tab_bottom2);
+
+        DrawerLayout drawerLayout = findViewById(R.id.home_drawer_layout);
+        MyNavigationView navigationView = findViewById(R.id.home_navigation_view);
+
         textHome.setTypeface(semiBold);
         textDownload.setTypeface(semiBold);
         toolbarTitle.setTypeface(semiBold);
+
 
         //顶部点击事件
         toolbarImgIns.setOnClickListener(v -> {
@@ -76,16 +83,34 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
 
         });
 
+        toolbarImgMore.setOnClickListener(v -> {
+            drawerLayout.openDrawer(navigationView);
+        });
 
+        toolbarTitle.setText(R.string.toolbar_title);
         textHome.setText(R.string.text_bottom_home);
         textDownload.setText(R.string.text_bottom_download);
+
+        textHome.setTextColor(getColor(R.color.text_select));
+        textDownload.setTextColor(getColor(R.color.text_unselect));
+
         imageHome.setImageResource(R.mipmap.ic_home_select);
+        toolbarImgHelp.setImageResource(R.mipmap.ic_menu_help);
+        toolbarImgIns.setImageResource(R.mipmap.ic_menu_ins);
+        toolbarImgMore.setImageResource(R.mipmap.ic_menu_more);
+
         llTabBottom1.setOnClickListener(v -> {
             imageHome.setImageResource(R.mipmap.ic_home_select);
             textHome.setTextColor(getResources().getColor(R.color.text_select, null));
 
             imageDownload.setImageResource(R.mipmap.ic_downloader_unselect);
             textDownload.setTextColor(getResources().getColor(R.color.text_unselect, null));
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.show(homeFragment)
+                    .hide(downloadFragment)
+                    .commitNowAllowingStateLoss();
 
         });
         imageDownload.setImageResource(R.mipmap.ic_downloader_unselect);
@@ -95,6 +120,13 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
 
             imageHome.setImageResource(R.mipmap.ic_home_unselect);
             textHome.setTextColor(getResources().getColor(R.color.text_unselect, null));
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.show(downloadFragment)
+                    .hide(homeFragment)
+                    .commitNowAllowingStateLoss();
+
         });
 
     }
@@ -102,10 +134,13 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
 
     private void initFragment() {
         homeFragment = new HomeFragment();
+        downloadFragment = new DownloadFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fl_fragment, homeFragment)
+                .add(R.id.fl_fragment,downloadFragment)
                 .show(homeFragment)
+                .hide(downloadFragment)
                 .commitNowAllowingStateLoss();
     }
 

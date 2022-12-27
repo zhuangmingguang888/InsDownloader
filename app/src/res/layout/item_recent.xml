@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_22"
+    android:layout_marginRight="@dimen/dp_5"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.tree.insdownloader.view.widget.DoughnutView
+            android:layout_width="@dimen/dp_61"
+            android:layout_height="@dimen/dp_61"
+            android:layout_gravity="center"></com.tree.insdownloader.view.widget.DoughnutView>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_header"
+            android:layout_width="@dimen/dp_54"
+            android:layout_height="@dimen/dp_54"></de.hdodenhof.circleimageview.CircleImageView>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_15"
+        android:textSize="@dimen/sp_15"
+
+        ></TextView>
+</LinearLayout>

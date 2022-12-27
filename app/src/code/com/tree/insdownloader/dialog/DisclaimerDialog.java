@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.tree.insdownloader.R;
+import com.tree.insdownloader.ThemeManager;
 import com.tree.insdownloader.base.BaseDialog;
 import com.tree.insdownloader.util.DisplayUtil;
 
@@ -37,6 +38,17 @@ public class DisclaimerDialog extends BaseDialog {
         disclaimerText.setTypeface(semiBold);
         disclaimerContentText.setTypeface(semiBold);
         disclaimerGo.setTypeface(semiBold);
+
+        if (ThemeManager.getInstance().isDarkMode()) {
+            mContentView.setBackgroundColor(Color.parseColor("#262626"));
+            disclaimerText.setTextColor(Color.parseColor("#FFFFFF"));
+            disclaimerContentText.setTextColor(Color.parseColor("#CFCFCF"));
+        } else {
+            mContentView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            disclaimerText.setTextColor(Color.parseColor("#000000"));
+            disclaimerContentText.setTextColor(Color.parseColor("#4B4B4B"));
+        }
+
         disclaimerGoFl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

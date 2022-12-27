@@ -173,12 +173,11 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
                         displayUrl: imgUrl,
                         videoUrl: "",
                         userProfile: userProfile
-
                     }
                     console.log("单图片检测3");
-                    startReceiveData(userProfile, 1, isStory);
+                    //startReceiveData(userProfile, 1, isStory);
                     sendDataJson(JSON.stringify(imgData))
-                    endReceiveData()
+                    //endReceiveData()
                 } else {
                     warn("INS_IMG_URL_INVALID", imgUrl);
                 }

@@ -1,34 +1,35 @@
 package com.tree.insdownloader.view.widget;
 
-import static com.tree.insdownloader.config.JosefinSansFont.SEMI_BOLD_ASSETS_PATH;
-
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.navigation.NavigationView;
 import com.tree.insdownloader.R;
+import com.tree.insdownloader.ThemeManager;
+import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.bean.MenuBean;
 import com.tree.insdownloader.dialog.AppraiseDialog;
 import com.tree.insdownloader.dialog.DisclaimerDialog;
 import com.tree.insdownloader.dialog.SelectDialog;
+import com.tree.insdownloader.util.DarkModeUtil;
+import com.tree.insdownloader.util.SharedPreferencesUtil;
 import com.tree.insdownloader.util.TypefaceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.http.PUT;
 
 public class MyNavigationView extends LinearLayout implements View.OnClickListener {
 
@@ -47,6 +48,7 @@ public class MyNavigationView extends LinearLayout implements View.OnClickListen
     private DisclaimerDialog disclaimerDialog;
     private SelectDialog selectDialog;
     private AppraiseDialog appraiseDialog;
+    private boolean isDarkMode;
 
     public MyNavigationView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -55,13 +57,6 @@ public class MyNavigationView extends LinearLayout implements View.OnClickListen
         TextView textHeader = header.findViewById(R.id.nav_header_text);
         textHeader.setTypeface(TypefaceUtil.getSemiBoldTypeFace());
         initInfo();
-        initView();
-    }
-
-    private void initView() {
-        disclaimerDialog = new DisclaimerDialog(mContext);
-        selectDialog = new SelectDialog(mContext);
-        appraiseDialog = new AppraiseDialog(mContext);
     }
 
     private void initInfo() {
@@ -112,18 +107,24 @@ public class MyNavigationView extends LinearLayout implements View.OnClickListen
         int tag = (int) view.getTag();
         switch (tag) {
             case DISCLAIMER:
+                disclaimerDialog = new DisclaimerDialog(mContext);
                 disclaimerDialog.show();
                 break;
             case THEME:
+                selectDialog = new SelectDialog(mContext);
                 selectDialog.setType(SelectDialog.THEME_TYPE);
                 selectDialog.show();
                 break;
             case RATE_US:
+                appraiseDialog = new AppraiseDialog(mContext);
                 appraiseDialog.show();
                 break;
             case LANGUAGE_OPTIONS:
+                selectDialog = new SelectDialog(mContext);
                 selectDialog.setType(SelectDialog.LANGUAGE_TYPE);
                 selectDialog.show();
+                break;
+            case ABOUT_US:
                 break;
         }
     }

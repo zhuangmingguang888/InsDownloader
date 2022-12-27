@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.tree.insdownloader.R;
 import com.tree.insdownloader.util.ApiUtil;
 import com.tree.insdownloader.util.PermissionUtil;
 import com.tree.insdownloader.util.SharedPreferencesUtil;
@@ -72,12 +73,13 @@ public class StartActivity extends AppCompatActivity {
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             frameLayout.setLayoutParams(layoutParams);
-
+            frameLayout.setBackgroundColor(getColor(R.color.windowBackground));
             MyPrivacyView privacyView = new MyPrivacyView(this);
             MyGuideView guideView = new MyGuideView(this);
             frameLayout.addView(privacyView);
-
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             privacyView.setListener(() -> {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_VISIBLE);
                 frameLayout.removeView(privacyView);
                 frameLayout.addView(guideView);
             });
@@ -98,7 +100,6 @@ public class StartActivity extends AppCompatActivity {
             goHome();
         }
         if (ApiUtil.isMOrHeight()) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
 

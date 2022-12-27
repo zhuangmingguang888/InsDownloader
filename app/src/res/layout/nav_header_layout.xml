@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_24"
         android:text="@string/text_header_download"
-        android:textColor="@color/black"
+        android:textColor="@color/text_nav_header_title"
         android:layout_below="@id/nav_header_log"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_24"

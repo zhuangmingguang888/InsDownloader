@@ -3,7 +3,6 @@ package com.tree.insdownloader.app;
 import android.content.Context;
 
 import com.tree.insdownloader.base.BaseApplication;
-import com.tree.insdownloader.util.SharedPreferencesUtil;
 
 import xyz.doikki.videoplayer.player.AndroidMediaPlayerFactory;
 import xyz.doikki.videoplayer.player.VideoViewConfig;
@@ -20,7 +19,6 @@ public class App extends BaseApplication {
         VideoViewManager.setConfig(VideoViewConfig.newBuilder()
                 .setPlayerFactory(AndroidMediaPlayerFactory.create())
                 .build());
-
     }
 
     public static Context getAppContext() {

@@ -1,25 +1,22 @@
 package com.tree.insdownloader.model.viewmodel;
 
 import android.content.Context;
+
 import com.tree.insdownloader.AppManager;
+import com.tree.insdownloader.ThemeManager;
+import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.dialog.SelectDialog;
+import com.tree.insdownloader.util.DarkModeUtil;
 import com.tree.insdownloader.util.LocaleUtil;
+import com.tree.insdownloader.util.SharedPreferencesUtil;
 import com.tree.insdownloader.view.activity.HomeActivity;
 import java.util.Locale;
 
 public class SelectViewModel {
 
     public void changeTheme(int tag) {
-        switch (tag) {
-            case SelectDialog.DARK:
-
-                break;
-            case SelectDialog.LIGHT:
-                break;
-            case SelectDialog.SYSTEM_DEFAULT:
-                break;
-
-        }
+        SharedPreferencesUtil.saveInt(App.getAppContext(),"themeType",tag);
+        ThemeManager.getInstance().initTheme();
     }
 
     public void changeLanguage(int tag) {

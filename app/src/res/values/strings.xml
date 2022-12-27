@@ -79,5 +79,12 @@ Batter Services</string>
     <string name="text_privacy_content_url">By clicking "Continue", you indicate that you have read our Privacy Policy.</string>
     <string name="text_privacy_content">Privacy Policy.</string>
 
+    <string name="text_about_us">About Us</string>
+
+    <string name="text_download_photo">Photos</string>
+    <string name="text_download_video">Videos</string>
+    <string name="text_download_placeholder">No Photos</string>
+
+    <string name="text_home_frequently" >Frequently Visited</string>
 
 </resources>

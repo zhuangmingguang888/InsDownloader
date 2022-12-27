@@ -7,6 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.tree.insdownloader.R;
+import com.tree.insdownloader.ThemeManager;
 import com.tree.insdownloader.base.BaseDialog;
 import com.tree.insdownloader.bean.SelectBean;
 import com.tree.insdownloader.util.DisplayUtil;
@@ -22,9 +23,9 @@ public class SelectDialog extends BaseDialog {
     public static final int LANGUAGE_TYPE = 2;
 
     //以下是各主题标志
-    public static final int SYSTEM_DEFAULT = 1;
-    public static final int LIGHT = 2;
-    public static final int DARK = 3;
+    public static final int SYSTEM_DEFAULT = 11;
+    public static final int LIGHT = 12;
+    public static final int DARK = 13;
 
     //以下是各语言标志
     public static final int ENGLISH = 1;
@@ -46,6 +47,22 @@ public class SelectDialog extends BaseDialog {
     protected void initView() {
         selectDialogView = mContentView.findViewById(R.id.selectDialogView);
         selectDialogView.initHead();
+        selectDialogView.setListener(new MySelectView.OnSelectViewListener() {
+            @Override
+            public void onSelectItem() {
+                if (isShowing()) {
+                    dismiss();
+                }
+            }
+        });
+
+        if (ThemeManager.getInstance().isDarkMode()) {
+            mContentView.setBackgroundColor(Color.parseColor("#262626"));
+        } else {
+            mContentView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+        }
+
     }
 
     public void setType(int type) {
@@ -54,6 +71,7 @@ public class SelectDialog extends BaseDialog {
             SelectBean selectBean1 = new SelectBean(R.string.dialog_select_theme_default, SYSTEM_DEFAULT, THEME_TYPE);
             SelectBean selectBean2 = new SelectBean(R.string.dialog_select_theme_light, LIGHT, THEME_TYPE);
             SelectBean selectBean3 = new SelectBean(R.string.dialog_select_theme_dark, DARK, THEME_TYPE);
+
             selectBeanList.add(selectBean1);
             selectBeanList.add(selectBean2);
             selectBeanList.add(selectBean3);

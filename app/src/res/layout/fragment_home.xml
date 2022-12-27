@@ -25,18 +25,27 @@
                 android:layout_marginBottom="@dimen/dp_17"
                 android:src="@mipmap/ic_edit_title"
                 ></ImageView>
-
-            <TextView
-                android:id="@+id/tv_edit_tips"
-                android:layout_toRightOf="@id/image_url"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/edit_tips"
-                android:textSize="@dimen/sp_18"
-                android:textColor="@color/text_edit_tips"
+                android:layout_toRightOf="@id/image_url"
                 android:layout_marginLeft="@dimen/dp_8"
-                ></TextView>
+                >
+            </FrameLayout>
+            <EditText
+                android:id="@+id/edit_url"
+                android:layout_toRightOf="@id/image_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:hint="@string/edit_tips"
+                android:textSize="@dimen/sp_18"
+                android:textColor="@color/black"
+                android:textColorHint="@color/text_edit_tips"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:background="@null"
+                ></EditText>
 
             <ImageView
                 android:id="@+id/img_edit_paste"
@@ -50,35 +59,56 @@
 
         </RelativeLayout>
 
-        <FrameLayout
-            android:id="@+id/fl_download"
+
+        <Button
+            android:id="@+id/btn_download"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_49"
             android:layout_marginLeft="@dimen/dp_26"
             android:layout_marginRight="@dimen/dp_26"
             android:layout_marginTop="@dimen/dp_29"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"
+            android:textAllCaps="false"
+            android:text="@string/text_bottom_download"
             android:background="@drawable/ic_guide_button_background"
+            ></Button>
+
+        <com.tree.insdownloader.view.widget.InsWebView
+            android:id="@+id/home_web"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            ></com.tree.insdownloader.view.widget.InsWebView>
+
+        <FrameLayout
+            android:layout_marginLeft="@dimen/dp_26"
+            android:layout_marginRight="@dimen/dp_26"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fragment_home_background"
             >
 
             <TextView
-                android:id="@+id/tv_download"
+                android:id="@+id/text_frequently"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/sp_20"
-                android:text="@string/text_bottom_download"
-                >
-            </TextView>
-        </FrameLayout>
+                android:layout_marginLeft="@dimen/dp_17"
+                android:layout_marginTop="@dimen/dp_20"
+                android:textSize="@dimen/sp_18"
+                android:text="@string/text_home_frequently"
+                android:textColor="@color/one_pixel"
+                ></TextView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                ></androidx.recyclerview.widget.RecyclerView>
+        </FrameLayout>
     </LinearLayout>
+
 
 
 </layout>

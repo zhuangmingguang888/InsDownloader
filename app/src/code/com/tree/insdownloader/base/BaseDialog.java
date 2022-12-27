@@ -2,6 +2,7 @@ package com.tree.insdownloader.base;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.tree.insdownloader.R;
+import com.tree.insdownloader.ThemeManager;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

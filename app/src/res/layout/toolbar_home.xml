@@ -8,7 +8,7 @@
         android:id="@+id/toolbar_img_more"
         android:layout_width="@dimen/dp_28"
         android:layout_height="@dimen/dp_28"
-        android:src="@mipmap/ic_menu_more"></ImageView>
+        ></ImageView>
 
     <TextView
         android:id="@+id/toolbar_title"
@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
-        android:text="@string/text_header_download"
         android:textColor="@color/text_disclaimer"
         android:textSize="@dimen/sp_21"></TextView>
 
@@ -26,7 +25,7 @@
         android:layout_height="@dimen/dp_28"
         android:layout_marginRight="@dimen/dp_23"
         android:layout_toLeftOf="@id/toolbar_img_ins"
-        android:src="@mipmap/ic_menu_help"></ImageView>
+        ></ImageView>
 
 
     <ImageView
@@ -34,6 +33,6 @@
         android:layout_width="@dimen/dp_28"
         android:layout_height="@dimen/dp_28"
         android:layout_alignParentRight="true"
-        android:src="@mipmap/ic_menu_ins"></ImageView>
+        ></ImageView>
 
 </RelativeLayout>
