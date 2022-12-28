@@ -86,4 +86,11 @@
     <string name="text_download_placeholder">没有图片</string>
     <string name="text_home_frequently">最近浏览</string>
 
+    <string name="text_photo_tags">标记</string>
+    <string name="text_photo_app">分享App</string>
+    <string name="text_photo_captions">说明文字</string>
+    <string name="text_photo_repost">再发送</string>
+    <string name="text_photo_share">分享</string>
+    <string name="text_photo_delete">删除</string>
+
 </resources>

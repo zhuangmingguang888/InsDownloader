@@ -9,7 +9,7 @@ public class WebViewConfig {
     public static final String TEST_INS_HOST = "www.instagram.com";
     public static final String TEST_VIDEO_FILE_NAME = "Ins_" + System.currentTimeMillis() + ".mp4";
     public static final String TEST_IMG_FILE_NAME = "Ins_" + System.currentTimeMillis() + ".jpg";
-    public static final String TEST_DOWNLOAD_INS_PATH = "/ins";
+    public static final String DOWNLOAD_INS_ROOT_PATH = "/ins";
 
 
 }

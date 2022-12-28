@@ -23,13 +23,11 @@ import com.tree.insdownloader.viewmodel.HomeFragmentViewModel;
 
 public class InsWebView extends WebView {
 
-    private HomeFragmentViewModel vm;
-
     public void setVm(HomeFragmentViewModel vm) {
         if (vm != null) {
             AndroidWebObj androidWebObj = new AndroidWebObj(vm);
             addJavascriptInterface(androidWebObj, WebViewConfig.JS_OBJ_NAME);
-            this.vm = vm;
+            loadUrl(INS_URL);
         }
     }
 

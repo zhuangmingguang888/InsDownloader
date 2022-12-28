@@ -8,13 +8,19 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.tree.insdownloader.R;
+import com.tree.insdownloader.adapter.RecentAdapter;
 import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.base.BaseFragment;
 import com.tree.insdownloader.databinding.FragmentHomeBinding;
+import com.tree.insdownloader.logic.model.UserInfo;
 import com.tree.insdownloader.util.ClipBoardUtil;
+import com.tree.insdownloader.view.activity.HomeActivity;
 import com.tree.insdownloader.viewmodel.HomeFragmentViewModel;
 
 import java.util.logging.Handler;
@@ -39,33 +45,42 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
         Typeface semiBold = Typeface.createFromAsset(App.getAppContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
         binding.editUrl.setTypeface(semiBold);
         binding.btnDownload.setTypeface(semiBold);
+        binding.textFrequently.setTypeface(semiBold);
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if (mViewModel != null) {
-            mViewModel.getClipBoardContent().observe(this, new Observer<String>() {
-                @Override
-                public void onChanged(String clipBoardContent) {
-                    if (TextUtils.isEmpty(clipBoardContent)) {
-                        binding.imgEditPaste.setImageResource(R.mipmap.ic_edit_unpaste);
-                        binding.imgEditPaste.setClickable(false);
-                    } else {
-                        binding.imgEditPaste.setImageResource(R.mipmap.ic_edit_paste);
-                        binding.imgEditPaste.setClickable(true);
-                    }
-                    copyClipBoard = clipBoardContent;
-                }
-            });
-        }
-
         binding.imgEditPaste.setOnClickListener(v -> binding.editUrl.setText(copyClipBoard));
         binding.btnDownload.setOnClickListener(v -> {
 
         });
-        Log.i(TAG,binding.editUrl.getText().toString());
+
+        binding.homeWeb.setVm(mViewModel);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        RecentAdapter adapter = new RecentAdapter(getContext());
+
+        binding.homeRecycleView.setAdapter(adapter);
+        binding.homeRecycleView.setLayoutManager(linearLayoutManager);
+
+        if (mViewModel != null) {
+            mViewModel.getClipBoardContent().observe(this, clipBoardContent -> {
+                if (TextUtils.isEmpty(clipBoardContent)) {
+                    binding.imgEditPaste.setImageResource(R.mipmap.ic_edit_unpaste);
+                    binding.imgEditPaste.setClickable(false);
+                } else {
+                    binding.imgEditPaste.setImageResource(R.mipmap.ic_edit_paste);
+                    binding.imgEditPaste.setClickable(true);
+                }
+                copyClipBoard = clipBoardContent;
+            });
+            mViewModel.getUserInfoMutableLiveData().observe(this, userInfo -> {
+                binding.llFrequently.setVisibility(View.VISIBLE);
+                adapter.setUserInfo(userInfo);
+            });
+        }
     }
 
     @Override

@@ -1,27 +1,16 @@
 package com.tree.insdownloader.view.activity;
 
-import static com.tree.insdownloader.config.JosefinSansFont.ITALIC_ASSETS_PATH;
 import static com.tree.insdownloader.config.JosefinSansFont.SEMI_BOLD_ASSETS_PATH;
 
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.media.Image;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
-import com.google.android.material.navigation.NavigationView;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.base.BaseActivity;
 import com.tree.insdownloader.databinding.ActivityHomeBinding;
@@ -30,14 +19,14 @@ import com.tree.insdownloader.view.fragment.HomeFragment;
 import com.tree.insdownloader.view.widget.MyNavigationView;
 import com.tree.insdownloader.viewmodel.HomeActivityViewModel;
 
-import java.util.Locale;
-
 
 public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHomeBinding> {
 
     private static final String TAG = "HomeActivity";
     private HomeFragment homeFragment;
     private DownloadFragment downloadFragment;
+    public static final String HOME_FRAGMENT_TAG = "home";
+    public static final String DOWNLOAD_FRAGMENT_TAG = "download";
 
 
     @Override
@@ -137,8 +126,8 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
         downloadFragment = new DownloadFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fl_fragment, homeFragment)
-                .add(R.id.fl_fragment,downloadFragment)
+        fragmentTransaction.add(R.id.fl_fragment, homeFragment,HOME_FRAGMENT_TAG)
+                .add(R.id.fl_fragment,downloadFragment,DOWNLOAD_FRAGMENT_TAG)
                 .show(homeFragment)
                 .hide(downloadFragment)
                 .commitNowAllowingStateLoss();

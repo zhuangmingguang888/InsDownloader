@@ -1,24 +1,53 @@
 package com.tree.insdownloader.view.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.util.Log;
+
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import com.tree.insdownloader.R;
+import com.tree.insdownloader.adapter.PhotoAdapter;
+import com.tree.insdownloader.base.BaseFragment;
+import com.tree.insdownloader.databinding.FragmentPhotoBinding;
+import com.tree.insdownloader.logic.model.User;
+import com.tree.insdownloader.viewmodel.PhotoFragmentViewModel;
 
-public class PhotoFragment extends Fragment {
 
-    @Nullable
+public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, FragmentPhotoBinding> {
+
+    private Handler photoHandler;
+    private PhotoAdapter adapter;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflate = LayoutInflater.from(inflater.getContext()).inflate(R.layout.fragment_photo, container, false);
-        return inflate;
+    public void processLogic() {
+        //初始化线程信息
+        initThread();
+        adapter = new PhotoAdapter(getContext());
+        photoHandler.post(() -> mViewModel.getAllUser());
+
+        mViewModel.getUsersLiveData().observe(this, userList -> {
+            if (userList != null && userList.size() > 0) {
+                adapter.setUserList(userList);
+            }
+        });
+        binding.photoRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.photoRecyclerView.setAdapter(adapter);
+    }
+
+    private void initThread() {
+        HandlerThread handlerThread = new HandlerThread("photoThread");
+        handlerThread.start();
+        photoHandler = new Handler(handlerThread.getLooper());
+    }
+
+    public void insertUser(User user) {
+        adapter.setUser(user);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public int getLayoutId() {
+        return R.layout.fragment_photo;
     }
 }

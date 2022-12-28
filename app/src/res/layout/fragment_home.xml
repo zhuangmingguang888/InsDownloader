@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,49 +11,46 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_26"
             android:layout_marginRight="@dimen/dp_26"
-            android:background="@drawable/url_background"
-            >
+            android:background="@drawable/url_background">
+
             <ImageView
                 android:id="@+id/image_url"
-                android:layout_centerVertical="true"
                 android:layout_width="@dimen/dp_24"
                 android:layout_height="@dimen/dp_24"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_14"
                 android:layout_marginTop="@dimen/dp_18"
                 android:layout_marginBottom="@dimen/dp_17"
-                android:src="@mipmap/ic_edit_title"
-                ></ImageView>
+                android:src="@mipmap/ic_edit_title"></ImageView>
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/image_url"
                 android:layout_marginLeft="@dimen/dp_8"
-                >
-            </FrameLayout>
+                android:layout_toRightOf="@id/image_url"></FrameLayout>
+
             <EditText
                 android:id="@+id/edit_url"
-                android:layout_toRightOf="@id/image_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_toRightOf="@id/image_url"
+                android:background="@null"
                 android:hint="@string/edit_tips"
-                android:textSize="@dimen/sp_18"
                 android:textColor="@color/black"
                 android:textColorHint="@color/text_edit_tips"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:background="@null"
-                ></EditText>
+                android:textSize="@dimen/sp_18"></EditText>
 
             <ImageView
                 android:id="@+id/img_edit_paste"
-                android:layout_centerVertical="true"
                 android:layout_width="@dimen/dp_46"
                 android:layout_height="@dimen/dp_46"
-                android:src="@mipmap/ic_edit_unpaste"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/dp_8"
-                ></ImageView>
+                android:src="@mipmap/ic_edit_unpaste"></ImageView>
 
         </RelativeLayout>
 
@@ -64,31 +59,39 @@
             android:id="@+id/btn_download"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_49"
-            android:layout_marginLeft="@dimen/dp_26"
-            android:layout_marginRight="@dimen/dp_26"
-            android:layout_marginTop="@dimen/dp_29"
             android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_20"
-            android:textAllCaps="false"
-            android:text="@string/text_bottom_download"
-            android:background="@drawable/ic_guide_button_background"
-            ></Button>
-
-        <com.tree.insdownloader.view.widget.InsWebView
-            android:id="@+id/home_web"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            ></com.tree.insdownloader.view.widget.InsWebView>
-
-        <FrameLayout
             android:layout_marginLeft="@dimen/dp_26"
+            android:layout_marginTop="@dimen/dp_29"
             android:layout_marginRight="@dimen/dp_26"
+            android:background="@drawable/ic_guide_button_background"
+            android:text="@string/text_bottom_download"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"></Button>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_26"
+            android:layout_marginTop="@dimen/dp_41"
+            android:layout_marginRight="@dimen/dp_26"
+            android:visibility="invisible"
             android:background="@drawable/fragment_home_background"
             >
+
+            
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_frequently"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_26"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_26"
+            android:background="@drawable/fragment_home_background"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/text_frequently"
@@ -96,19 +99,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_17"
                 android:layout_marginTop="@dimen/dp_20"
-                android:textSize="@dimen/sp_18"
                 android:text="@string/text_home_frequently"
                 android:textColor="@color/one_pixel"
-                ></TextView>
+                android:textSize="@dimen/sp_18"></TextView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_recycleView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                ></androidx.recyclerview.widget.RecyclerView>
-        </FrameLayout>
-    </LinearLayout>
+                android:layout_marginTop="@dimen/dp_20"
 
+                ></androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
+        <com.tree.insdownloader.view.widget.InsWebView
+            android:id="@+id/home_web"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_100"></com.tree.insdownloader.view.widget.InsWebView>
+
+    </LinearLayout>
 
 
 </layout>

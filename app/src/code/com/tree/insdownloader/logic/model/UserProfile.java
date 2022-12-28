@@ -1,5 +1,6 @@
 package com.tree.insdownloader.logic.model;
 
+
 public class UserProfile {
     private String headUrl;
 

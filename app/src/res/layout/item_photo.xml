@@ -6,70 +6,81 @@
     android:layout_height="@dimen/dp_206"
     app:cardCornerRadius="@dimen/dp_10"
     android:elevation="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_10"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/dp_9"
-        android:layout_marginTop="@dimen/dp_9"
+        android:orientation="vertical"
+        android:background="@color/white"
         >
 
-        <FrameLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/photoCycleView"
-
+            android:layout_marginLeft="@dimen/dp_9"
+            android:layout_marginTop="@dimen/dp_9"
             >
+            <FrameLayout
+                android:id="@+id/fl_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-            <com.tree.insdownloader.view.widget.DoughnutView
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25">
-            </com.tree.insdownloader.view.widget.DoughnutView>
+                >
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/dp_22"
-                android:layout_height="@dimen/dp_22"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_header_rate_us">
+                <com.tree.insdownloader.view.widget.DoughnutView
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="center"></com.tree.insdownloader.view.widget.DoughnutView>
 
-            </de.hdodenhof.circleimageview.CircleImageView>
-        </FrameLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_header"
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:layout_gravity="center"
+                    ></de.hdodenhof.circleimageview.CircleImageView>
+            </FrameLayout>
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="aaaaaa"
-            app:layout_constraintLeft_toRightOf="@id/photoCycleView"
-            android:layout_marginLeft="@dimen/dp_8"
-            ></TextView>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="@dimen/dp_13"
-            android:src="@mipmap/ic_photo_more"
-            ></ImageView>
-
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/text_photo_name_color"
+                android:layout_toRightOf="@id/fl_header"
+                android:layout_marginLeft="@dimen/dp_8"
+                ></TextView>
+            
+            <ImageView
+                android:id="@+id/image_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_photo_more"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_gravity="center_vertical"
+                ></ImageView>
+        </RelativeLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/dp_8"
             android:elevation="@dimen/dp_5"
-            app:layout_constraintTop_toBottomOf="@id/photoCycleView"
             android:layout_marginTop="@dimen/dp_8"
+            android:layout_gravity="center_horizontal"
             >
-        <ImageView
-            android:layout_width="@dimen/dp_155"
-            android:layout_height="@dimen/dp_155"
-            android:scaleType="fitXY"
-            ></ImageView>
+            <ImageView
+                android:id="@+id/image_photo"
+                android:layout_width="@dimen/dp_155"
+                android:layout_height="@dimen/dp_155"
+                android:scaleType="centerCrop"
+                ></ImageView>
         </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
 
 
 </androidx.cardview.widget.CardView>

@@ -86,5 +86,12 @@ Batter Services</string>
     <string name="text_download_placeholder">No Photos</string>
 
     <string name="text_home_frequently" >Frequently Visited</string>
+    
+    <string name="text_photo_tags">Tags</string>
+    <string name="text_photo_app">APP View</string>
+    <string name="text_photo_captions">Captions</string>
+    <string name="text_photo_repost">Repost</string>
+    <string name="text_photo_share">Share</string>
+    <string name="text_photo_delete">Delete</string>
 
 </resources>

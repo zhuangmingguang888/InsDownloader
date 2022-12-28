@@ -32,4 +32,12 @@ public class UserInfo {
         return this.userProfile;
     }
 
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "displayUrl='" + displayUrl + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", userProfile=" + userProfile +
+                '}';
+    }
 }
