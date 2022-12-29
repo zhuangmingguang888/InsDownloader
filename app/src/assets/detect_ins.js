@@ -140,7 +140,7 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 				}
 				console.log("单视频检测 thumbnailUrl: --- " + thumbnailUrl);
 				if (!isEmpty(videoUrl)) {
-					startReceiveData(userProfile, 1, isStory);
+					//startReceiveData(userProfile, 1, isStory);
 					if (videoUrl.startsWith("blob")) { // blob视频，提供原始地址信息，以原有逻辑下载
 						var sourceUrl = findSourceUrl(rootNode);
 						console.log("单视频检测 sourceUrl: --- " + sourceUrl);
@@ -152,7 +152,7 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 						}
 						sendDataJson(JSON.stringify(videoData))
 					}
-					endReceiveData()
+					//endReceiveData()
 				} else {
 					warn("INS_VIDEO_URL_INVALID", videoUrl);
 				}

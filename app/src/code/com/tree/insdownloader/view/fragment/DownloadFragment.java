@@ -50,7 +50,7 @@ public class DownloadFragment extends BaseFragment<DownloadFragmentViewModel, Fr
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new PhotoFragment());
-        fragments.add(new PhotoFragment());
+        fragments.add(new VideoFragment());
 
         FragmentAdapter fragmentAdapter = new
                 FragmentAdapter(fragmentManager, fragments);

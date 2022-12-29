@@ -2,10 +2,8 @@ package com.tree.insdownloader.view.fragment;
 
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.tree.insdownloader.R;
@@ -19,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, FragmentPhotoBinding> {
+public class VideoFragment extends BaseFragment<PhotoFragmentViewModel, FragmentPhotoBinding> {
 
+    private static final String TAG = "VideoFragment";
     private Handler photoHandler;
     private PhotoAdapter adapter;
 
@@ -34,10 +33,11 @@ public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
         mViewModel.getUsersLiveData().observe(this, userList -> {
             if (userList != null && userList.size() > 0) {
                 List<User> myUsers = new ArrayList<>();
-                for (int i = 0; i<userList.size(); i++) {
+                for (int i = 0; i < userList.size(); i++) {
                     User user = userList.get(i);
                     String fileName = user.getFileName();
-                    if (fileName.contains("jpeg")) {
+                    if (fileName.contains("mp4")) {
+                        Log.d(TAG,"FINE NAME IS" + fileName);
                         myUsers.add(user);
                     }
                 }

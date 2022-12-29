@@ -6,4 +6,7 @@ public interface OnDownloadListener {
     void onDownloading(int progress);
 
     void onDownloadFailed(Exception e);
+
+    void onDownloadStart();
+
 }

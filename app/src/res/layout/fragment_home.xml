@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,18 +71,110 @@
             android:textColor="@color/white"
             android:textSize="@dimen/sp_20"></Button>
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_download"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_26"
-            android:layout_marginTop="@dimen/dp_41"
+            android:layout_marginTop="@dimen/dp_29"
             android:layout_marginRight="@dimen/dp_26"
-            android:visibility="invisible"
             android:background="@drawable/fragment_home_background"
-            >
+            android:padding="@dimen/dp_14"
+            android:visibility="invisible">
 
-            
-        </RelativeLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/dp_15"
+                >
+
+                <ImageView
+                    android:id="@+id/image_photo"
+                    android:layout_width="@dimen/dp_81"
+                    android:layout_height="@dimen/dp_81"></ImageView>
+
+                <TextView
+                    android:id="@+id/text_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:background="@drawable/time_background"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:paddingTop="@dimen/dp_4"
+                    android:paddingRight="@dimen/dp_6"
+                    android:paddingBottom="@dimen/dp_4"
+                    android:visibility="gone"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_10"></TextView>
+            </androidx.cardview.widget.CardView>
+
+            <com.tree.insdownloader.view.widget.DoughnutView
+                android:id="@+id/doughnutView"
+                app:layout_constraintLeft_toRightOf="@id/card_photo"
+                android:layout_width="@dimen/dp_28"
+                android:layout_height="@dimen/dp_28"
+                android:layout_marginStart="@dimen/dp_17"></com.tree.insdownloader.view.widget.DoughnutView>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_header"
+                app:layout_constraintLeft_toRightOf="@id/card_photo"
+                app:layout_constraintTop_toTopOf="@id/doughnutView"
+                app:layout_constraintBottom_toBottomOf="@id/doughnutView"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginStart="@dimen/dp_18.5"></de.hdodenhof.circleimageview.CircleImageView>
+
+            <TextView
+                android:id="@+id/text_name"
+                app:layout_constraintBottom_toBottomOf="@id/image_header"
+                app:layout_constraintLeft_toRightOf="@id/image_header"
+                app:layout_constraintTop_toTopOf="@id/image_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_header"
+                android:layout_marginStart="@dimen/dp_7"
+                android:textColor="@color/text_photo_name_color"
+                android:textSize="@dimen/sp_12"></TextView>
+
+            <TextView
+                android:id="@+id/text_size"
+                app:layout_constraintLeft_toLeftOf="@id/image_header"
+                app:layout_constraintTop_toBottomOf="@id/image_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_header"
+                android:layout_marginTop="@dimen/dp_14"
+                android:textColor="@color/text_photo_name_color"
+                android:textSize="@dimen/sp_12"></TextView>
+
+            <ImageView
+                android:id="@+id/image_result"
+                app:layout_constraintBottom_toBottomOf="@id/card_photo"
+                app:layout_constraintLeft_toRightOf="@id/card_photo"
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/dp_91"
+                android:layout_marginRight="@dimen/dp_9"
+                android:src="@mipmap/ic_download_success"
+                android:visibility="gone"></ImageView>
+
+            <TextView
+                android:id="@+id/text_result"
+                app:layout_constraintBottom_toBottomOf="@id/image_result"
+                app:layout_constraintLeft_toRightOf="@id/image_result"
+                app:layout_constraintTop_toTopOf="@id/image_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_9"
+                android:text="@string/text_download_result"
+                android:textColor="@color/view_background"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone"></TextView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/ll_frequently"

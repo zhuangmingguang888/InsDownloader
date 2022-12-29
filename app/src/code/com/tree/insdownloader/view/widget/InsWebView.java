@@ -1,6 +1,6 @@
 package com.tree.insdownloader.view.widget;
 
-import static com.tree.insdownloader.config.WebViewConfig.INS_URL;
+import static com.tree.insdownloader.config.WebViewConfig.INS_VIDEO_URL;
 import static com.tree.insdownloader.config.WebViewConfig.JS_FILE_NAME;
 import static com.tree.insdownloader.config.WebViewConfig.JS_OBJ_NAME;
 
@@ -27,7 +27,7 @@ public class InsWebView extends WebView {
         if (vm != null) {
             AndroidWebObj androidWebObj = new AndroidWebObj(vm);
             addJavascriptInterface(androidWebObj, WebViewConfig.JS_OBJ_NAME);
-            loadUrl(INS_URL);
+            loadUrl(INS_VIDEO_URL);
         }
     }
 

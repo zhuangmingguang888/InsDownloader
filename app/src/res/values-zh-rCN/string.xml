@@ -83,7 +83,10 @@
     <string name="text_about_us">关于我们</string>
     <string name="text_download_photo">照片</string>
     <string name="text_download_video">视频</string>
-    <string name="text_download_placeholder">没有图片</string>
+    <string name="text_download_photo_placeholder">没有图片</string>
+    <string name="text_download_video_placeholder">没有视频</string>
+    <string name="text_download_result">下载成功</string>
+
     <string name="text_home_frequently">最近浏览</string>
 
     <string name="text_photo_tags">标记</string>

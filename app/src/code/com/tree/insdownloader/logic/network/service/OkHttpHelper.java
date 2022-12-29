@@ -1,6 +1,7 @@
 package com.tree.insdownloader.logic.network.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.config.OkHttpConfig;
@@ -9,8 +10,10 @@ import com.tree.insdownloader.util.LogUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
+import kotlin.Pair;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -29,6 +32,9 @@ public class OkHttpHelper {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
+        if (listener != null) {
+            listener.onDownloadStart();
+        }
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -41,7 +47,8 @@ public class OkHttpHelper {
             public void onResponse(Call call, Response response) {
                 try {
                     if (response.isSuccessful()) {
-                        FileUtil.saveMediaFileToSdcard(destFileName, response.body().byteStream(), App.getAppContext());
+                        FileUtil.contentLength = response.body().contentLength();
+                        FileUtil.saveMediaFileToSdcard(destFileName, response.body().byteStream(),listener);
                         if (listener != null) {
                             listener.onDownloadSuccess();
                         }

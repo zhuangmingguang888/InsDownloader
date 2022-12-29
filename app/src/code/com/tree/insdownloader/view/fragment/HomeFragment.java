@@ -13,11 +13,13 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.adapter.RecentAdapter;
 import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.base.BaseFragment;
 import com.tree.insdownloader.databinding.FragmentHomeBinding;
+import com.tree.insdownloader.logic.model.User;
 import com.tree.insdownloader.logic.model.UserInfo;
 import com.tree.insdownloader.util.ClipBoardUtil;
 import com.tree.insdownloader.view.activity.HomeActivity;
@@ -46,6 +48,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
         binding.editUrl.setTypeface(semiBold);
         binding.btnDownload.setTypeface(semiBold);
         binding.textFrequently.setTypeface(semiBold);
+        binding.textName.setTypeface(semiBold);
+        binding.textTime.setTypeface(semiBold);
+        binding.textResult.setTypeface(semiBold);
+        binding.textSize.setTypeface(semiBold);
     }
 
     @Override
@@ -76,9 +82,42 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                 }
                 copyClipBoard = clipBoardContent;
             });
+
             mViewModel.getUserInfoMutableLiveData().observe(this, userInfo -> {
                 binding.llFrequently.setVisibility(View.VISIBLE);
                 adapter.setUserInfo(userInfo);
+            });
+
+            mViewModel.getUserMutableLiveData().observe(this, new Observer<User>() {
+                @Override
+                public void onChanged(User user) {
+                    binding.clDownload.setVisibility(View.VISIBLE);
+                    //还没下载完的情况
+                    if (TextUtils.isEmpty(user.getContentLength())) {
+                        if (user.getContentType().contains("video/mp4")) {
+                            Glide.with(getContext()).load(user.getVideoUrl()).into(binding.imagePhoto);
+                            Log.d(TAG,"VIDEO URL:" + user.getVideoUrl());
+                        } else {
+                            Glide.with(getContext()).load(user.getDisplayUrl()).into(binding.imagePhoto);
+                        }
+                        Glide.with(getContext()).load(user.getHeadUrl()).into(binding.imageHeader);
+                        binding.textName.setText(user.getUserName());
+                    } else {
+                        binding.textResult.setVisibility(View.VISIBLE);
+                        binding.imageResult.setVisibility(View.VISIBLE);
+                        binding.textTime.setText(user.getTime());
+                        binding.textSize.setText(user.getContentLength());
+                    }
+
+
+                }
+            });
+
+            mViewModel.getProgressMutableLiveData().observe(this, new Observer<Integer>() {
+                @Override
+                public void onChanged(Integer progress) {
+                    Log.d(TAG,"progress is" + progress);
+                }
             });
         }
     }

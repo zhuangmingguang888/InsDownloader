@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.config.WebViewConfig;
 import com.tree.insdownloader.dialog.PhotoMoreDialog;
@@ -33,14 +34,17 @@ import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
+    private static final int NONE = -1;
+    private static final int TYPE_PHOTO = 1;
+    private static final int TYPE_VIDEO = 2;
     private List<User> userList = new ArrayList<>();
     private Context context;
-    private MyPopupWindow window;
     private PhotoMoreDialog dialog;
 
     public PhotoAdapter(Context context) {
         this.context = context;
         dialog = new PhotoMoreDialog(context);
+        userList.clear();
     }
 
     @Override
@@ -53,11 +57,18 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = userList.get(position);
         String name = user.getUserName();
-        String photoFileName = user.getPhotoFileName();
+        String photoFileName = user.getFileName();
         String headFileName = user.getHeadFileName();
         String downPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DOWNLOADS + WebViewConfig.DOWNLOAD_INS_ROOT_PATH;
         Uri photoUri = FileUtil.FileGetFromPublic(downPath, photoFileName);
         Uri headUri = FileUtil.FileGetFromPublic(downPath, headFileName);
+        Log.d("onBindViewHolder","photoFileName:" + photoFileName + "photoUri: " + photoUri);
+        int type = getItemViewType(position);
+        if (type == TYPE_PHOTO) {
+            holder.imagePlaceHolder.setVisibility(View.GONE);
+        } else {
+            holder.imagePlaceHolder.setVisibility(View.VISIBLE);
+        }
         holder.textName.setText(name);
         holder.textName.setTextColor(context.getColor(R.color.text_photo_name_color));
         holder.textName.setTypeface(TypefaceUtil.getSemiBoldTypeFace());
@@ -85,6 +96,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         public ImageView imageHeader;
         public ImageView imagePhoto;
         public ImageView imageMore;
+        public ImageView imagePlaceHolder;
         public LinearLayout llContent;
 
         public ViewHolder(@NonNull View itemView) {
@@ -94,6 +106,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             imagePhoto = itemView.findViewById(R.id.image_photo);
             imageHeader = itemView.findViewById(R.id.image_header);
             llContent = itemView.findViewById(R.id.ll_content);
+            imagePlaceHolder = itemView.findViewById(R.id.image_video_place_holder);
         }
     }
 
@@ -112,4 +125,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (userList != null && userList.size() > 0) {
+            User user = userList.get(position);
+            String fileName = user.getFileName();
+            if (fileName.contains("jpeg")) {
+                return TYPE_PHOTO;
+            } else {
+                return TYPE_VIDEO;
+            }
+        }
+        return NONE;
+    }
 }

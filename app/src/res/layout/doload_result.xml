@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:visibility="invisible"
+    android:padding="@dimen/dp_14"
+
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/dp_26"
+    android:layout_marginEnd="@dimen/dp_26"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_photo"
+            android:layout_width="@dimen/dp_81"
+            android:layout_height="@dimen/dp_81"></ImageView>
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:background="@drawable/time_background"
+            android:paddingLeft="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_4"
+            android:paddingRight="@dimen/dp_6"
+            android:paddingBottom="@dimen/dp_4"
+            android:text="10:23"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_10"></TextView>
+    </androidx.cardview.widget.CardView>
+
+    <com.tree.insdownloader.view.widget.DoughnutView
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        app:layout_constraintLeft_toRightOf="@id/card_photo"
+        android:layout_marginStart="@dimen/dp_17"
+        ></com.tree.insdownloader.view.widget.DoughnutView>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_header"
+        android:layout_width="@dimen/dp_25"
+        android:layout_height="@dimen/dp_25"
+        app:layout_constraintLeft_toRightOf="@id/card_photo"
+        android:layout_marginStart="@dimen/dp_17"
+        ></de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_header"
+        android:textColor="@color/text_photo_name_color"
+        app:layout_constraintLeft_toRightOf="@id/image_header"
+        app:layout_constraintTop_toTopOf="@id/image_header"
+        app:layout_constraintBottom_toBottomOf="@id/image_header"
+        android:layout_marginStart="@dimen/dp_7"
+        android:textSize="@dimen/sp_12"></TextView>
+
+    <TextView
+        android:id="@+id/text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_header"
+        android:layout_marginTop="@dimen/dp_14"
+        android:textColor="@color/text_photo_name_color"
+        app:layout_constraintTop_toBottomOf="@id/image_header"
+        app:layout_constraintLeft_toLeftOf="@id/image_header"
+        android:textSize="@dimen/sp_12"></TextView>
+
+    <ImageView
+        android:id="@+id/image_result"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/dp_9"
+        android:src="@mipmap/ic_download_success"
+        app:layout_constraintLeft_toRightOf="@id/card_photo"
+        app:layout_constraintBottom_toBottomOf="@id/card_photo"
+        android:layout_marginStart="@dimen/dp_91"
+        android:visibility="gone"
+        ></ImageView>
+
+    <TextView
+        android:id="@+id/text_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_download_result"
+        android:textColor="@color/view_background"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@id/image_result"
+        app:layout_constraintTop_toTopOf="@id/image_result"
+        app:layout_constraintBottom_toBottomOf="@id/image_result"
+        android:layout_marginStart="@dimen/dp_9"
+        android:visibility="gone"
+        ></TextView>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

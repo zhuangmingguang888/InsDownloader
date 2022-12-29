@@ -19,7 +19,7 @@
                 android:layout_width="@dimen/dp_225"
                 android:layout_height="@dimen/dp_225"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/ic_download_photo_placeholder"></ImageView>
+                android:src="@mipmap/ic_download_video_placeholder"></ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
                 android:layout_below="@id/img_placeholder"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_10"
-                android:text="@string/text_download_photo_placeholder"
+                android:text="@string/text_download_video_placeholder"
                 android:textColor="@color/one_pixel"
                 android:textSize="@dimen/sp_21"></TextView>
         </RelativeLayout>

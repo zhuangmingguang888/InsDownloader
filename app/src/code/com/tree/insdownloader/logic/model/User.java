@@ -21,7 +21,21 @@ public class User {
 
     private String headFileName;
 
-    private String photoFileName;
+    private String fileName;
+
+    private String contentLength;
+
+    private String time;
+
+    private String contentType;
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
 
     public String getHeadFileName() {
         return headFileName;
@@ -31,12 +45,20 @@ public class User {
         this.headFileName = headFileName;
     }
 
-    public String getPhotoFileName() {
-        return photoFileName;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setPhotoFileName(String photoFileName) {
-        this.photoFileName = photoFileName;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getContentLength() {
+        return contentLength;
+    }
+
+    public void setContentLength(String contentLength) {
+        this.contentLength = contentLength;
     }
 
     public String getDisplayUrl() {
@@ -87,6 +109,15 @@ public class User {
         this.describe = describe;
     }
 
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -97,7 +128,9 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", describe='" + describe + '\'' +
                 ", headFileName='" + headFileName + '\'' +
-                ", photoFileName='" + photoFileName + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", contentLength='" + contentLength + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 }
