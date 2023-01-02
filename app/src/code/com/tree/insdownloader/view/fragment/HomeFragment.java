@@ -1,12 +1,14 @@
 package com.tree.insdownloader.view.fragment;
 
 import static com.tree.insdownloader.config.JosefinSansFont.SEMI_BOLD_ASSETS_PATH;
+import static com.tree.insdownloader.view.activity.HomeActivity.DOWNLOAD_FRAGMENT_TAG;
 
 import android.graphics.Typeface;
 import android.os.HandlerThread;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -18,14 +20,19 @@ import com.tree.insdownloader.R;
 import com.tree.insdownloader.adapter.RecentAdapter;
 import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.base.BaseFragment;
+import com.tree.insdownloader.config.WebViewConfig;
 import com.tree.insdownloader.databinding.FragmentHomeBinding;
 import com.tree.insdownloader.logic.model.User;
 import com.tree.insdownloader.logic.model.UserInfo;
 import com.tree.insdownloader.util.ClipBoardUtil;
+import com.tree.insdownloader.util.ToastUtils;
 import com.tree.insdownloader.view.activity.HomeActivity;
 import com.tree.insdownloader.viewmodel.HomeFragmentViewModel;
 
+import java.util.Locale;
 import java.util.logging.Handler;
+
+import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 
 public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHomeBinding> {
 
@@ -59,9 +66,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
         super.onResume();
 
         binding.imgEditPaste.setOnClickListener(v -> binding.editUrl.setText(copyClipBoard));
-        binding.btnDownload.setOnClickListener(v -> {
-
-        });
 
         binding.homeWeb.setVm(mViewModel);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -70,6 +74,22 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
 
         binding.homeRecycleView.setAdapter(adapter);
         binding.homeRecycleView.setLayoutManager(linearLayoutManager);
+
+        binding.btnDownload.setOnClickListener(v -> {
+            //1.判断字符串是否有内容
+            String url = binding.editUrl.getText().toString().trim();
+            if (!TextUtils.isEmpty(url)) {
+                //2.正则匹配字符串是否符合网址形式
+                if (copyClipBoard.startsWith(WebViewConfig.INS_URL)) {
+                    //3.开始加载
+                    binding.homeWeb.loadUrl("https://www.instagram.com/p/Cmj4mCJvqAi/?utm_source=ig_web_copy_link");
+                } else {
+                    ToastUtils.showToast("请输入正确的字符串");
+                }
+            } else {
+                ToastUtils.showToast("请输入正确的字符串");
+            }
+        });
 
         if (mViewModel != null) {
             mViewModel.getClipBoardContent().observe(this, clipBoardContent -> {
@@ -84,6 +104,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
             });
 
             mViewModel.getUserInfoMutableLiveData().observe(this, userInfo -> {
+                //最近的模块
                 binding.llFrequently.setVisibility(View.VISIBLE);
                 adapter.setUserInfo(userInfo);
             });
@@ -96,31 +117,44 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                     if (TextUtils.isEmpty(user.getContentLength())) {
                         if (user.getContentType().contains("video/mp4")) {
                             Glide.with(getContext()).load(user.getVideoUrl()).into(binding.imagePhoto);
-                            Log.d(TAG,"VIDEO URL:" + user.getVideoUrl());
                         } else {
                             Glide.with(getContext()).load(user.getDisplayUrl()).into(binding.imagePhoto);
                         }
                         Glide.with(getContext()).load(user.getHeadUrl()).into(binding.imageHeader);
                         binding.textName.setText(user.getUserName());
+                        binding.imageResult.setVisibility(View.GONE);
+                        binding.textResult.setVisibility(View.GONE);
                     } else {
                         binding.textResult.setVisibility(View.VISIBLE);
                         binding.imageResult.setVisibility(View.VISIBLE);
                         binding.textTime.setText(user.getTime());
                         binding.textSize.setText(user.getContentLength());
+                        //通知其它fragment作出改变
+                        notifyDownloadFragment(user);
                     }
-
-
                 }
+
             });
 
             mViewModel.getProgressMutableLiveData().observe(this, new Observer<Integer>() {
                 @Override
                 public void onChanged(Integer progress) {
-                    Log.d(TAG,"progress is" + progress);
+                    //进度条更新
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                    binding.progressBar.setProgress(progress);
+                    if (progress == binding.progressBar.getMax()) {
+                        binding.progressBar.setVisibility(View.GONE);
+                    }
                 }
             });
         }
     }
+
+    private void notifyDownloadFragment(User user) {
+        DownloadFragment downloadFragment = (DownloadFragment) getActivity().getSupportFragmentManager().findFragmentByTag(DOWNLOAD_FRAGMENT_TAG);
+        downloadFragment.setUser(user);
+    }
+
 
     @Override
     public int getLayoutId() {

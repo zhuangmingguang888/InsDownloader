@@ -40,4 +40,17 @@ public class UserInfo {
                 ", userProfile=" + userProfile +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserInfo userInfo = (UserInfo) o;
+        return userProfile != null ? userProfile.getUserName().equals(userInfo.userProfile.getUserName()) : userInfo.userProfile == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return 30;
+    }
 }

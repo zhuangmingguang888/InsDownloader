@@ -27,7 +27,6 @@ public class InsWebView extends WebView {
         if (vm != null) {
             AndroidWebObj androidWebObj = new AndroidWebObj(vm);
             addJavascriptInterface(androidWebObj, WebViewConfig.JS_OBJ_NAME);
-            loadUrl(INS_VIDEO_URL);
         }
     }
 

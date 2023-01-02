@@ -54,7 +54,7 @@ public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
         photoHandler = new Handler(handlerThread.getLooper());
     }
 
-    public void insertUser(User user) {
+    public void setUser(User user) {
         adapter.setUser(user);
     }
 

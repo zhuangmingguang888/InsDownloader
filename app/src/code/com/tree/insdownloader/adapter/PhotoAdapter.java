@@ -1,8 +1,11 @@
 package com.tree.insdownloader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,12 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.tree.insdownloader.AppManager;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.config.WebViewConfig;
 import com.tree.insdownloader.dialog.PhotoMoreDialog;
 import com.tree.insdownloader.logic.model.User;
 import com.tree.insdownloader.util.FileUtil;
 import com.tree.insdownloader.util.TypefaceUtil;
+import com.tree.insdownloader.view.activity.DetailActivity;
 import com.tree.insdownloader.view.widget.MyPopupWindow;
 
 import java.io.File;
@@ -62,7 +67,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         String downPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DOWNLOADS + WebViewConfig.DOWNLOAD_INS_ROOT_PATH;
         Uri photoUri = FileUtil.FileGetFromPublic(downPath, photoFileName);
         Uri headUri = FileUtil.FileGetFromPublic(downPath, headFileName);
-        Log.d("onBindViewHolder","photoFileName:" + photoFileName + "photoUri: " + photoUri);
+        Log.d("onBindViewHolder", "photoFileName:" + photoFileName + "photoUri: " + photoUri);
         int type = getItemViewType(position);
         if (type == TYPE_PHOTO) {
             holder.imagePlaceHolder.setVisibility(View.GONE);
@@ -79,6 +84,18 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                 holder.llContent.getLocationInWindow(location);
                 dialog.resetLocation(location[0] - holder.imageMore.getHeight(), location[1] - holder.imagePhoto.getWidth() / 2);
                 dialog.show();
+            }
+        });
+        holder.llContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("contentType", user.getContentType());
+                bundle.putString("uri", photoUri.toString());
+                Intent intent = new Intent(AppManager.getInstance().getTopActivity(), DetailActivity.class);
+                intent.putExtras(bundle);
+                intent.putExtra("urlBundle",bundle);
+                context.startActivity(intent);
             }
         });
         Glide.with(context).load(photoUri).into(holder.imagePhoto);

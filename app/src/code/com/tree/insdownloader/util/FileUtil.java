@@ -153,6 +153,9 @@ public class FileUtil {
                 outputStream.write(buffer, 0, readCount);
                 outputStream.flush();
             }
+            if (listener != null) {
+                listener.onDownloadSuccess();
+            }
             ret = true;
         } catch (Exception e) {
             ret = false;

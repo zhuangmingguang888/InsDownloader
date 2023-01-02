@@ -24,11 +24,14 @@ import com.tree.insdownloader.util.TypefaceUtil;
 import com.tree.insdownloader.view.activity.HomeActivity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder> {
 
-    private List<UserInfo> userInfos = new ArrayList<>();
+    private List<UserInfo> userInfoList = new ArrayList<>();
+    private Set<UserInfo> userInfoSet = new HashSet<>();
     private Context mContext;
 
     public RecentAdapter(Context mContext) {
@@ -44,7 +47,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Typeface typeface = TypefaceUtil.getSemiBoldTypeFace();
-        UserInfo userInfo = userInfos.get(position);
+        UserInfo userInfo = userInfoList.get(position);
         holder.textName.setText(userInfo.getUserProfile().getUserName());
         holder.textName.setTextColor(mContext.getColor(R.color.view_background));
         holder.textName.setTypeface(typeface);
@@ -59,7 +62,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return userInfos.size();
+        return userInfoList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -78,8 +81,10 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
 
     public void setUserInfo(UserInfo userInfo) {
         if (userInfo != null) {
-            userInfos.add(userInfo);
-            notifyItemInserted(userInfos.size() - 1);
+            if (userInfoSet.contains(userInfo)) return;
+            userInfoSet.add(userInfo);
+            userInfoList.add(userInfo);
+            notifyItemInserted(userInfoList.size() - 1);
         }
     }
 }

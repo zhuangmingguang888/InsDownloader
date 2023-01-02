@@ -49,9 +49,6 @@ public class OkHttpHelper {
                     if (response.isSuccessful()) {
                         FileUtil.contentLength = response.body().contentLength();
                         FileUtil.saveMediaFileToSdcard(destFileName, response.body().byteStream(),listener);
-                        if (listener != null) {
-                            listener.onDownloadSuccess();
-                        }
                     }
                 } catch (Exception e) {
                     if (listener != null) {

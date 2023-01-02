@@ -87,8 +87,8 @@ Batter Services</string>
     <string name="text_download_video_placeholder">No Videos</string>
     <string name="text_download_result">Downloaded Successfully</string>
 
-    <string name="text_home_frequently" >Frequently Visited</string>
-    
+    <string name="text_home_frequently">Frequently Visited</string>
+
     <string name="text_photo_tags">Tags</string>
     <string name="text_photo_app">APP View</string>
     <string name="text_photo_captions">Captions</string>

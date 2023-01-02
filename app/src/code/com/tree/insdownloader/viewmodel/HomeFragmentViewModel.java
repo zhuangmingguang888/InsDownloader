@@ -67,7 +67,7 @@ public class HomeFragmentViewModel extends ViewModel {
     }
 
     public void downloadByUserinfo(UserInfo userInfo) {
-        if (userInfo !=null) {
+        if (userInfo != null) {
             User user = new User();
             String photoFileName;
             String url;
@@ -77,14 +77,14 @@ public class HomeFragmentViewModel extends ViewModel {
                 url = userInfo.getDisplayUrl();
                 user.setDisplayUrl(url);
                 prefix = url.split("_")[1];
-                photoFileName = prefix  + ".jpeg";
+                photoFileName = prefix + ".jpeg";
                 user.setContentType("image/jpeg");
             } else {
                 url = userInfo.getVideoUrl();
                 user.setVideoUrl(url);
                 int start = url.indexOf("m82/") + 4;
                 int end = url.indexOf("_");
-                prefix = url.substring(start,end);
+                prefix = url.substring(start, end);
                 photoFileName = prefix + ".mp4";
                 user.setContentType("video/mp4");
             }
@@ -99,12 +99,15 @@ public class HomeFragmentViewModel extends ViewModel {
             okHttpHelper.download(url, photoFileName, new OnDownloadListener() {
                 @Override
                 public void onDownloadSuccess() {
-                    Date date = FileUtil.getVideoTime(photoFileName);
-                    double length = FileUtil.getFileOrFilesSize(FileUtil.DOWN_LOAD_PATH + photoFileName,FileUtil.SIZETYPE_MB);
+                    if (user.getContentType().equals("video/mp4")) {
+                        Date date = FileUtil.getVideoTime(photoFileName);
+                        user.setTime(date.getMinutes() + ":" + date.getSeconds());
+                    }
+                    double length = FileUtil.getFileOrFilesSize(FileUtil.DOWN_LOAD_PATH + photoFileName, FileUtil.SIZETYPE_MB);
                     user.setContentLength(length + "MB");
-                    user.setTime(date.getMinutes() + ":" + date.getSeconds());
-                    userDao.insertUser(user);
                     setUser(user);
+                    userDao.insertUser(user);
+                    Log.d(TAG, "onDownloadSuccess");
                 }
 
                 @Override
@@ -115,6 +118,7 @@ public class HomeFragmentViewModel extends ViewModel {
 
                 @Override
                 public void onDownloadFailed(Exception e) {
+                    Log.d(TAG, "onDownloadFailed");
 
                 }
 
@@ -123,7 +127,7 @@ public class HomeFragmentViewModel extends ViewModel {
                     setUser(user);
                 }
             });
-            okHttpHelper.download(userInfo.getUserProfile().getHeadUrl(),headFileName,null);
+            okHttpHelper.download(userInfo.getUserProfile().getHeadUrl(), headFileName, null);
             setUserInfo(userInfo);
         }
     }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/color_bg_guide"
+    tools:context=".view.activity.DetailActivity">
+
+    <ImageView
+        android:id="@+id/image_go_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_23"
+        android:layout_marginTop="@dimen/dp_29"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@mipmap/ic_back"></ImageView>
+
+    <ImageView
+        android:id="@+id/image_show"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_500"
+        android:layout_marginTop="@dimen/dp_73"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_go_back"
+        android:src="@mipmap/ic_guide_1"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        ></ImageView>
+
+    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        android:id="@+id/video_player"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_500"
+        android:layout_marginTop="@dimen/dp_73"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_go_back"
+></com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
+
+   <com.tree.insdownloader.view.widget.MyDetailView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_36"
+        android:layout_marginBottom="@dimen/dp_36"
+        app:layout_constraintBottom_toBottomOf="parent"></com.tree.insdownloader.view.widget.MyDetailView>
+</androidx.constraintlayout.widget.ConstraintLayout>
