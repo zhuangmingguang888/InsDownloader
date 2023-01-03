@@ -6,6 +6,7 @@
     android:layout_height="@dimen/dp_206"
     app:cardCornerRadius="@dimen/dp_10"
     android:elevation="@dimen/dp_10"
+    android:layout_marginLeft="@dimen/dp_27"
     android:layout_marginTop="@dimen/dp_10"
     >
 

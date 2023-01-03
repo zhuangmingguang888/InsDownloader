@@ -1,10 +1,12 @@
 package com.tree.insdownloader.view.fragment;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -23,6 +25,12 @@ public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
 
     private Handler photoHandler;
     private PhotoAdapter adapter;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
 
     @Override
     public void processLogic() {

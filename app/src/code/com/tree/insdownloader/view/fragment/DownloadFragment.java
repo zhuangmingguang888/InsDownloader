@@ -5,11 +5,12 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.tree.insdownloader.AppManager;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.adapter.FragmentAdapter;
 import com.tree.insdownloader.base.BaseFragment;
@@ -62,7 +63,6 @@ public class DownloadFragment extends BaseFragment<DownloadFragmentViewModel, Fr
             tabStrip.getChildAt(i).setEnabled(false);
         }
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         List<Fragment> fragments = new ArrayList<>();
         photoFragment = new PhotoFragment();
         videoFragment = new VideoFragment();
@@ -70,32 +70,23 @@ public class DownloadFragment extends BaseFragment<DownloadFragmentViewModel, Fr
         fragments.add(photoFragment);
         fragments.add(videoFragment);
 
+        AppCompatActivity topActivity = (AppCompatActivity) AppManager.getInstance().getTopActivity();
         FragmentAdapter fragmentAdapter = new
-                FragmentAdapter(fragmentManager, fragments);
+                FragmentAdapter(topActivity, fragments);
+
         binding.viewPager.setAdapter(fragmentAdapter);
-        binding.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
                     binding.tabLayout.selectTab(photoTab);
                     textPhoto.setTextColor(getContext().getColor(R.color.text_select));
                     textVideo.setTextColor(getContext().getColor(R.color.text_unselect));
-
                 } else {
                     binding.tabLayout.selectTab(videoTab);
                     textVideo.setTextColor(getContext().getColor(R.color.text_select));
                     textPhoto.setTextColor(getContext().getColor(R.color.text_unselect));
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

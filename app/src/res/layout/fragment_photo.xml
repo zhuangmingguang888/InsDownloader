@@ -38,7 +38,6 @@
             android:id="@+id/photo_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_27"
             android:layout_marginRight="@dimen/dp_22"
             ></androidx.recyclerview.widget.RecyclerView>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,8 @@
 package com.tree.insdownloader.base;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,13 @@ public abstract class BaseFragment<VM extends ViewModel, VDB extends ViewDataBin
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("fragment","onCreate clazz:" + this.getClass().getName());
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.i("fragment","onAttach clazz:" + this.getClass().getName());
     }
 
     @Nullable
@@ -33,12 +42,13 @@ public abstract class BaseFragment<VM extends ViewModel, VDB extends ViewDataBin
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(),container,false);
         binding.setLifecycleOwner(this);
+        Log.i("fragment","onCreateView clazz:" + this.getClass().getName());
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        Log.i("fragment","onViewCreated clazz:" + this.getClass().getName());
         createViewModel();
         processLogic();
     }

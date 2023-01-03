@@ -1,14 +1,9 @@
 package com.tree.insdownloader.view.widget;
 
-import static com.tree.insdownloader.config.WebViewConfig.INS_VIDEO_URL;
 import static com.tree.insdownloader.config.WebViewConfig.JS_FILE_NAME;
-import static com.tree.insdownloader.config.WebViewConfig.JS_OBJ_NAME;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,7 +20,7 @@ public class InsWebView extends WebView {
 
     public void setVm(HomeFragmentViewModel vm) {
         if (vm != null) {
-            AndroidWebObj androidWebObj = new AndroidWebObj(vm);
+            AndroidWebObj androidWebObj = new AndroidWebObj(vm, listener);
             addJavascriptInterface(androidWebObj, WebViewConfig.JS_OBJ_NAME);
         }
     }
@@ -59,6 +54,13 @@ public class InsWebView extends WebView {
                 evaluateJavascript("javascript:" + detectJs, null);
             }
         }
+    }
 
+    private DetectJsListener listener = (String userProfile, int collectLength, boolean isStory) -> {
+        post(() -> evaluateJavascript("javascript:" + "startCollectData()", null));
+    };
+
+    public interface DetectJsListener {
+        void onStartReceiveData(String userProfile, int collectLength, boolean isStory);
     }
 }

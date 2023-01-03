@@ -82,7 +82,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                 //2.正则匹配字符串是否符合网址形式
                 if (copyClipBoard.startsWith(WebViewConfig.INS_URL)) {
                     //3.开始加载
-                    binding.homeWeb.loadUrl("https://www.instagram.com/p/Cmj4mCJvqAi/?utm_source=ig_web_copy_link");
+                    binding.homeWeb.loadUrl("https://www.instagram.com/reel/CmivXuyh5L3/?utm_source=ig_web_copy_link");
                 } else {
                     ToastUtils.showToast("请输入正确的字符串");
                 }
