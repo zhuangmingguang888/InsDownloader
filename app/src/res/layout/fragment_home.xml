@@ -12,6 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_26"
             android:layout_marginRight="@dimen/dp_26"
+            android:layout_marginTop="@dimen/dp_26"
             android:background="@drawable/url_background">
 
             <ImageView
@@ -83,14 +84,15 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_81"
+                android:layout_height="@dimen/dp_81"
                 app:cardCornerRadius="@dimen/dp_15">
 
                 <ImageView
                     android:id="@+id/image_photo"
-                    android:layout_width="@dimen/dp_81"
-                    android:layout_height="@dimen/dp_81"></ImageView>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"></ImageView>
 
                 <TextView
                     android:id="@+id/text_time"
@@ -106,45 +108,49 @@
                     android:textSize="@dimen/sp_10"
                     android:visibility="gone"></TextView>
             </androidx.cardview.widget.CardView>
-
-            <com.tree.insdownloader.view.widget.DoughnutView
-                android:id="@+id/doughnutView"
-                android:layout_width="@dimen/dp_28"
-                android:layout_height="@dimen/dp_28"
+            <FrameLayout
+                android:id="@+id/fl_toux"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_17"
-                app:layout_constraintLeft_toRightOf="@id/card_photo"></com.tree.insdownloader.view.widget.DoughnutView>
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image_header"
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
-                android:layout_marginStart="@dimen/dp_18.5"
-                app:layout_constraintBottom_toBottomOf="@id/doughnutView"
                 app:layout_constraintLeft_toRightOf="@id/card_photo"
-                app:layout_constraintTop_toTopOf="@id/doughnutView"></de.hdodenhof.circleimageview.CircleImageView>
+                >
+                <com.tree.insdownloader.view.widget.DoughnutView
+                    android:id="@+id/doughnutView"
+                    android:layout_width="@dimen/dp_28"
+                    android:layout_height="@dimen/dp_28"
+                    android:layout_gravity="center"
+                    ></com.tree.insdownloader.view.widget.DoughnutView>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_header"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="center"
+                    ></de.hdodenhof.circleimageview.CircleImageView>
+            </FrameLayout>
+
 
             <TextView
                 android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/image_header"
                 android:layout_marginStart="@dimen/dp_7"
                 android:textColor="@color/text_photo_name_color"
                 android:textSize="@dimen/sp_12"
-                app:layout_constraintBottom_toBottomOf="@id/image_header"
-                app:layout_constraintLeft_toRightOf="@id/image_header"
-                app:layout_constraintTop_toTopOf="@id/image_header"></TextView>
+                app:layout_constraintBottom_toBottomOf="@id/fl_toux"
+                app:layout_constraintLeft_toRightOf="@id/fl_toux"
+                app:layout_constraintTop_toTopOf="@id/fl_toux"></TextView>
 
             <TextView
                 android:id="@+id/text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/image_header"
                 android:layout_marginTop="@dimen/dp_14"
                 android:textColor="@color/text_photo_name_color"
                 android:textSize="@dimen/sp_12"
-                app:layout_constraintLeft_toLeftOf="@id/image_header"
-                app:layout_constraintTop_toBottomOf="@id/image_header"></TextView>
+                app:layout_constraintLeft_toLeftOf="@id/fl_toux"
+                app:layout_constraintTop_toBottomOf="@id/fl_toux"></TextView>
 
             <ImageView
                 android:id="@+id/image_result"
@@ -164,14 +170,14 @@
                 android:layout_marginStart="@dimen/dp_91"
                 android:layout_marginRight="@dimen/dp_9"
                 android:visibility="gone"
-                app:textIsShow="false"
                 app:layout_constraintBottom_toBottomOf="@id/card_photo"
                 app:layout_constraintLeft_toRightOf="@id/card_photo"
                 app:max="100"
                 app:ringColor="@android:color/darker_gray"
                 app:ringProgressColor="#10C2C6"
                 app:ringWidth="3dp"
-                app:style="STROKE" />
+                app:style="STROKE"
+                app:textIsShow="false" />
 
 
             <TextView
@@ -224,7 +230,8 @@
             android:id="@+id/home_web"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_100"></com.tree.insdownloader.view.widget.InsWebView>
+            android:layout_marginTop="@dimen/dp_100"
+            android:visibility="gone"></com.tree.insdownloader.view.widget.InsWebView>
 
     </LinearLayout>
 

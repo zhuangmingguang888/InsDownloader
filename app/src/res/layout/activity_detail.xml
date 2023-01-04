@@ -39,6 +39,7 @@
 ></com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
 
    <com.tree.insdownloader.view.widget.MyDetailView
+       android:id="@+id/detailView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_20"

@@ -1,5 +1,6 @@
 package com.tree.insdownloader.view.fragment;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -23,12 +24,14 @@ public class VideoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
     private Handler photoHandler;
     private PhotoAdapter adapter;
 
+    public VideoFragment(Context context) {
+        initThread();
+        adapter = new PhotoAdapter(context);
+    }
+
+
     @Override
     public void processLogic() {
-        //初始化线程信息
-        initThread();
-        adapter = new PhotoAdapter(getContext());
-        photoHandler.post(() -> mViewModel.getAllUser());
 
         mViewModel.getUsersLiveData().observe(this, userList -> {
             if (userList != null && userList.size() > 0) {
@@ -47,6 +50,14 @@ public class VideoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
         binding.photoRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.photoRecyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        photoHandler.post(() -> mViewModel.getAllUser());
+        Log.i(TAG,"onResume");
+    }
+
 
     private void initThread() {
         HandlerThread handlerThread = new HandlerThread("photoThread");

@@ -3,44 +3,38 @@ package com.tree.insdownloader.view.fragment;
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
-
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.adapter.PhotoAdapter;
 import com.tree.insdownloader.base.BaseFragment;
 import com.tree.insdownloader.databinding.FragmentPhotoBinding;
 import com.tree.insdownloader.logic.model.User;
 import com.tree.insdownloader.viewmodel.PhotoFragmentViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, FragmentPhotoBinding> {
 
+    private static final String TAG = "PhotoFragment";
     private Handler photoHandler;
     private PhotoAdapter adapter;
+    private int currentLength;
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+
+    public PhotoFragment(Context context) {
+        initThread();
+        adapter = new PhotoAdapter(context);
     }
-
 
     @Override
     public void processLogic() {
-        //初始化线程信息
-        initThread();
-        adapter = new PhotoAdapter(getContext());
-        photoHandler.post(() -> mViewModel.getAllUser());
 
         mViewModel.getUsersLiveData().observe(this, userList -> {
             if (userList != null && userList.size() > 0) {
+                currentLength = userList.size();
                 List<User> myUsers = new ArrayList<>();
                 for (int i = 0; i<userList.size(); i++) {
                     User user = userList.get(i);
@@ -54,6 +48,15 @@ public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
         });
         binding.photoRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.photoRecyclerView.setAdapter(adapter);
+        photoHandler.post(() -> mViewModel.getAllUser());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (currentLength != adapter.getItemCount()) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void initThread() {

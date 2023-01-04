@@ -64,8 +64,8 @@ public class DownloadFragment extends BaseFragment<DownloadFragmentViewModel, Fr
         }
 
         List<Fragment> fragments = new ArrayList<>();
-        photoFragment = new PhotoFragment();
-        videoFragment = new VideoFragment();
+        photoFragment = new PhotoFragment(getContext());
+        videoFragment = new VideoFragment(getContext());
 
         fragments.add(photoFragment);
         fragments.add(videoFragment);

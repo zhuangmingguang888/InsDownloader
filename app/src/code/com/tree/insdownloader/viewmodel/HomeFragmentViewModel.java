@@ -38,6 +38,8 @@ public class HomeFragmentViewModel extends ViewModel {
     private MutableLiveData<UserInfo> userInfoMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Integer> progressMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Integer> pageStateMutableLiveData = new MutableLiveData<>();
+
     private OkHttpHelper okHttpHelper = new OkHttpHelper();
 
     private Handler vmHandler;
@@ -61,6 +63,11 @@ public class HomeFragmentViewModel extends ViewModel {
             userMutableLiveData.postValue(user);
         }
     }
+
+    public void setPageState(int state) {
+        pageStateMutableLiveData.postValue(state);
+    }
+
 
     public void setProgress(int progress) {
         progressMutableLiveData.postValue(progress);
@@ -143,6 +150,11 @@ public class HomeFragmentViewModel extends ViewModel {
     public MutableLiveData<Integer> getProgressMutableLiveData() {
         return progressMutableLiveData;
     }
+
+    public MutableLiveData<Integer> getPageStateMutableLiveData() {
+        return pageStateMutableLiveData;
+    }
+
 
     public void init() {
         HandlerThread vmThread = new HandlerThread("vmThread");

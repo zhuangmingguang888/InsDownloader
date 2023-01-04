@@ -1,10 +1,13 @@
 package com.tree.insdownloader.logic.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class User {
+public class User implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -133,4 +136,67 @@ public class User {
                 ", time='" + time + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.displayUrl);
+        dest.writeString(this.videoUrl);
+        dest.writeString(this.headUrl);
+        dest.writeString(this.userName);
+        dest.writeString(this.describe);
+        dest.writeString(this.headFileName);
+        dest.writeString(this.fileName);
+        dest.writeString(this.contentLength);
+        dest.writeString(this.time);
+        dest.writeString(this.contentType);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readLong();
+        this.displayUrl = source.readString();
+        this.videoUrl = source.readString();
+        this.headUrl = source.readString();
+        this.userName = source.readString();
+        this.describe = source.readString();
+        this.headFileName = source.readString();
+        this.fileName = source.readString();
+        this.contentLength = source.readString();
+        this.time = source.readString();
+        this.contentType = source.readString();
+    }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.id = in.readLong();
+        this.displayUrl = in.readString();
+        this.videoUrl = in.readString();
+        this.headUrl = in.readString();
+        this.userName = in.readString();
+        this.describe = in.readString();
+        this.headFileName = in.readString();
+        this.fileName = in.readString();
+        this.contentLength = in.readString();
+        this.time = in.readString();
+        this.contentType = in.readString();
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

@@ -11,11 +11,14 @@ import com.tree.insdownloader.viewmodel.HomeFragmentViewModel;
 
 import org.json.JSONException;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class AndroidWebObj {
 
     private static final String TAG = "AndroidWebObj";
     private HomeFragmentViewModel vm;
     private InsWebView.DetectJsListener listener;
+    private ReentrantLock lock = new ReentrantLock();
 
     public AndroidWebObj(HomeFragmentViewModel vm) {
         this.vm = vm;
@@ -28,10 +31,13 @@ public class AndroidWebObj {
 
     @JavascriptInterface
     public void sendDataJson(String json) throws JSONException {
-        LogUtil.e(TAG, "Json---" + json);
+        LogUtil.e(TAG, "sendDataJson---" + json);
+
         if (!TextUtils.isEmpty(json)) {
             Gson gson = new Gson();
             UserInfo userInfo = gson.fromJson(json, UserInfo.class);
+            if (TextUtils.isEmpty(userInfo.getUserProfile().getDescribe())) {
+            }
             vm.downloadByUserinfo(userInfo);
         }
     }
@@ -42,5 +48,14 @@ public class AndroidWebObj {
             listener.onStartReceiveData(userProfile, collectLength, isStory);
         }
     }
+    @JavascriptInterface
+    public void userDescribeChange(String describe) {
+        if (!TextUtils.isEmpty(describe)) {
+            LogUtil.e(TAG, "userDescribeChange---" + describe);
+        }
+    }
+
+
+
 
 }

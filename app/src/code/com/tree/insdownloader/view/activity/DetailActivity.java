@@ -3,21 +3,16 @@ package com.tree.insdownloader.view.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tree.insdownloader.R;
-import com.tree.insdownloader.util.DisplayUtil;
+import com.tree.insdownloader.logic.model.User;
+import com.tree.insdownloader.view.widget.MyDetailView;
 
 import moe.codeest.enviews.ENPlayView;
 
@@ -30,13 +25,16 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ImageView imageShow = findViewById(R.id.image_show);
+        MyDetailView detailView = findViewById(R.id.detailView);
+
         videoPlayer = findViewById(R.id.video_player);
         Intent intent = getIntent();
         if (intent != null) {
             Bundle bundle = intent.getBundleExtra("urlBundle");
-            String contentType = bundle.getString("contentType");
             String uri = bundle.getString("uri");
-            if (contentType.contains("jpeg")) {
+            User user = bundle.getParcelable("user");
+            detailView.setUser(user);
+            if (user.getContentType().contains("jpeg")) {
                 Glide.with(this).load(uri).into(imageShow);
                 imageShow.setVisibility(View.VISIBLE);
                 videoPlayer.setVisibility(View.GONE);
@@ -51,22 +49,14 @@ public class DetailActivity extends AppCompatActivity {
                 videoPlayer.getFullscreenButton().setVisibility(View.GONE);
                 videoPlayer.setBottomProgressBarDrawable(null);
                 videoPlayer.setDialogProgressColor(getColor(R.color.white),getColor(R.color.white));
-                Log.d("DetailActivity -------------------",videoPlayer.getStartButton().getClass() + "");
                 videoPlayer.startPlayLogic();
-
-                ENPlayView startButton = (ENPlayView) videoPlayer.getStartButton();
-                startButton.setVisibility(View.GONE);
-
             }
         }
 
         ImageView imageBack = findViewById(R.id.image_go_back);
-        imageBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        imageBack.setOnClickListener(v -> onBackPressed());
+
+
     }
 
     @Override

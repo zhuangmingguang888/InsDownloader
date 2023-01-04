@@ -47,6 +47,10 @@ function startReceiveData(userProfile, collectNum, isStory) {
 	ADAPTATION_HOLDER.startReceiveData(JSON.stringify(userProfile), collectNum, isStory);
 }
 
+function userDescribeChange(userProfile) {
+	ADAPTATION_HOLDER.userDescribeChange(JSON.stringify(userProfile));
+}
+
 function sendBlobData(thumbnailUrl, sorceUrl) {
 	ADAPTATION_HOLDER.sendBlobData(thumbnailUrl, sorceUrl);
 }
@@ -69,6 +73,9 @@ function checkClipboard() {
 function download(){
      if(button!=null) {
          button.click();
+         return true
+     } else{
+     return false
      }
 }
 
@@ -112,6 +119,10 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 			userProfile = findUserProfile(rootNode)
 		}
 		console.log("findUserProfile" + JSON.stringify(userProfile))
+		setTimeout(function () {
+            //userDescribeChange(describe)
+        }, 500);
+
 		// 判断是否采集当前article
 		var dataTags = rootNode.getElementsByTagName("li");
 		if (dataTags.length > 0) { // 需要收集所有图片
@@ -231,16 +242,24 @@ function findUserProfile(rootNode) {
 			if (describeParentE != null) {
 				var nameE = describeParentE.getElementsByTagName("a")[0]
 				if (nameE != null) {
-					describe = nameE.parentNode.innerText
+				    var describeMore = describeParentE.getElementsByClassName("_aacl _aaco _aacu _aacy _aad6 _aade")[0]
+				    describeMore.click()
+				    console.log("--------start:" + describeMore)
+				    describe = nameE.parentNode.innerText
+                    console.log("--------end:" + describe)
 				}
 			}
 		}
 	}
-	return {
-		"headUrl": headUrl,
-		"userName": userName,
-		"describe": describe,
-	}
+    return {
+        "headUrl": headUrl,
+        "userName": userName,
+        "describe": describe,
+    }
+}
+
+function sleep(d){
+  for(var t = Date.now();Date.now() - t <= d;);
 }
 
 // 在Story中寻找用户信息
@@ -347,78 +366,6 @@ function tagRealVideo(videoSrc, videoParent, videoInfoPPE) {
 	}
 	targetContainer.appendChild(button);
 	targetContainer.setAttribute("tag", 1)
-}
-
-//获取单个media标签
-var findMedia =function(target, from) {
-    	var articles  = target.getElementsByTagName("article")
-    	if (articles.length == 1) {
-        var article = articles[0]
-		resetStatus(); // 重置状态
-				var dataTags = article.getElementsByTagName("li");
-        		if (dataTags.length > 0) { // 需要收集所有图片
-        					userProfile = findUserProfile(article)
-        			collectImgs(article, userProfile)
-        				stepIndex = 1;
-                    	isStartCollect = true;
-                    	checkStep();
-        		} else {
-			var videos = article.getElementsByTagName("video")
-			if (videos.length > 0) {
-				console.log("单视频检测");
-				var videoUrl = videos[0].src;
-				if (!videoUrl) {
-					var sources = videos[0].getElementsByTagName("source")
-					if (sources.length > 0) {
-						videoUrl = sources[0].src
-					}
-				}
-				console.log("单视频检测 videoUrl: " + videoUrl);
-				var thumbnailUrl = videos[0].poster
-				if (thumbnailUrl && thumbnailUrl.indexOf("base64") >= 0) {
-					//story视频
-					var imgs = clickTarget.getElementsByTagName("IMG")
-					var thumbnailUrl = ""
-					if (imgs.length > 0) {
-						thumbnailUrl = imgs[0].src
-					}
-				}
-				console.log("单视频检测 thumbnailUrl: --- " + thumbnailUrl);
-				if (!isEmpty(videoUrl)) {
-                    var videoData = {
-                        displayUrl: thumbnailUrl,
-                        videoUrl: videoUrl
-                    }
-                    sendDataJson(JSON.stringify(videoData))
-                    endReceiveData()
-				} else {
-					warn("INS_VIDEO_URL_INVALID", videoUrl);
-				}
-			} else { // 单图片检测
-                var imgs = article.getElementsByTagName("img");
-                var imgUrl = null;
-                if (imgs.length > 0) {
-                    if (imgs.length > 1) {
-                        imgUrl = imgs[1].src
-                    } else {
-                        imgUrl = imgs[0].src
-                    }
-                }
-				console.log("单图片检测2: " + imgUrl);
-				if (!isEmpty(imgUrl)) {
-					var imgData = {
-						displayUrl: imgUrl,
-						videoUrl: ""
-					}
-					console.log("单图片检测3");
-					sendDataJson(JSON.stringify(imgData))
-				} else {
-					warn("INS_IMG_URL_INVALID", imgUrl);
-				}
-			}
-			        		}
-
-    	}
 }
 
 
@@ -536,7 +483,6 @@ var handleArticle = function (article) {
 }
 
 var handleSection = function (section) {
-	console.log("handleSection E",Thread);
     var videoE = section.getElementsByTagName("video")[0];
     if (videoE != null) {
         tagMedia(section, videoE, videoE.parentNode, true)
@@ -546,7 +492,6 @@ var handleSection = function (section) {
             tagMedia(section, imgE, imgE.parentNode, true)
         }
     }
-    console.log("handleSection X");
 }
 
 /**

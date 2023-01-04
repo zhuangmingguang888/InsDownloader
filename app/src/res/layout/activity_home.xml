@@ -41,7 +41,6 @@
 
                     <include layout="@layout/tab_bottom_home"></include>
 
-
                 </RelativeLayout>
 
             </FrameLayout>

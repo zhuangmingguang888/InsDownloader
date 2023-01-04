@@ -4,6 +4,8 @@
     android:layout_alignParentBottom="true"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:paddingTop="@dimen/dp_9"
+    android:paddingBottom="@dimen/dp_18"
     android:orientation="horizontal">
 
     <LinearLayout

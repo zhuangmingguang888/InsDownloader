@@ -49,7 +49,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     public PhotoAdapter(Context context) {
         this.context = context;
         dialog = new PhotoMoreDialog(context);
-        userList.clear();
     }
 
     @Override
@@ -62,12 +61,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = userList.get(position);
         String name = user.getUserName();
-        String photoFileName = user.getFileName();
+        String fileName = user.getFileName();
         String headFileName = user.getHeadFileName();
         String downPath = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DOWNLOADS + WebViewConfig.DOWNLOAD_INS_ROOT_PATH;
-        Uri photoUri = FileUtil.FileGetFromPublic(downPath, photoFileName);
+        Uri photoUri = FileUtil.FileGetFromPublic(downPath, fileName);
         Uri headUri = FileUtil.FileGetFromPublic(downPath, headFileName);
-        Log.d("onBindViewHolder", "photoFileName:" + photoFileName + "photoUri: " + photoUri);
         int type = getItemViewType(position);
         if (type == TYPE_PHOTO) {
             holder.imagePlaceHolder.setVisibility(View.GONE);
@@ -90,8 +88,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("contentType", user.getContentType());
                 bundle.putString("uri", photoUri.toString());
+                bundle.putParcelable("user",user);
                 Intent intent = new Intent(AppManager.getInstance().getTopActivity(), DetailActivity.class);
                 intent.putExtras(bundle);
                 intent.putExtra("urlBundle",bundle);

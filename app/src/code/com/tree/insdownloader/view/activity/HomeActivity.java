@@ -62,7 +62,6 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
         textDownload.setTypeface(semiBold);
         toolbarTitle.setTypeface(semiBold);
 
-
         //顶部点击事件
         toolbarImgIns.setOnClickListener(v -> {
 

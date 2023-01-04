@@ -3,6 +3,7 @@ package com.tree.insdownloader.view.fragment;
 import static com.tree.insdownloader.config.JosefinSansFont.SEMI_BOLD_ASSETS_PATH;
 import static com.tree.insdownloader.view.activity.HomeActivity.DOWNLOAD_FRAGMENT_TAG;
 
+import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.HandlerThread;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import com.tree.insdownloader.logic.model.UserInfo;
 import com.tree.insdownloader.util.ClipBoardUtil;
 import com.tree.insdownloader.util.ToastUtils;
 import com.tree.insdownloader.view.activity.HomeActivity;
+import com.tree.insdownloader.view.widget.InsWebView;
 import com.tree.insdownloader.viewmodel.HomeFragmentViewModel;
 
 import java.util.Locale;
@@ -38,7 +40,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
 
     private static final String TAG = "HomeFragment";
     private String copyClipBoard;
-
+    private ProgressDialog progressDialog;
 
     @Override
     public void processLogic() {
@@ -82,7 +84,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                 //2.正则匹配字符串是否符合网址形式
                 if (copyClipBoard.startsWith(WebViewConfig.INS_URL)) {
                     //3.开始加载
-                    binding.homeWeb.loadUrl("https://www.instagram.com/reel/CmivXuyh5L3/?utm_source=ig_web_copy_link");
+                    binding.homeWeb.loadUrl("https://www.instagram.com/p/CmeBdj8vj7Y/?utm_source=ig_web_copy_link");
+                    progressDialog = ProgressDialog.show(getContext(), "", getString(R.string.text_loading));
                 } else {
                     ToastUtils.showToast("请输入正确的字符串");
                 }
@@ -90,6 +93,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                 ToastUtils.showToast("请输入正确的字符串");
             }
         });
+
 
         if (mViewModel != null) {
             mViewModel.getClipBoardContent().observe(this, clipBoardContent -> {
@@ -109,42 +113,43 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                 adapter.setUserInfo(userInfo);
             });
 
-            mViewModel.getUserMutableLiveData().observe(this, new Observer<User>() {
-                @Override
-                public void onChanged(User user) {
-                    binding.clDownload.setVisibility(View.VISIBLE);
-                    //还没下载完的情况
-                    if (TextUtils.isEmpty(user.getContentLength())) {
-                        if (user.getContentType().contains("video/mp4")) {
-                            Glide.with(getContext()).load(user.getVideoUrl()).into(binding.imagePhoto);
-                        } else {
-                            Glide.with(getContext()).load(user.getDisplayUrl()).into(binding.imagePhoto);
-                        }
-                        Glide.with(getContext()).load(user.getHeadUrl()).into(binding.imageHeader);
-                        binding.textName.setText(user.getUserName());
-                        binding.imageResult.setVisibility(View.GONE);
-                        binding.textResult.setVisibility(View.GONE);
+            mViewModel.getUserMutableLiveData().observe(this, user -> {
+                binding.clDownload.setVisibility(View.VISIBLE);
+                //还没下载完的情况
+                if (TextUtils.isEmpty(user.getContentLength())) {
+                    if (user.getContentType().contains("video/mp4")) {
+                        Glide.with(getContext()).load(user.getVideoUrl()).into(binding.imagePhoto);
                     } else {
-                        binding.textResult.setVisibility(View.VISIBLE);
-                        binding.imageResult.setVisibility(View.VISIBLE);
-                        binding.textTime.setText(user.getTime());
-                        binding.textSize.setText(user.getContentLength());
-                        //通知其它fragment作出改变
-                        notifyDownloadFragment(user);
+                        Glide.with(getContext()).load(user.getDisplayUrl()).into(binding.imagePhoto);
                     }
+                    Glide.with(getContext()).load(user.getHeadUrl()).into(binding.imageHeader);
+                    binding.textName.setText(user.getUserName());
+                    binding.imageResult.setVisibility(View.GONE);
+                    binding.textResult.setVisibility(View.GONE);
+                } else {
+                    binding.textResult.setVisibility(View.VISIBLE);
+                    binding.imageResult.setVisibility(View.VISIBLE);
+                    binding.textTime.setText(user.getTime());
+                    binding.textSize.setText(user.getContentLength());
+                    notifyDownloadFragment(user);
                 }
-
             });
 
-            mViewModel.getProgressMutableLiveData().observe(this, new Observer<Integer>() {
-                @Override
-                public void onChanged(Integer progress) {
-                    //进度条更新
-                    binding.progressBar.setVisibility(View.VISIBLE);
-                    binding.progressBar.setProgress(progress);
-                    if (progress == binding.progressBar.getMax()) {
-                        binding.progressBar.setVisibility(View.GONE);
-                    }
+            mViewModel.getProgressMutableLiveData().observe(this, progress -> {
+                //进度条更新
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.progressBar.setProgress(progress);
+                if (progress == binding.progressBar.getMax()) {
+                    binding.progressBar.setVisibility(View.GONE);
+                }
+            });
+
+            //页面是否加载完成
+            mViewModel.getPageStateMutableLiveData().observe(this, state -> {
+                if (state == InsWebView.PAGE_START) {
+                } else if (state == InsWebView.PAGE_FINISH) {
+                    progressDialog.dismiss();
+                    binding.homeWeb.download();
                 }
             });
         }
@@ -152,7 +157,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
 
     private void notifyDownloadFragment(User user) {
         DownloadFragment downloadFragment = (DownloadFragment) getActivity().getSupportFragmentManager().findFragmentByTag(DOWNLOAD_FRAGMENT_TAG);
-        downloadFragment.setUser(user);
+        if (downloadFragment != null) {
+            downloadFragment.setUser(user);
+        }
     }
 
 

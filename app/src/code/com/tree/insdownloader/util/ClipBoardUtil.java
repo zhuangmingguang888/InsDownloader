@@ -10,14 +10,12 @@ import com.tree.insdownloader.app.App;
 public class ClipBoardUtil {
 
     /**
-
      * 获取剪切板内容
-
+     *
      * @return
-
      */
 
-    public static String paste(){
+    public static String paste() {
 
         ClipboardManager manager = (ClipboardManager) App.getAppContext().getSystemService(Context.CLIPBOARD_SERVICE);
 
@@ -44,12 +42,10 @@ public class ClipBoardUtil {
     }
 
     /**
-
      * 清空剪切板
-
      */
 
-    public static void clear(){
+    public static void clear() {
 
         ClipboardManager manager = (ClipboardManager) App.getAppContext().getSystemService(Context.CLIPBOARD_SERVICE);
 
@@ -59,7 +55,7 @@ public class ClipBoardUtil {
 
                 manager.setPrimaryClip(manager.getPrimaryClip());
 
-                manager.setPrimaryClip(ClipData.newPlainText("",""));
+                manager.setPrimaryClip(ClipData.newPlainText("", ""));
 
             } catch (Exception e) {
 
@@ -70,5 +66,31 @@ public class ClipBoardUtil {
         }
 
     }
+
+    /**
+     * 复制剪切板
+     */
+
+    public static void copy(String copyStr) {
+
+        ClipboardManager manager = (ClipboardManager) App.getAppContext().getSystemService(Context.CLIPBOARD_SERVICE);
+
+        if (manager != null) {
+
+            try {
+
+                //创建一个新的文本clip对象
+                ClipData clip = ClipData.newPlainText("simple text", copyStr);
+                //把clip对象放在剪贴板中
+                manager.setPrimaryClip(clip);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
 
 }

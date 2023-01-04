@@ -96,4 +96,7 @@ Batter Services</string>
     <string name="text_photo_share">Share</string>
     <string name="text_photo_delete">Delete</string>
 
+    <string name="text_loading">Loading...</string>
+
+
 </resources>
