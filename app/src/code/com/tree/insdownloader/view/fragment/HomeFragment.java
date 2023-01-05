@@ -84,7 +84,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                 //2.正则匹配字符串是否符合网址形式
                 if (copyClipBoard.startsWith(WebViewConfig.INS_URL)) {
                     //3.开始加载
-                    binding.homeWeb.loadUrl("https://www.instagram.com/p/CmeBdj8vj7Y/?utm_source=ig_web_copy_link");
+                    binding.homeWeb.loadUrl(copyClipBoard);
                     progressDialog = ProgressDialog.show(getContext(), "", getString(R.string.text_loading));
                 } else {
                     ToastUtils.showToast("请输入正确的字符串");
@@ -138,9 +138,13 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
             mViewModel.getProgressMutableLiveData().observe(this, progress -> {
                 //进度条更新
                 binding.progressBar.setVisibility(View.VISIBLE);
+                binding.imageResult.setVisibility(View.GONE);
+                binding.textResult.setVisibility(View.GONE);
                 binding.progressBar.setProgress(progress);
                 if (progress == binding.progressBar.getMax()) {
                     binding.progressBar.setVisibility(View.GONE);
+                    binding.imageResult.setVisibility(View.VISIBLE);
+                    binding.textResult.setVisibility(View.VISIBLE);
                 }
             });
 

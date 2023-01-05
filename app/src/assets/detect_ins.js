@@ -55,8 +55,8 @@ function sendBlobData(thumbnailUrl, sorceUrl) {
 	ADAPTATION_HOLDER.sendBlobData(thumbnailUrl, sorceUrl);
 }
 
-function sendDataJson(dataJson) {
-	ADAPTATION_HOLDER.sendDataJson(dataJson);
+function sendDataJson(dataJson,length) {
+	ADAPTATION_HOLDER.sendDataJson(dataJson,length);
 }
 
 function reportError(msg) {
@@ -112,6 +112,8 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 		}, 1500);
 		event.stopPropagation();
 		resetStatus(); // 重置状态
+        describeMoreClick(rootNode)
+		setTimeout(function () {
 		// 采集用户信息
 		if (isStory) {
 			userProfile = findUserProfileInStory(rootNode)
@@ -119,14 +121,11 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 			userProfile = findUserProfile(rootNode)
 		}
 		console.log("findUserProfile" + JSON.stringify(userProfile))
-		setTimeout(function () {
-            //userDescribeChange(describe)
-        }, 500);
 
 		// 判断是否采集当前article
 		var dataTags = rootNode.getElementsByTagName("li");
 		if (dataTags.length > 0) { // 需要收集所有图片
-			collectImgs(rootNode, userProfile)
+			var length = collectImgs(rootNode, userProfile)
 		} else { // 单视频/图片处理
 			// add 0217 解决部分手机事件透传失效问题
 			if (event.target.className != "ins_dl") {
@@ -167,7 +166,7 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 							videoUrl: videoUrl,
 							userProfile: userProfile
 						}
-						sendDataJson(JSON.stringify(videoData))
+						sendDataJson(JSON.stringify(videoData),1)
 					}
 					//endReceiveData()
 				} else {
@@ -193,13 +192,14 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
                     }
                     console.log("单图片检测3");
                     //startReceiveData(userProfile, 1, isStory);
-                    sendDataJson(JSON.stringify(imgData))
+                    sendDataJson(JSON.stringify(imgData),1)
                     //endReceiveData()
                 } else {
                     warn("INS_IMG_URL_INVALID", imgUrl);
                 }
             }
 		}
+		}, 100);
 	}
 	targetContainer.appendChild(button);
 	targetContainer.setAttribute("tag", 1)
@@ -232,29 +232,46 @@ function findUserProfile(rootNode) {
 			userName = usernameEle.innerText
 		}
 	}
-	// 描述
-	var commentRoot = rootNode.children[2]
-	if (commentRoot != null) {
-		var selectedE = commentRoot.getElementsByTagName("section")[0]
-		if (selectedE != null) {
-			var selectedParentE = selectedE.parentNode
-			var describeParentE = selectedParentE.children[2]
-			if (describeParentE != null) {
-				var nameE = describeParentE.getElementsByTagName("a")[0]
-				if (nameE != null) {
-				    var describeMore = describeParentE.getElementsByClassName("_aacl _aaco _aacu _aacy _aad6 _aade")[0]
-				    describeMore.click()
-				    console.log("--------start:" + describeMore)
-				    describe = nameE.parentNode.innerText
-                    console.log("--------end:" + describe)
-				}
-			}
-		}
-	}
+
+    // 描述
+    var commentRoot = rootNode.children[2]
+    if (commentRoot != null) {
+        var selectedE = commentRoot.getElementsByTagName("section")[0]
+        if (selectedE != null) {
+            var selectedParentE = selectedE.parentNode
+            var describeParentE = selectedParentE.children[2]
+            if (describeParentE != null) {
+                var nameE = describeParentE.getElementsByTagName("a")[0]
+                if (nameE != null) {
+                    describe = nameE.parentNode.innerText
+                }
+            }
+        }
+    }
+
     return {
         "headUrl": headUrl,
         "userName": userName,
         "describe": describe,
+    }
+}
+
+function describeMoreClick(rootNode) {
+    // 描述
+    var commentRoot = rootNode.children[2]
+    if (commentRoot != null) {
+        var selectedE = commentRoot.getElementsByTagName("section")[0]
+        if (selectedE != null) {
+            var selectedParentE = selectedE.parentNode
+            var describeParentE = selectedParentE.children[2]
+            if (describeParentE != null) {
+                var nameE = describeParentE.getElementsByTagName("a")[0]
+                if (nameE != null) {
+                    var describeMore = rootNode.getElementsByClassName("_aacl _aaco _aacu _aacy _aad6 _aade")[0]
+                    describeMore.click()
+                }
+            }
+        }
     }
 }
 
@@ -361,7 +378,7 @@ function tagRealVideo(videoSrc, videoParent, videoInfoPPE) {
         var videoData = {
         	videoUrl: videoUrl
         }
-        sendDataJson(JSON.stringify(videoData))
+        sendDataJson(JSON.stringify(videoData),1)
         endReceiveData()
 	}
 	targetContainer.appendChild(button);
@@ -514,6 +531,7 @@ function collectImgs(rootNode, userProfile, isStory) {
 	nowIndex = getNowIndex(indicatorArrays);
 	// 确保切换到第一页
 	startReceiveData(userProfile, collectLength, isStory);
+	return collectLength
 	console.log("collectImgs X");
 }
 
@@ -595,11 +613,11 @@ function collectImg() {
 	}
 	// 搜集当前下标
 	var index = getNowIndex(indicatorArrays);
-	console.log("collectImg index: " + index);
 	var dataTags = collectRootNode.getElementsByTagName("li");
 	var length = dataTags.length;
 	var dataSize = duplicateCheck.size;
 	var hasEmpty = false;
+	console.log("collectImg index: " + index + "collectImg length:" + length);
 	for (var i = 0; i < length; i++) {
 		var videoData = getVideoUrl(dataTags[i])
 		if (videoData != null) {
@@ -607,7 +625,7 @@ function collectImg() {
 		}
 		if (videoData != null && !duplicateCheck.has(videoData.videoUrl)) {
 			duplicateCheck.add(videoData.videoUrl)
-			sendDataJson(JSON.stringify(videoData))
+			sendDataJson(JSON.stringify(videoData),collectLength)
 		} else {
 			var imgData = getImagUrl(dataTags[i]);
 			if (imgData != null) {
@@ -615,7 +633,7 @@ function collectImg() {
 			}
 			if (imgData != null && !duplicateCheck.has(imgData.displayUrl)) {
 				duplicateCheck.add(imgData.displayUrl)
-				sendDataJson(JSON.stringify(imgData))
+				sendDataJson(JSON.stringify(imgData),collectLength)
 			} else {
 				hasEmpty = true;
 			}

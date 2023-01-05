@@ -83,7 +83,7 @@ Batter Services</string>
 
     <string name="text_download_photo">Photos</string>
     <string name="text_download_video">Videos</string>
-    <string name="text_download_photo_placeholder">No Photos</string>
+    <string name="text_download_photo_placeholder">No Images</string>
     <string name="text_download_video_placeholder">No Videos</string>
     <string name="text_download_result">Downloaded Successfully</string>
 

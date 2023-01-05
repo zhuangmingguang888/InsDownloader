@@ -89,10 +89,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("uri", photoUri.toString());
-                bundle.putParcelable("user",user);
+                bundle.putParcelable("user", user);
                 Intent intent = new Intent(AppManager.getInstance().getTopActivity(), DetailActivity.class);
                 intent.putExtras(bundle);
-                intent.putExtra("urlBundle",bundle);
+                intent.putExtra("urlBundle", bundle);
                 context.startActivity(intent);
             }
         });
@@ -132,11 +132,16 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         }
     }
 
-    public void setUserList(List<User> userList) {
+    public void setUserList(List<User> users) {
+        for (User user : users) {
+            setUser(user);
+        }
+    }
+
+    public void removeAllUser() {
         if (userList != null && userList.size() > 0) {
-            for (User user : userList) {
-                setUser(user);
-            }
+            userList.clear();
+            notifyDataSetChanged();
         }
     }
 

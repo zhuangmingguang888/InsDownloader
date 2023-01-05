@@ -5,11 +5,13 @@ import android.util.Log;
 
 import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.config.OkHttpConfig;
+import com.tree.insdownloader.logic.model.User;
 import com.tree.insdownloader.util.FileUtil;
 import com.tree.insdownloader.util.LogUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
@@ -28,7 +30,7 @@ public class OkHttpHelper {
             .readTimeout(OkHttpConfig.READ_TIME, TimeUnit.SECONDS)
             .build();
 
-    public void download(String url, final String destFileName, final OnDownloadListener listener) {
+    public void download(String url,final OnDownloadListener listener) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -47,8 +49,9 @@ public class OkHttpHelper {
             public void onResponse(Call call, Response response) {
                 try {
                     if (response.isSuccessful()) {
-                        FileUtil.contentLength = response.body().contentLength();
-                        FileUtil.saveMediaFileToSdcard(destFileName, response.body().byteStream(),listener);
+                        if (listener != null) {
+                            listener.onDownloadSuccess(response);
+                        }
                     }
                 } catch (Exception e) {
                     if (listener != null) {

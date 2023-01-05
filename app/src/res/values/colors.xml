@@ -24,4 +24,6 @@
     <color name="text_photo_name_color">#080808</color>
     <color name="text_photo_more_color">#676767</color>
 
+    <color name="text_photo_no_photo">#BABABA</color>
+
 </resources>

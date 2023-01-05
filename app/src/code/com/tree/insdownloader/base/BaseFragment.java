@@ -53,6 +53,12 @@ public abstract class BaseFragment<VM extends ViewModel, VDB extends ViewDataBin
         processLogic();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("fragment","onResume clazz:" + this.getClass().getName());
+    }
+
     public abstract void processLogic();
 
     public abstract int getLayoutId();

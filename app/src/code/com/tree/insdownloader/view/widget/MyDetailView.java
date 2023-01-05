@@ -23,14 +23,16 @@ import java.util.List;
 
 public class MyDetailView extends LinearLayout implements View.OnClickListener {
 
-    private User user;
     private static final String TAG = "MyDetailView";
-    private static final int TAGS = 0;
-    private static final int APP_VIEW = 1;
-    private static final int CAPTIONS = 2;
-    private static final int REPOST = 3;
-    private static final int SHARE = 4;
-    private static final int DELETE = 5;
+    public static final int TAGS = 0;
+    public static final int APP_VIEW = 1;
+    public static final int CAPTIONS = 2;
+    public static final int REPOST = 3;
+    public static final int SHARE = 4;
+    public static final int DELETE = 5;
+
+    private onItemClickListener listener;
+    private User user;
 
     public MyDetailView(Context context) {
         super(context);
@@ -87,14 +89,17 @@ public class MyDetailView extends LinearLayout implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int position = (int) v.getTag();
-        switch (position) {
-            case TAGS:
-                String describe = user.getDescribe();
-                Log.i(TAG,"describe:" + describe);
-                break;
-            case DELETE:
-
+        if (listener != null) {
+            listener.onItemClick(position,user);
         }
+    }
+
+    public interface onItemClickListener {
+        void onItemClick(int position,User user);
+    }
+
+    public void setListener(onItemClickListener listener) {
+        this.listener = listener;
     }
 }
 

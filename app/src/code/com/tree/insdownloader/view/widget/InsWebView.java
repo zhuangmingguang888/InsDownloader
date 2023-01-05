@@ -56,7 +56,7 @@ public class InsWebView extends WebView {
     }
 
     public void download() {
-        postDelayed(() -> evaluateJavascript("javascript:download()",null),3000);
+        postDelayed(() -> evaluateJavascript("javascript:download()", null), 3000);
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -69,18 +69,22 @@ public class InsWebView extends WebView {
             if (vm != null) {
                 vm.setPageState(PAGE_START);
             }
-            Log.i(TAG,"onPageStarted---" + url);
+            Log.i(TAG, "onPageStarted---" + url);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            Log.i(TAG,"onPageFinished---" + url);
-            String detectJs = FileUtil.readStringFromAssets(view.getContext(), JS_FILE_NAME);
-            evaluateJavascript("javascript:" + detectJs, null);
-            mState = PAGE_FINISH;
-            if (vm != null) {
-                vm.setPageState(PAGE_FINISH);
+            Log.i(TAG, "onPageFinished---" + url);
+            if (!isFirst) {
+                isFirst = true;
+                String detectJs = FileUtil.readStringFromAssets(view.getContext(), JS_FILE_NAME);
+                evaluateJavascript("javascript:" + detectJs, null);
+                mState = PAGE_FINISH;
+                if (vm != null) {
+                    vm.setPageState(PAGE_FINISH);
+                }
             }
+
         }
     }
 

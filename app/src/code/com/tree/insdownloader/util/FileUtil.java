@@ -154,7 +154,7 @@ public class FileUtil {
                 outputStream.flush();
             }
             if (listener != null) {
-                listener.onDownloadSuccess();
+                listener.onDownloadSuccess(null);
             }
             ret = true;
         } catch (Exception e) {
@@ -166,6 +166,7 @@ public class FileUtil {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d("Exception", e.getMessage());
             }
             return ret;
         }

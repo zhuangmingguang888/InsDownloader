@@ -25,7 +25,7 @@ public interface UserDao {
     @Query("select * from User")
     List<User> getAllUser();
 
-    @Query("select * from User where userName = :userName")
-    User getUserByName(String userName);
+    @Query("select * from User where fileName = :fileName")
+    User getUserByFileName(String fileName);
 
 }
