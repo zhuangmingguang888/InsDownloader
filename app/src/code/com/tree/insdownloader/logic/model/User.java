@@ -32,6 +32,8 @@ public class User implements Parcelable {
 
     private String contentType;
 
+    private String url;
+
     public String getContentType() {
         return contentType;
     }
@@ -121,6 +123,14 @@ public class User implements Parcelable {
         this.time = time;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -155,6 +165,7 @@ public class User implements Parcelable {
         dest.writeString(this.contentLength);
         dest.writeString(this.time);
         dest.writeString(this.contentType);
+        dest.writeString(this.url);
     }
 
     public void readFromParcel(Parcel source) {
@@ -169,6 +180,7 @@ public class User implements Parcelable {
         this.contentLength = source.readString();
         this.time = source.readString();
         this.contentType = source.readString();
+        this.url = source.readString();
     }
 
     public User() {
@@ -186,6 +198,7 @@ public class User implements Parcelable {
         this.contentLength = in.readString();
         this.time = in.readString();
         this.contentType = in.readString();
+        this.url = in.readString();
     }
 
     public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {

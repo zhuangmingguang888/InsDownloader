@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.logic.dao.UserDao;
 import com.tree.insdownloader.logic.dao.UserDatabase;
 import com.tree.insdownloader.logic.model.User;
@@ -23,10 +24,13 @@ import com.tree.insdownloader.util.ToastUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 
+import kotlin.Pair;
+import okhttp3.Headers;
 import okhttp3.Response;
 
 public class HomeFragmentViewModel extends ViewModel {
@@ -113,12 +117,13 @@ public class HomeFragmentViewModel extends ViewModel {
         user.setUserName(userInfo.getUserProfile().getUserName());
         user.setHeadFileName(headFileName);
         user.setFileName(photoFileName);
+        user.setUrl(App.getUrl());
         setUserInfo(userInfo);
-        if (currentCount == length -1) {
+        if (currentCount == length - 1) {
             userList.add(user);
         } else {
             userList.add(user);
-            currentCount ++;
+            currentCount++;
             return;
         }
 
@@ -131,7 +136,6 @@ public class HomeFragmentViewModel extends ViewModel {
         for (User us : userList) {
             String contentType = us.getContentType();
             if (contentType.contains("image/jpeg")) {
-                Log.d(TAG, "us" + us);
                 okHttpHelper.download(us.getDisplayUrl(), new OnDownloadListener() {
                     @Override
                     public void onDownloadSuccess(Response response) {

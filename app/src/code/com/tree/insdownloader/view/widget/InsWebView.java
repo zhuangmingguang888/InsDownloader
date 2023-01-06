@@ -84,7 +84,6 @@ public class InsWebView extends WebView {
                     vm.setPageState(PAGE_FINISH);
                 }
             }
-
         }
     }
 

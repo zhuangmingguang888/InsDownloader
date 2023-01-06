@@ -1,6 +1,8 @@
 package com.tree.insdownloader.viewmodel;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -11,6 +13,7 @@ import com.tree.insdownloader.logic.dao.UserDatabase;
 import com.tree.insdownloader.logic.model.User;
 import com.tree.insdownloader.util.ClipBoardUtil;
 import com.tree.insdownloader.util.FileUtil;
+import com.tree.insdownloader.util.InsUtil;
 
 import java.util.concurrent.Executors;
 import java.util.logging.Handler;
@@ -48,11 +51,38 @@ public class DetailActivityViewModel extends ViewModel {
     }
 
     public void deleteMedia(User user) {
-        Executors.newSingleThreadExecutor().execute(() ->
-                //删除本地文件
+        Executors.newSingleThreadExecutor().execute(() -> {
+            FileUtil.deleteInsFile(user.getFileName());
+            FileUtil.deleteInsFile(user.getHeadFileName());
+            userDao.deleteUser(user);
+        });
+    }
 
-                //删除本地数据库
-                userDao.deleteUser(user));
+    public void repostToIns(Context context, User user) {
+        Uri uri = FileUtil.FileGetFromPublic(FileUtil.DOWN_LOAD_PATH, user.getFileName());
+        if (context != null && uri != null) {
+            InsUtil.repostToIns(context, uri, user.getContentType());
+        }
+    }
+
+    public void shareToIns(Context context, User user) {
+        Uri uri = FileUtil.FileGetFromPublic(FileUtil.DOWN_LOAD_PATH, user.getFileName());
+        if (context != null && uri != null) {
+            InsUtil.shareToIns(context, uri, user.getContentType());
+        }
+    }
+
+    public void jumpInsById(Context context, User user) {
+        if (context != null && user != null) {
+            InsUtil.jumpInsById(context, user);
+        }
+    }
+
+
+    public void copyDescribeToClipBoard(String describe) {
+        ClipBoardUtil.clearToClipBoard();
+        ClipBoardUtil.copyToClipBoard(describe);
+        isTagsCopySuccess.setValue(true);
     }
 
 

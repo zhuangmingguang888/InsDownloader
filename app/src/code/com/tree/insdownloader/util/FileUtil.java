@@ -387,4 +387,11 @@ public class FileUtil {
         return fileSizeLong;
     }
 
+    public static boolean deleteInsFile(String fileName) {
+        File file = new File(DOWN_LOAD_PATH+fileName);
+        if (file.isFile() && file.exists()) {
+            return file.delete();
+        }
+        return false;
+    }
 }

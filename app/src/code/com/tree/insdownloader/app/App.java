@@ -10,7 +10,8 @@ import xyz.doikki.videoplayer.player.VideoViewManager;
 
 public class App extends BaseApplication {
 
-    private static Context applicationContext = null;
+    private static Context applicationContext;
+    private static String url;
 
     public void onCreate() {
         super.onCreate();
@@ -19,6 +20,14 @@ public class App extends BaseApplication {
         VideoViewManager.setConfig(VideoViewConfig.newBuilder()
                 .setPlayerFactory(AndroidMediaPlayerFactory.create())
                 .build());
+    }
+
+    public static String getUrl() {
+        return url;
+    }
+
+    public static void setUrl(String url) {
+        App.url = url;
     }
 
     public static Context getAppContext() {

@@ -1,17 +1,18 @@
 package com.tree.insdownloader.view.activity;
 
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+import static com.tree.insdownloader.view.widget.MyDetailView.APP_VIEW;
+import static com.tree.insdownloader.view.widget.MyDetailView.CAPTIONS;
 import static com.tree.insdownloader.view.widget.MyDetailView.DELETE;
+import static com.tree.insdownloader.view.widget.MyDetailView.REPOST;
+import static com.tree.insdownloader.view.widget.MyDetailView.SHARE;
 import static com.tree.insdownloader.view.widget.MyDetailView.TAGS;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-
-import androidx.lifecycle.Observer;
-
+import android.view.Window;
 import com.bumptech.glide.Glide;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.tree.insdownloader.AppManager;
@@ -20,10 +21,7 @@ import com.tree.insdownloader.base.BaseActivity;
 import com.tree.insdownloader.databinding.ActivityDetailBinding;
 import com.tree.insdownloader.logic.model.User;
 import com.tree.insdownloader.util.ToastUtils;
-import com.tree.insdownloader.view.widget.MyDetailView;
 import com.tree.insdownloader.viewmodel.DetailActivityViewModel;
-
-import retrofit2.http.POST;
 
 public class DetailActivity extends BaseActivity<DetailActivityViewModel, ActivityDetailBinding> {
 
@@ -39,6 +37,8 @@ public class DetailActivity extends BaseActivity<DetailActivityViewModel, Activi
     protected void onResume() {
         super.onResume();
         binding.videoPlayer.onVideoResume();
+        Window window = getWindow();
+        window.getDecorView().setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_VISIBLE);
     }
 
     @Override
@@ -84,25 +84,44 @@ public class DetailActivity extends BaseActivity<DetailActivityViewModel, Activi
                     break;
                 case DELETE:
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("媒体文件将被删除，是否继续");
-                    builder.setPositiveButton("删除", (dialog, which) -> {
-                        mViewModel.deleteMedia(currentUser);
-                        AppManager.getInstance().finishActivity(DetailActivity.this);
-                    });
-
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                    builder.setMessage(R.string.text_dialog_hint_content);
+                    builder.setPositiveButton(R.string.text_dialog_hint_delete, (dialog, which) -> {
+                        if (currentUser != null) {
+                            mViewModel.deleteMedia(currentUser);
+                            AppManager.getInstance().finishActivity(DetailActivity.this);
                         }
                     });
+
+                    builder.setNegativeButton(R.string.text_dialog_hint_cancel, (dialog, which) ->
+                            dialog.dismiss());
                     builder.show();
+                    break;
+                case REPOST:
+                    if (currentUser != null) {
+                        mViewModel.repostToIns(this, currentUser);
+                    }
+                    break;
+                case SHARE:
+                    if (currentUser != null) {
+                        mViewModel.shareToIns(this, currentUser);
+                    }
+                    break;
+                case CAPTIONS:
+                    if (currentUser != null) {
+                        mViewModel.copyDescribeToClipBoard(currentUser.getDescribe());
+                    }
+                    break;
+                case APP_VIEW:
+                    if (currentUser != null) {
+                        mViewModel.jumpInsById(this, currentUser);
+                    }
+                    break;
             }
         });
 
         mViewModel.getTagsLiveData().observe(this, isSuccess -> {
             if (isSuccess) {
-                ToastUtils.showToast("文本复制成功");
+                ToastUtils.showToast(R.string.text_copy_success);
             }
         });
 

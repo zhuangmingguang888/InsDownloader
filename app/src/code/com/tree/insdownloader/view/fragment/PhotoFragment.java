@@ -25,7 +25,6 @@ public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
     private static final String TAG = "PhotoFragment";
     private Handler photoHandler;
     private PhotoAdapter adapter;
-    private int currentLength;
 
 
     public PhotoFragment(Context context) {

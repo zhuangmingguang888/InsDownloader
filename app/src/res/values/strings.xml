@@ -97,6 +97,10 @@ Batter Services</string>
     <string name="text_photo_delete">Delete</string>
 
     <string name="text_loading">Loading...</string>
+    <string name="text_dialog_hint_content">Media files will be deleted, do you want to continue</string>
+    <string name="text_dialog_hint_cancel">cancel</string>
+    <string name="text_dialog_hint_delete">delete</string>
 
+    <string name="text_copy_success">copy success</string>
 
 </resources>

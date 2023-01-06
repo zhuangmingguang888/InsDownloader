@@ -97,5 +97,10 @@
     <string name="text_photo_delete">删除</string>
 
     <string name="text_loading">加载中...</string>
+    <string name="text_dialog_hint_content">文件将被删除，是否继续？</string>
+    <string name="text_dialog_hint_cancel">取消</string>
+    <string name="text_dialog_hint_delete">删除</string>
+
+    <string name="text_copy_success">复制成功</string>
 
 </resources>

@@ -48,12 +48,6 @@ public class AndroidWebObj {
             listener.onStartReceiveData(userProfile, collectLength, isStory);
         }
     }
-    @JavascriptInterface
-    public void userDescribeChange(String describe) {
-        LogUtil.e(TAG, "userDescribeChange---" + describe + "thread" + Thread.currentThread().getName());
-        if (!TextUtils.isEmpty(describe)) {
-        }
-    }
 
 
 

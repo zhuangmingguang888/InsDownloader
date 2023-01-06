@@ -82,9 +82,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
             String url = binding.editUrl.getText().toString().trim();
             if (!TextUtils.isEmpty(url)) {
                 //2.正则匹配字符串是否符合网址形式
-                if (copyClipBoard.startsWith(WebViewConfig.INS_URL)) {
+                if (url.startsWith(WebViewConfig.INS_URL)) {
                     //3.开始加载
-                    binding.homeWeb.loadUrl(copyClipBoard);
+                    binding.homeWeb.loadUrl(url);
+                    //4.保存url
+                    App.setUrl(url);
+                    //展示dialog
                     progressDialog = ProgressDialog.show(getContext(), "", getString(R.string.text_loading));
                 } else {
                     ToastUtils.showToast("请输入正确的字符串");

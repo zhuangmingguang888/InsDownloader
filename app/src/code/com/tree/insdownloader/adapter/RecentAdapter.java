@@ -1,10 +1,7 @@
 package com.tree.insdownloader.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.tree.insdownloader.AppManager;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.logic.model.UserInfo;
-import com.tree.insdownloader.util.JumpInsUtil;
+import com.tree.insdownloader.util.InsUtil;
 import com.tree.insdownloader.util.TypefaceUtil;
-import com.tree.insdownloader.view.activity.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -54,7 +49,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
         holder.flContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JumpInsUtil.goInsByUser(userInfo.getUserProfile().getUserName());
+                InsUtil.jumpInsByUserName(userInfo.getUserProfile().getUserName());
             }
         });
         Glide.with(mContext).load(userInfo.getUserProfile().getHeadUrl()).into(holder.imageHeader);

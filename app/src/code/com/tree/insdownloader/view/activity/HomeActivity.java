@@ -3,6 +3,7 @@ package com.tree.insdownloader.view.activity;
 import static com.tree.insdownloader.config.JosefinSansFont.SEMI_BOLD_ASSETS_PATH;
 
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
