@@ -5,6 +5,9 @@ import static com.tree.insdownloader.config.WebViewConfig.JS_FILE_NAME;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.ValueCallback;
@@ -16,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tree.insdownloader.AndroidWebObj;
+import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.config.WebViewConfig;
 import com.tree.insdownloader.util.FileUtil;
 import com.tree.insdownloader.viewmodel.HomeFragmentViewModel;
@@ -24,12 +28,15 @@ import java.util.concurrent.Executors;
 
 public class InsWebView extends WebView {
 
-    private HomeFragmentViewModel vm;
     private static final String TAG = "InsWebView";
     public static final int PAGE_START = 1;
     public static final int PAGE_FINISH = 2;
+    public static final int LOOPER_TIME = 500;
 
     private int mState = PAGE_START;
+    private HomeFragmentViewModel vm;
+    private Handler webHandler = new Handler(Looper.getMainLooper());
+    private InjectRunnable runnable = new InjectRunnable();
 
     public void setVm(HomeFragmentViewModel vm) {
         if (vm != null) {
@@ -55,10 +62,6 @@ public class InsWebView extends WebView {
         setWebViewClient(webViewClient);
     }
 
-    public void download() {
-        postDelayed(() -> evaluateJavascript("javascript:download()", null), 3000);
-    }
-
     private class MyWebViewClient extends WebViewClient {
 
         private boolean isFirst;
@@ -69,7 +72,6 @@ public class InsWebView extends WebView {
             if (vm != null) {
                 vm.setPageState(PAGE_START);
             }
-            Log.i(TAG, "onPageStarted---" + url);
         }
 
         @Override
@@ -77,12 +79,7 @@ public class InsWebView extends WebView {
             Log.i(TAG, "onPageFinished---" + url);
             if (!isFirst) {
                 isFirst = true;
-                String detectJs = FileUtil.readStringFromAssets(view.getContext(), JS_FILE_NAME);
-                evaluateJavascript("javascript:" + detectJs, null);
-                mState = PAGE_FINISH;
-                if (vm != null) {
-                    vm.setPageState(PAGE_FINISH);
-                }
+                webHandler.postDelayed(runnable,LOOPER_TIME);
             }
         }
     }
@@ -93,5 +90,29 @@ public class InsWebView extends WebView {
 
     public interface DetectJsListener {
         void onStartReceiveData(String userProfile, int collectLength, boolean isStory);
+    }
+
+    private class InjectRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            webHandler.postDelayed(runnable,LOOPER_TIME);
+            String detectJs = FileUtil.readStringFromAssets(App.getAppContext(), JS_FILE_NAME);
+            evaluateJavascript("javascript:" + detectJs, null);
+            evaluateJavascript("javascript:download()", value -> {
+                Log.i(TAG,"value:" + Boolean.parseBoolean(value));
+                if (Boolean.parseBoolean(value)) {
+                    if (vm != null) {
+                        mState = PAGE_FINISH;
+                        vm.setPageState(PAGE_FINISH);
+                    }
+                    clearRunnable();
+                }
+            });
+        }
+    }
+
+    private void clearRunnable() {
+        webHandler.removeCallbacks(runnable);
     }
 }

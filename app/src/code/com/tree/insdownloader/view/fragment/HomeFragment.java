@@ -156,7 +156,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                 if (state == InsWebView.PAGE_START) {
                 } else if (state == InsWebView.PAGE_FINISH) {
                     progressDialog.dismiss();
-                    binding.homeWeb.download();
                 }
             });
         }

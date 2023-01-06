@@ -17,14 +17,11 @@ import android.view.animation.Interpolator;
 
 import com.tree.insdownloader.util.DisplayUtil;
 
-/**
- * Created by hellsam on 15/12/16.
- */
+
 public class DoughnutView extends View {
     private static final int DEFAULT_MIN_WIDTH = 400;
     private int[] doughnutColors = new int[]{Color.parseColor("#FFAF43"), Color.parseColor("#C433AB")};
     private Paint paint = new Paint();
-    private Bitmap circleBitmap;
     private int width;
     private int height;
 
@@ -54,7 +51,6 @@ public class DoughnutView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         resetParams();
-        //画背景白色圆环
         initPaint();
         float doughnutWidth = DisplayUtil.dp2px(1f);
         RectF rectF = new RectF((width > height ? Math.abs(width - height) / 2 : 0) + doughnutWidth / 2, (height > width ? Math.abs(height - width) / 2 : 0) + doughnutWidth / 2, width - (width > height ? Math.abs(width - height) / 2 : 0) - doughnutWidth / 2, height - (height > width ? Math.abs(height - width) / 2 : 0) - doughnutWidth / 2);
@@ -81,12 +77,6 @@ public class DoughnutView extends View {
         super.onDraw(canvas);
     }
 
-    /**
-     * 当布局为wrap_content时设置默认长宽
-     *
-     * @param widthMeasureSpec
-     * @param heightMeasureSpec
-     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(measure(widthMeasureSpec), measure(heightMeasureSpec));

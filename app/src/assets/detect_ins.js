@@ -31,7 +31,6 @@ var coverImg = null;
 var lastStamp = 0;
 var leftClassName = null
 var rightClassName = null
-var button = null;
 
 function dumpHtml(content) { }
 
@@ -70,12 +69,14 @@ function endReceiveData() {
 function checkClipboard() {
 	ADAPTATION_HOLDER.checkClipboard();
 }
+var button = null
 function download(){
-     if(button!=null) {
-         button.click();
-         return true
+     button = document.getElementsByClassName("ins_dl")[0];
+     if(button != null) {
+        button.click();
+        return true;
      } else{
-     return false
+        return false;
      }
 }
 
@@ -100,9 +101,10 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 	if (isStory) {
 		top = "120px"
 	}
-	button = createBtn(top)
+	var button = createBtn(top)
 	//注入下载按钮
 	button.onclick = function (event) {
+	console.log("click")
 		if (!isClickCooling) {
 			return
 		}
@@ -323,7 +325,7 @@ function tagRealVideo(videoSrc, videoParent, videoInfoPPE) {
 	if (isEmpty(videoSrc) || targetContainer.getAttribute("tag") == 1) {
 		return;
 	}
-	button = createBtn("0px")
+	var button = createBtn("0px")
 	//注入下载按钮
 	button.onclick = function (event) {
 		if (!isClickCooling) {
