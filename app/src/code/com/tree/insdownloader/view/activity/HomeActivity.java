@@ -2,8 +2,10 @@ package com.tree.insdownloader.view.activity;
 
 import static com.tree.insdownloader.config.JosefinSansFont.SEMI_BOLD_ASSETS_PATH;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.base.BaseActivity;
 import com.tree.insdownloader.databinding.ActivityHomeBinding;
+import com.tree.insdownloader.util.TypefaceUtil;
 import com.tree.insdownloader.view.fragment.DownloadFragment;
 import com.tree.insdownloader.view.fragment.HomeFragment;
 import com.tree.insdownloader.view.widget.MyNavigationView;
@@ -42,7 +45,7 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
     }
 
     private void initView() {
-        Typeface semiBold = Typeface.createFromAsset(getAssets(), SEMI_BOLD_ASSETS_PATH);
+        Typeface semiBold = TypefaceUtil.getSemiBoldTypeFace();
 
         TextView textHome = findViewById(R.id.text_home);
         TextView textDownload = findViewById(R.id.text_download);
@@ -65,11 +68,13 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
 
         //顶部点击事件
         toolbarImgIns.setOnClickListener(v -> {
-
+            mViewModel.jumpIns();
         });
 
         toolbarImgHelp.setOnClickListener(v -> {
-
+            Intent intent = new Intent(HomeActivity.this, StartActivity.class);
+            intent.putExtra("isShowGuide", true);
+            startActivity(intent);
         });
 
         toolbarImgMore.setOnClickListener(v -> {
@@ -114,7 +119,7 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.show(downloadFragment)
                     .hide(homeFragment)
-                    .commitNowAllowingStateLoss();
+                    .commit();
 
         });
 
@@ -126,11 +131,11 @@ public class HomeActivity extends BaseActivity<HomeActivityViewModel, ActivityHo
         downloadFragment = new DownloadFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fl_fragment, homeFragment,HOME_FRAGMENT_TAG)
-                .add(R.id.fl_fragment,downloadFragment,DOWNLOAD_FRAGMENT_TAG)
+        fragmentTransaction.add(R.id.fl_fragment, homeFragment, HOME_FRAGMENT_TAG)
+                .add(R.id.fl_fragment, downloadFragment, DOWNLOAD_FRAGMENT_TAG)
                 .show(homeFragment)
                 .hide(downloadFragment)
-                .commitNowAllowingStateLoss();
+                .commit();
     }
 
 

@@ -29,18 +29,15 @@ public class DetailActivityViewModel extends ViewModel {
     }
 
     public void copyTagsToClipBoard(String describe) {
-        //找出第一个#
         StringBuilder append = new StringBuilder();
         int firstPosition = describe.indexOf("#");
         String firstDescribe = describe.substring(firstPosition + 1);
         String[] tags = firstDescribe.split("#");
-        for (int i = 0; i < tags.length; i++) {
-            String tag = tags[i];
+        for (String tag : tags) {
             append.append("#" + tag.trim());
         }
         int lastPosition = append.lastIndexOf("#");
         String lastString = append.substring(lastPosition);
-        Log.i(TAG, "lastString is" + lastString);
         if (lastString.contains(" ")) {
             String[] lastTag = lastString.split(" ");
             append.append(lastTag[0]);

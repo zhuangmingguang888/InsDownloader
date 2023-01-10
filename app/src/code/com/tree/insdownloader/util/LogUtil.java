@@ -18,7 +18,7 @@ public class LogUtil {
     public static final int LEVEL_VERBOSE = 5;
 
     //日志输出时的Tag
-    private static String mTag = "LogUtil";
+    private static String mTag = "com.tree.insdownloader";
     //当前日志输出级别（是否允许输出log）
     private static int mCurrentLevel = LEVEL_VERBOSE;
 
@@ -102,4 +102,35 @@ public class LogUtil {
             Log.e(mTag, msg, tr);
         }
     }
+
+    public static void v(String msg) {
+        if (mCurrentLevel >= LEVEL_ERROR && null != msg) {
+            Log.v(mTag, msg);
+        }
+    }
+
+    public static void d(String msg) {
+        if (mCurrentLevel >= LEVEL_ERROR && null != msg) {
+            Log.d(mTag, msg);
+        }
+    }
+
+    public static void w(String msg) {
+        if (mCurrentLevel >= LEVEL_ERROR && null != msg) {
+            Log.w(mTag, msg);
+        }
+    }
+
+    public static void e(String msg) {
+        if (mCurrentLevel >= LEVEL_ERROR && null != msg) {
+            Log.e(mTag, msg);
+        }
+    }
+
+    public static void i(String msg) {
+        if (mCurrentLevel >= LEVEL_ERROR && null != msg) {
+            Log.v(mTag, msg);
+        }
+    }
+
 }

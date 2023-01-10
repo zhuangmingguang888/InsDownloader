@@ -12,7 +12,7 @@
         android:layout_width="@dimen/dp_170"
         android:layout_height="@dimen/dp_260"
         android:orientation="vertical"
-        android:background="@color/windowBackground"
+        android:background="@color/dialog_more"
         ></LinearLayout>
 
 

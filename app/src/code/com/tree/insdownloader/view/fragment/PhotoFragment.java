@@ -13,6 +13,7 @@ import com.tree.insdownloader.adapter.PhotoAdapter;
 import com.tree.insdownloader.base.BaseFragment;
 import com.tree.insdownloader.databinding.FragmentPhotoBinding;
 import com.tree.insdownloader.logic.model.User;
+import com.tree.insdownloader.util.LogUtil;
 import com.tree.insdownloader.util.TypefaceUtil;
 import com.tree.insdownloader.viewmodel.PhotoFragmentViewModel;
 
@@ -34,19 +35,27 @@ public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
 
     @Override
     public void processLogic() {
+
         binding.textPlaceholder.setTypeface(TypefaceUtil.getSemiBoldTypeFace());
         binding.photoRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.photoRecyclerView.setAdapter(adapter);
 
         mViewModel.getUsersLiveData().observe(this, userList -> {
+            int count = 0;
+            LogUtil.v(TAG,"USERLIST " + userList.size());
+            adapter.removeAllUser();
             if (userList != null && userList.size() > 0) {
                 for (int i = 0; i < userList.size(); i++) {
                     User user = userList.get(i);
                     String fileName = user.getFileName();
                     if (fileName.contains("jpeg")) {
                         adapter.setUser(user);
+                        count++;
                     }
                 }
+            }
+
+            if (count > 0) {
                 binding.rlPlaceholder.setVisibility(View.GONE);
             } else {
                 binding.rlPlaceholder.setVisibility(View.VISIBLE);
@@ -54,12 +63,6 @@ public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
         });
     }
 
-    @Override
-    public void onResume() {
-        adapter.removeAllUser();
-        photoHandler.post(() -> mViewModel.getAllUser());
-        super.onResume();
-    }
 
     private void initThread() {
         HandlerThread handlerThread = new HandlerThread("photoThread");
@@ -74,5 +77,11 @@ public class PhotoFragment extends BaseFragment<PhotoFragmentViewModel, Fragment
     @Override
     public int getLayoutId() {
         return R.layout.fragment_photo;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        photoHandler.post(() -> mViewModel.getAllUser());
     }
 }

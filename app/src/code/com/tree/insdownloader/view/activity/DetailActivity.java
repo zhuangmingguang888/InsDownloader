@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import com.bumptech.glide.Glide;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+
 import com.tree.insdownloader.AppManager;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.base.BaseActivity;
@@ -136,12 +137,6 @@ public class DetailActivity extends BaseActivity<DetailActivityViewModel, Activi
 
     @Override
     public void onBackPressed() {
-///       不需要回归竖屏
-//        if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-//            videoPlayer.getFullscreenButton().performClick();
-//            return;
-//        }
-        //释放所有
         binding.videoPlayer.setVideoAllCallBack(null);
         super.onBackPressed();
     }

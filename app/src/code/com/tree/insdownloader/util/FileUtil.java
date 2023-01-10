@@ -27,8 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * 文件操作工具
@@ -40,10 +43,20 @@ public class FileUtil {
     public static final String DOWN_LOAD_PATH = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_DOWNLOADS + WebViewConfig.DOWNLOAD_INS_ROOT_PATH + File.separator;
     public static long contentLength;
 
-    public static void saveMediaFileToSdcard(String destFileName, InputStream is, OnDownloadListener listener) throws Exception {
+    public static String generateSuffix() {
+        // 获得当前时间
+        DateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        // 转换为字符串
+        String formatDate = format.format(new Date());
+        // 随机生成文件编号
+        int random = new Random().nextInt(10000);
+        return new StringBuffer().append(formatDate).append(random).toString();
+    }
+
+    public static void saveMediaFileToSdcard(String destFileName, InputStream is, OnDownloadListener listener, long mediaLength) throws Exception {
 
         if (ApiUtil.isROrHeight()) {
-            copySandFileToExternalUri(destFileName, is, listener);
+            copySandFileToExternalUri(destFileName, is, listener, mediaLength);
             return;
         }
         String destFileDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + DOWNLOAD_INS_ROOT_PATH;
@@ -129,7 +142,7 @@ public class FileUtil {
     /**
      * 拷贝沙盒中的文件到外部存储区域
      */
-    public static boolean copySandFileToExternalUri(String newFileName, InputStream is, OnDownloadListener listener) {
+    public static boolean copySandFileToExternalUri(String newFileName, InputStream is, OnDownloadListener listener, long mediaLength) {
         int rate = 0;
         ContentResolver resolver = App.getAppContext().getContentResolver();
         ContentValues values = new ContentValues();
@@ -146,15 +159,12 @@ public class FileUtil {
             byte[] buffer = new byte[2048];
             while ((readCount = is.read(buffer)) != -1) {
                 rate += readCount;
-                int progress = (int) (rate * 100L / contentLength);  //下载进度
+                int progress = (int) (rate * 100L / mediaLength);  //下载进度
                 if (listener != null) {
                     listener.onDownloading(progress);
                 }
                 outputStream.write(buffer, 0, readCount);
                 outputStream.flush();
-            }
-            if (listener != null) {
-                listener.onDownloadSuccess(null);
             }
             ret = true;
         } catch (Exception e) {
@@ -388,10 +398,15 @@ public class FileUtil {
     }
 
     public static boolean deleteInsFile(String fileName) {
-        File file = new File(DOWN_LOAD_PATH+fileName);
+        File file = new File(DOWN_LOAD_PATH + fileName);
         if (file.isFile() && file.exists()) {
             return file.delete();
         }
         return false;
+    }
+
+    public static double contentLength2Mb(long contentLength) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        return Double.parseDouble(df.format((double) contentLength / 1048576));
     }
 }

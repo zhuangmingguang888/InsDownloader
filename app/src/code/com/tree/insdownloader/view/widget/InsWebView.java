@@ -64,8 +64,6 @@ public class InsWebView extends WebView {
 
     private class MyWebViewClient extends WebViewClient {
 
-        private boolean isFirst;
-
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             mState = PAGE_START;
@@ -77,10 +75,8 @@ public class InsWebView extends WebView {
         @Override
         public void onPageFinished(WebView view, String url) {
             Log.i(TAG, "onPageFinished---" + url);
-            if (!isFirst) {
-                isFirst = true;
-                webHandler.postDelayed(runnable,LOOPER_TIME);
-            }
+            webHandler.postDelayed(runnable, LOOPER_TIME);
+
         }
     }
 
@@ -96,11 +92,11 @@ public class InsWebView extends WebView {
 
         @Override
         public void run() {
-            webHandler.postDelayed(runnable,LOOPER_TIME);
+            webHandler.postDelayed(runnable, LOOPER_TIME);
             String detectJs = FileUtil.readStringFromAssets(App.getAppContext(), JS_FILE_NAME);
             evaluateJavascript("javascript:" + detectJs, null);
             evaluateJavascript("javascript:download()", value -> {
-                Log.i(TAG,"value:" + Boolean.parseBoolean(value));
+                Log.i(TAG, "value:" + Boolean.parseBoolean(value));
                 if (Boolean.parseBoolean(value)) {
                     if (vm != null) {
                         mState = PAGE_FINISH;

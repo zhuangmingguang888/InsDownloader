@@ -1,6 +1,8 @@
 package com.tree.insdownloader.view.activity;
 
 
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -65,7 +67,12 @@ public class StartActivity extends AppCompatActivity {
 
     private void initUi() {
         boolean isFirstIn = SharedPreferencesUtil.getBoolean(this, "isFirstIn", true);
-        if (isFirstIn) {
+        boolean isShowGuide = false;
+        Intent intent = getIntent();
+        if (intent != null) {
+            isShowGuide = intent.getBooleanExtra("isShowGuide", false);
+        }
+        if (isFirstIn || isShowGuide) {
             SharedPreferencesUtil.saveBoolean(this, "isFirstIn", false);
             FrameLayout frameLayout = new FrameLayout(this);
             setContentView(frameLayout);
@@ -74,15 +81,19 @@ public class StartActivity extends AppCompatActivity {
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             frameLayout.setLayoutParams(layoutParams);
             frameLayout.setBackgroundColor(getColor(R.color.windowBackground));
-            MyPrivacyView privacyView = new MyPrivacyView(this);
             MyGuideView guideView = new MyGuideView(this);
-            frameLayout.addView(privacyView);
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            privacyView.setListener(() -> {
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_VISIBLE);
-                frameLayout.removeView(privacyView);
+            if (!isShowGuide && isFirstIn) {
+                MyPrivacyView privacyView = new MyPrivacyView(this);
+                frameLayout.addView(privacyView);
+                privacyView.setListener(() -> {
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_VISIBLE);
+                    frameLayout.removeView(privacyView);
+                    frameLayout.addView(guideView);
+                });
+            } else {
                 frameLayout.addView(guideView);
-            });
+            }
+
             guideView.setListener(new MyGuideView.OnGuideItemListener() {
                 @Override
                 public void onFinish() {
@@ -96,10 +107,9 @@ public class StartActivity extends AppCompatActivity {
                     goHome();
                 }
             });
+            getWindow().getDecorView().setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_VISIBLE);
         } else {
             goHome();
-        }
-        if (ApiUtil.isMOrHeight()) {
         }
     }
 

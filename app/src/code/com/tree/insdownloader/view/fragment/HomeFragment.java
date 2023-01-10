@@ -5,14 +5,9 @@ import static com.tree.insdownloader.view.activity.HomeActivity.DOWNLOAD_FRAGMEN
 
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
-import android.os.HandlerThread;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,17 +19,10 @@ import com.tree.insdownloader.base.BaseFragment;
 import com.tree.insdownloader.config.WebViewConfig;
 import com.tree.insdownloader.databinding.FragmentHomeBinding;
 import com.tree.insdownloader.logic.model.User;
-import com.tree.insdownloader.logic.model.UserInfo;
-import com.tree.insdownloader.util.ClipBoardUtil;
 import com.tree.insdownloader.util.ToastUtils;
-import com.tree.insdownloader.view.activity.HomeActivity;
+import com.tree.insdownloader.util.TypefaceUtil;
 import com.tree.insdownloader.view.widget.InsWebView;
 import com.tree.insdownloader.viewmodel.HomeFragmentViewModel;
-
-import java.util.Locale;
-import java.util.logging.Handler;
-
-import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 
 public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHomeBinding> {
 
@@ -53,7 +41,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
     }
 
     private void initView() {
-        Typeface semiBold = Typeface.createFromAsset(App.getAppContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
+        Typeface semiBold = TypefaceUtil.getSemiBoldTypeFace();
         binding.editUrl.setTypeface(semiBold);
         binding.btnDownload.setTypeface(semiBold);
         binding.textFrequently.setTypeface(semiBold);
@@ -61,11 +49,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
         binding.textTime.setTypeface(semiBold);
         binding.textResult.setTypeface(semiBold);
         binding.textSize.setTypeface(semiBold);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
 
         binding.imgEditPaste.setOnClickListener(v -> binding.editUrl.setText(copyClipBoard));
 
@@ -97,7 +80,60 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
             }
         });
 
+        mViewModel.getUserInfoMutableLiveData().observe(this, userInfo -> {
+            //最近的模块
+            binding.llFrequently.setVisibility(View.VISIBLE);
+            adapter.setUserInfo(userInfo);
+        });
 
+        mViewModel.getUserMutableLiveData().observe(this, user -> {
+            binding.clDownload.setVisibility(View.VISIBLE);
+            //还没下载完的情况
+            if (TextUtils.isEmpty(user.getContentLength())) {
+                if (user.getContentType().contains("video/mp4")) {
+                    Glide.with(getContext()).load(user.getVideoUrl()).into(binding.imagePhoto);
+                } else {
+                    Glide.with(getContext()).load(user.getDisplayUrl()).into(binding.imagePhoto);
+                }
+                Glide.with(getContext()).load(user.getHeadUrl()).into(binding.imageHeader);
+                binding.textName.setText(user.getUserName());
+                binding.imageResult.setVisibility(View.GONE);
+                binding.textResult.setVisibility(View.GONE);
+            } else {
+                binding.textResult.setVisibility(View.VISIBLE);
+                binding.imageResult.setVisibility(View.VISIBLE);
+                binding.textTime.setText(user.getTime());
+                //notifyDownloadFragment(user);
+                binding.textSize.setText(user.getContentLength());
+            }
+        });
+
+        mViewModel.getProgressMutableLiveData().observe(this, progress -> {
+            //进度条更新
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.imageResult.setVisibility(View.GONE);
+            binding.textResult.setVisibility(View.GONE);
+            binding.progressBar.setProgress(progress);
+            if (progress == binding.progressBar.getMax()) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.imageResult.setVisibility(View.VISIBLE);
+                binding.textResult.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //页面是否加载完成
+        mViewModel.getPageStateMutableLiveData().observe(this, state -> {
+            if (state == InsWebView.PAGE_START) {
+            } else if (state == InsWebView.PAGE_FINISH) {
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if (mViewModel != null) {
             mViewModel.getClipBoardContent().observe(this, clipBoardContent -> {
                 if (TextUtils.isEmpty(clipBoardContent)) {
@@ -108,55 +144,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentViewModel, FragmentHo
                     binding.imgEditPaste.setClickable(true);
                 }
                 copyClipBoard = clipBoardContent;
-            });
-
-            mViewModel.getUserInfoMutableLiveData().observe(this, userInfo -> {
-                //最近的模块
-                binding.llFrequently.setVisibility(View.VISIBLE);
-                adapter.setUserInfo(userInfo);
-            });
-
-            mViewModel.getUserMutableLiveData().observe(this, user -> {
-                binding.clDownload.setVisibility(View.VISIBLE);
-                //还没下载完的情况
-                if (TextUtils.isEmpty(user.getContentLength())) {
-                    if (user.getContentType().contains("video/mp4")) {
-                        Glide.with(getContext()).load(user.getVideoUrl()).into(binding.imagePhoto);
-                    } else {
-                        Glide.with(getContext()).load(user.getDisplayUrl()).into(binding.imagePhoto);
-                    }
-                    Glide.with(getContext()).load(user.getHeadUrl()).into(binding.imageHeader);
-                    binding.textName.setText(user.getUserName());
-                    binding.imageResult.setVisibility(View.GONE);
-                    binding.textResult.setVisibility(View.GONE);
-                } else {
-                    binding.textResult.setVisibility(View.VISIBLE);
-                    binding.imageResult.setVisibility(View.VISIBLE);
-                    binding.textTime.setText(user.getTime());
-                    binding.textSize.setText(user.getContentLength());
-                    notifyDownloadFragment(user);
-                }
-            });
-
-            mViewModel.getProgressMutableLiveData().observe(this, progress -> {
-                //进度条更新
-                binding.progressBar.setVisibility(View.VISIBLE);
-                binding.imageResult.setVisibility(View.GONE);
-                binding.textResult.setVisibility(View.GONE);
-                binding.progressBar.setProgress(progress);
-                if (progress == binding.progressBar.getMax()) {
-                    binding.progressBar.setVisibility(View.GONE);
-                    binding.imageResult.setVisibility(View.VISIBLE);
-                    binding.textResult.setVisibility(View.VISIBLE);
-                }
-            });
-
-            //页面是否加载完成
-            mViewModel.getPageStateMutableLiveData().observe(this, state -> {
-                if (state == InsWebView.PAGE_START) {
-                } else if (state == InsWebView.PAGE_FINISH) {
-                    progressDialog.dismiss();
-                }
             });
         }
     }

@@ -102,5 +102,6 @@
     <string name="text_dialog_hint_delete">删除</string>
 
     <string name="text_copy_success">复制成功</string>
+    <string name="text_operate_success">操作成功</string>
 
 </resources>

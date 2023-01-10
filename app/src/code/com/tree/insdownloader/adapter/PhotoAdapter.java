@@ -1,5 +1,12 @@
 package com.tree.insdownloader.adapter;
 
+import static com.tree.insdownloader.view.widget.MyDetailView.APP_VIEW;
+import static com.tree.insdownloader.view.widget.MyDetailView.CAPTIONS;
+import static com.tree.insdownloader.view.widget.MyDetailView.DELETE;
+import static com.tree.insdownloader.view.widget.MyDetailView.REPOST;
+import static com.tree.insdownloader.view.widget.MyDetailView.SHARE;
+import static com.tree.insdownloader.view.widget.MyDetailView.TAGS;
+
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -26,8 +33,14 @@ import com.tree.insdownloader.AppManager;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.config.WebViewConfig;
 import com.tree.insdownloader.dialog.PhotoMoreDialog;
+import com.tree.insdownloader.logic.dao.UserDao;
+import com.tree.insdownloader.logic.dao.UserDatabase;
 import com.tree.insdownloader.logic.model.User;
+import com.tree.insdownloader.util.ClipBoardUtil;
 import com.tree.insdownloader.util.FileUtil;
+import com.tree.insdownloader.util.InsUtil;
+import com.tree.insdownloader.util.LogUtil;
+import com.tree.insdownloader.util.ToastUtils;
 import com.tree.insdownloader.util.TypefaceUtil;
 import com.tree.insdownloader.view.activity.DetailActivity;
 import com.tree.insdownloader.view.widget.MyPopupWindow;
@@ -36,6 +49,7 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
@@ -45,6 +59,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     private List<User> userList = new ArrayList<>();
     private Context context;
     private PhotoMoreDialog dialog;
+    private UserDao userDao = UserDatabase.getInstance().userDao();
 
     public PhotoAdapter(Context context) {
         this.context = context;
@@ -75,26 +90,22 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         holder.textName.setText(name);
         holder.textName.setTextColor(context.getColor(R.color.text_photo_name_color));
         holder.textName.setTypeface(TypefaceUtil.getSemiBoldTypeFace());
-        holder.imageMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int[] location = new int[2];
-                holder.llContent.getLocationInWindow(location);
-                dialog.resetLocation(location[0] - holder.imageMore.getHeight(), location[1] - holder.imagePhoto.getWidth() / 2);
-                dialog.show();
-            }
+        holder.imageMore.setOnClickListener(v -> {
+            int[] location = new int[2];
+            holder.llContent.getLocationInWindow(location);
+            dialog.resetLocation(location[0] - holder.imageMore.getHeight(), location[1] - holder.imagePhoto.getWidth() / 2);
+            dialog.setCurrentUser(user);
+            dialog.setItemMoreListener(onItemMoreListener);
+            dialog.show();
         });
-        holder.llContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("uri", photoUri.toString());
-                bundle.putParcelable("user", user);
-                Intent intent = new Intent(AppManager.getInstance().getTopActivity(), DetailActivity.class);
-                intent.putExtras(bundle);
-                intent.putExtra("urlBundle", bundle);
-                context.startActivity(intent);
-            }
+        holder.llContent.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("uri", photoUri.toString());
+            bundle.putParcelable("user", user);
+            Intent intent = new Intent(AppManager.getInstance().getTopActivity(), DetailActivity.class);
+            intent.putExtras(bundle);
+            intent.putExtra("urlBundle", bundle);
+            context.startActivity(intent);
         });
         Glide.with(context).load(photoUri).into(holder.imagePhoto);
         Glide.with(context).load(headUri).into(holder.imageHeader);
@@ -126,9 +137,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     }
 
     public void setUser(User user) {
+        LogUtil.v("user---" + user);
         if (user != null) {
             userList.add(user);
-            notifyItemInserted(userList.size() - 1);
+            notifyDataSetChanged();
         }
     }
 
@@ -158,4 +170,88 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         }
         return NONE;
     }
+
+    public interface OnItemMoreListener {
+        void onItemClick(int position, User user);
+    }
+
+    private OnItemMoreListener onItemMoreListener = new OnItemMoreListener() {
+        @Override
+        public void onItemClick(int position, User currentUser) {
+            switch (position) {
+                case TAGS:
+                    copyTagsToClipBoard(currentUser.getDescribe());
+                    break;
+                case DELETE:
+                    deleteMedia(currentUser);
+                    break;
+                case REPOST:
+                    repostToIns(context, currentUser);
+                    break;
+                case SHARE:
+                    shareToIns(context, currentUser);
+                    break;
+                case APP_VIEW:
+                    jumpInsById(context, currentUser);
+                    break;
+                case CAPTIONS:
+                    copyDescribeToClipBoard(currentUser.getDescribe());
+                    break;
+            }
+            ToastUtils.showToast(R.string.text_operate_success);
+        }
+
+        public void copyTagsToClipBoard(String describe) {
+            StringBuilder append = new StringBuilder();
+            int firstPosition = describe.indexOf("#");
+            String firstDescribe = describe.substring(firstPosition + 1);
+            String[] tags = firstDescribe.split("#");
+            for (String tag : tags) {
+                append.append("#").append(tag.trim());
+            }
+            int lastPosition = append.lastIndexOf("#");
+            String lastString = append.substring(lastPosition);
+            if (lastString.contains(" ")) {
+                String[] lastTag = lastString.split(" ");
+                append.append(lastTag[0]);
+            }
+            ClipBoardUtil.clearToClipBoard();
+            ClipBoardUtil.copyToClipBoard(append.toString());
+        }
+
+        public void deleteMedia(User user) {
+            Executors.newSingleThreadExecutor().execute(() -> {
+                FileUtil.deleteInsFile(user.getFileName());
+                FileUtil.deleteInsFile(user.getHeadFileName());
+                userDao.deleteUser(user);
+                notifyItemRemoved(userList.indexOf(user));
+                userList.remove(user);
+            });
+        }
+
+        public void repostToIns(Context context, User user) {
+            Uri uri = FileUtil.FileGetFromPublic(FileUtil.DOWN_LOAD_PATH, user.getFileName());
+            if (context != null && uri != null) {
+                InsUtil.repostToIns(context, uri, user.getContentType());
+            }
+        }
+
+        public void shareToIns(Context context, User user) {
+            Uri uri = FileUtil.FileGetFromPublic(FileUtil.DOWN_LOAD_PATH, user.getFileName());
+            if (context != null && uri != null) {
+                InsUtil.shareToIns(context, uri, user.getContentType());
+            }
+        }
+
+        public void jumpInsById(Context context, User user) {
+            if (context != null && user != null) {
+                InsUtil.jumpInsById(context, user);
+            }
+        }
+
+        public void copyDescribeToClipBoard(String describe) {
+            ClipBoardUtil.clearToClipBoard();
+            ClipBoardUtil.copyToClipBoard(describe);
+        }
+    };
 }

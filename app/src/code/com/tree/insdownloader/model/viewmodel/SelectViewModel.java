@@ -1,23 +1,43 @@
 package com.tree.insdownloader.model.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.tree.insdownloader.AppManager;
-import com.tree.insdownloader.ThemeManager;
 import com.tree.insdownloader.app.App;
+import com.tree.insdownloader.config.NightModeConfig;
 import com.tree.insdownloader.dialog.SelectDialog;
-import com.tree.insdownloader.util.DarkModeUtil;
 import com.tree.insdownloader.util.LocaleUtil;
 import com.tree.insdownloader.util.SharedPreferencesUtil;
 import com.tree.insdownloader.view.activity.HomeActivity;
+
 import java.util.Locale;
 
 public class SelectViewModel {
 
     public void changeTheme(int tag) {
-        SharedPreferencesUtil.saveInt(App.getAppContext(),"themeType",tag);
-        ThemeManager.getInstance().initTheme();
+        switch (tag) {
+            case SelectDialog.DARK:
+                NightModeConfig.getInstance().setNightMode(App.getAppContext(), true);
+                NightModeConfig.getInstance().setSystemMode(App.getAppContext(), false);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case SelectDialog.LIGHT:
+                NightModeConfig.getInstance().setNightMode(App.getAppContext(), false);
+                NightModeConfig.getInstance().setSystemMode(App.getAppContext(), false);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case SelectDialog.SYSTEM_DEFAULT:
+                NightModeConfig.getInstance().setSystemMode(App.getAppContext(), true);
+                NightModeConfig.getInstance().setNightMode(App.getAppContext(), false);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
+        AppManager.getInstance().goHomeActivity(HomeActivity.class);
     }
+
 
     public void changeLanguage(int tag) {
         Locale locale = null;

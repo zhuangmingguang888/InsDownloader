@@ -77,4 +77,12 @@ public class InsUtil {
         activity.startActivity(intent);
     }
 
+    public static void jumpIns() {
+        Activity activity = AppManager.getInstance().getActivity(HomeActivity.class);
+        Uri uri = Uri.parse("https://instagram.com/");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setPackage(INS_PACKAGE);
+        activity.startActivity(intent);
+    }
+
 }

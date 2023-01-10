@@ -48,7 +48,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_9"
             android:layout_width="wrap_content"
-            android:textColor="@color/one_pixel"
             android:textSize="@dimen/sp_13"></TextView>
 
     </LinearLayout>

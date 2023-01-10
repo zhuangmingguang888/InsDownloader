@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.util.TextSpannableUtil;
+import com.tree.insdownloader.util.TypefaceUtil;
 
 public class MyPrivacyView extends FrameLayout implements View.OnClickListener {
 
@@ -25,7 +26,7 @@ public class MyPrivacyView extends FrameLayout implements View.OnClickListener {
     public MyPrivacyView(Context context) {
         super(context);
         View view = LayoutInflater.from(context).inflate(R.layout.privacy_layout, this, false);
-        Typeface semiBold = Typeface.createFromAsset(context.getAssets(), SEMI_BOLD_ASSETS_PATH);
+        Typeface semiBold = TypefaceUtil.getSemiBoldTypeFace();
         FrameLayout flContinue = view.findViewById(R.id.fl_continue);
         TextView privacy = view.findViewById(R.id.tv_privacy);
         TextView privacyTitle1 = view.findViewById(R.id.tv_privacy_title1);

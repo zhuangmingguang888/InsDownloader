@@ -69,19 +69,24 @@ function endReceiveData() {
 function checkClipboard() {
 	ADAPTATION_HOLDER.checkClipboard();
 }
-var button = null
+
 function download(){
-     button = document.getElementsByClassName("ins_dl")[0];
-     if(button != null) {
-        button.click();
+     var buttonParentNode = document.getElementsByClassName("ins_dl");
+     var button = buttonParentNode[buttonParentNode.length-1]
+     if(buttonParentNode.length>0) {
+        var button = buttonParentNode[buttonParentNode.length-1]
+        if(button != null) {
+           button.click();
+        }
         return true;
-     } else{
+     }
+     else{
         return false;
      }
 }
 
 var createBtn = function (top) {
-	button = document.createElement("DIV")
+	var button = document.createElement("DIV")
 	button.className = "ins_dl";
 	button.setAttribute("style", "position:absolute;top:" + top +
 		";left:0px;width: 60px; height: 60px; z-index:9999 ");
@@ -94,8 +99,9 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 	var tagName = ele.tagName
 	var targetContainer = parentNode
 	//已经注入的标签无须再次处理
+	console.log("videos class tagMedia---" + ele.getAttribute('class') )
 	if (targetContainer.getAttribute("tag") == 1) {
-		return;
+		//return;
 	}
 	var top = "0px"
 	if (isStory) {
@@ -104,7 +110,6 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 	var button = createBtn(top)
 	//注入下载按钮
 	button.onclick = function (event) {
-	console.log("click")
 		if (!isClickCooling) {
 			return
 		}
@@ -122,8 +127,6 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 		} else {
 			userProfile = findUserProfile(rootNode)
 		}
-		console.log("findUserProfile" + JSON.stringify(userProfile))
-
 		// 判断是否采集当前article
 		var dataTags = rootNode.getElementsByTagName("li");
 		if (dataTags.length > 0) { // 需要收集所有图片
@@ -137,8 +140,8 @@ var tagMedia = function (rootNode, ele, parentNode, isStory) {
 			}
 			// 单视频检测
 			var videos = clickTarget.getElementsByTagName("video")
+
 			if (videos.length > 0) {
-				console.log("单视频检测");
 				var videoUrl = videos[0].src;
 				if (!videoUrl) {
 					var sources = videos[0].getElementsByTagName("source")
@@ -491,6 +494,7 @@ var handleArticle = function (article) {
 				} else {
 					var videos = contentRoot.getElementsByTagName("video")
 					if (videos.length == 1) {
+						console.log("videos class handleArticle---" + videos[0].getAttribute('class') )
 						tagMedia(rootNode, videos[0], videos[0].parentNode, false)
 					}
 				}
@@ -517,7 +521,6 @@ var handleSection = function (section) {
  * 获取图片数组
  */
 function collectImgs(rootNode, userProfile, isStory) {
-	console.log("collectImgs E");
 	if (collectLength != 0) {
 		return;
 	}
@@ -534,7 +537,6 @@ function collectImgs(rootNode, userProfile, isStory) {
 	// 确保切换到第一页
 	startReceiveData(userProfile, collectLength, isStory);
 	return collectLength
-	console.log("collectImgs X");
 }
 
 /**
@@ -609,30 +611,25 @@ function checkToLeft() {
  * 第二步，收集图片
  */
 function collectImg() {
-	console.log("collectImg E ");
 	if (duplicateCheck == null) { // 初始化
 		duplicateCheck = new Set();
 	}
 	// 搜集当前下标
 	var index = getNowIndex(indicatorArrays);
-	var dataTags = collectRootNode.getElementsByTagName("li");
+	var ul = collectRootNode.getElementsByTagName("ul")[0];
+	var dataTags = ul.getElementsByTagName("li");
 	var length = dataTags.length;
+	console.log("collectImg 当前下标:" + (index+1) + "--- li length---" + length)
 	var dataSize = duplicateCheck.size;
 	var hasEmpty = false;
-	console.log("collectImg index: " + index + "collectImg length:" + length);
+
 	for (var i = 0; i < length; i++) {
 		var videoData = getVideoUrl(dataTags[i])
-		if (videoData != null) {
-			console.log("videoData displayUrl: " + videoData.displayUrl + " videoUrl: " + videoData.videoUrl)
-		}
 		if (videoData != null && !duplicateCheck.has(videoData.videoUrl)) {
 			duplicateCheck.add(videoData.videoUrl)
 			sendDataJson(JSON.stringify(videoData),collectLength)
 		} else {
 			var imgData = getImagUrl(dataTags[i]);
-			if (imgData != null) {
-				console.log("imgData displayUrl: " + imgData.displayUrl + " videoUrl: " + imgData.videoUrl)
-			}
 			if (imgData != null && !duplicateCheck.has(imgData.displayUrl)) {
 				duplicateCheck.add(imgData.displayUrl)
 				sendDataJson(JSON.stringify(imgData),collectLength)
@@ -641,15 +638,16 @@ function collectImg() {
 			}
 		}
 	}
-	if (!hasEmpty && dataSize != duplicateCheck.size && collectLength != 2) { // 有空值，等文档变动自动修改
-		checkTimes = 0;
-		rightBtnClick(collectRootNode, 100);
-	} else if (checkTimes != 0 && checkTimes % CHECK_MAX_TIMES == 0) {
-		console.log("不得已触发点击");
-		rightBtnClick(collectRootNode, 100);
-	}
+
 	// 检测是否完成
+	var hasButton = rightBtnClick(collectRootNode, 50);
+	    for (var x of duplicateCheck) {
+            console.log("collectImg duplicateCheck " + x);
+        }
+	if(!hasButton) return;
+
 	if (duplicateCheck.size != collectLength) { // 没有完成，则超时继续检测
+		console.log("-------------");
 		timeoutCheck(50);
 	} else { // 完成
 		console.log("collectImg 收集完成");
@@ -658,6 +656,17 @@ function collectImg() {
 		checkStep();
 	}
 }
+
+/**
+ * 滑动到左侧时间最大时间检测
+ */
+function timeoutNext(timeout) {
+		timeoutId = setTimeout(function () {
+
+		}, timeout);
+}
+
+
 
 /**
  * 第三步，复原
@@ -698,14 +707,16 @@ function reportEndReceive() {
 	checkStep();
 }
 
+
 /**
  * 滑动到左侧时间最大时间检测
  */
 function timeoutCheck(timeout) {
+
 	if (checkTimes < STATUS_MAX_TIMES) {
 		checkTimes++;
+		console.log("checkTimes !! " + checkTimes);
 		timeoutId = setTimeout(function () {
-			console.log("timeoutCheck over!! ");
 			checkStep();
 		}, timeout);
 	} else { // 强制进入下一步
@@ -736,10 +747,10 @@ function isEmpty(obj) {
  */
 function getImagUrl(imgParent) {
 	if (imgParent != null) {
-		var imgSelf = imgParent.getElementsByTagName("img")[0]
-		if (imgSelf != null) {
-			var imgUrl = imgSelf.src;
-			console.log("getImagUrl imgUrl: " + imgUrl);
+		var imageDiv = imgParent.getElementsByClassName("_aagv")[0];
+		if (imageDiv != null) {
+			var imgSelf = imageDiv.getElementsByTagName("img");
+			var imgUrl = imgSelf[0].src;
 			if (!isEmpty(imgUrl)) {
 				return {
 					displayUrl: imgUrl,
@@ -760,6 +771,7 @@ function getVideoUrl(videoParent) {
 		var videoTag = videoParent.getElementsByTagName("video")[0];
 		if (videoTag != null) {
 			var videoUrl = videoTag.src;
+			console.log("videoUrl imgUrl: " + videoUrl);
 			if (!videoUrl) {
 				var sources = videoTag.getElementsByTagName("source")
 				if (sources.length > 0) {
@@ -778,6 +790,7 @@ function getVideoUrl(videoParent) {
 			if (videoUrl && !videoUrl.startsWith("blob") && /[^\s]/.test(videoUrl)) {
 				return {
 					displayUrl: thumbnailUrl,
+					userProfile:userProfile,
 					videoUrl: videoUrl
 				}
 			} else {
@@ -792,14 +805,11 @@ function getVideoUrl(videoParent) {
  * 通过指示器获取当前下标
  */
 function getNowIndex(indicatorArrays) {
-	console.log("getNowIndex enter ==> ");
-	// classname最长的那个
 	var confirmLength = -1
 	var curIndex = -1
 	if (indicatorArrays != null) {
 		for (var i = 0; i < indicatorArrays.children.length; i++) {
 			var curIndicator = indicatorArrays.children[i]
-			console.log("getNowIndex i: " + i + " indicatorArrays[i]: " + curIndicator.className);
 			var nowClassListLength = curIndicator.classList.length
 			if (curIndex == -1) {
 				confirmLength = nowClassListLength;
@@ -842,25 +852,24 @@ function leftBtnClick(parentNode, checkTime) {
  * 点击右侧按钮
  */
 function rightBtnClick(parentNode, checkTime) {
-	if (checkTime > 0) {
 		var timestamp = new Date().getTime();
 		console.log("rightBtnClick timestamp: " + timestamp + " lastStamp: " + lastStamp + " diff: " + (
 			timestamp - lastStamp) + " checkTime: " + checkTime);
 		if (timestamp - lastStamp < checkTime) {
-			return;
+			return false;
 		}
-	}
 	lastStamp = timestamp;
+
 	var rightBtn = getRightBtnEle(parentNode);
 	console.log("rightBtnClick enter ==> ");
 	if (rightBtn != null) {
 		rightBtn.click();
 		console.log("rightBtnClick click");
-		return true // 按钮存在
+		return true; // 按钮存在
 	} else {
-		console.log("rightBtn is null")
+		console.log("rightBtnClick is null")
+		return false;
 	}
-	return false; // 按钮不存在
 }
 
 var observerOptions = {
@@ -875,16 +884,13 @@ var observer = new MutationObserver(function (mutations, observer) {
 		switch (mutation.type) {
 			case 'childList':
 				mutation.addedNodes.forEach((node) => {
-					if (node.classList.contains('_abmn')) {
-						checkClipboard(); // 检测到剪贴板变动
-					}
 					if (isStartCollect) {
 						checkTimes = 0;
-						checkStep();
+						//checkStep();
 					}
 					console.log("mutation.addedNodes: " + node.className + " tagName: " + node.tagName)
 					if ((node.tagName == "DIV" || node.tagName == "SECTION" || node.tagName == "LI" || node.tagName == "ARTICLE" || node.tagName == "IMG") && node
-						.className != "ins_dl") {
+						.className != "ins_dl" ) {
 						findAllMedias(document, "childList")
 					}
 				});
@@ -919,7 +925,6 @@ function getIndicatorArray(rootNode) {
 }
 
 function getLeftBtnEle(rootNode) {
-	console.log("getLeftBtnEle: " + leftClassName)
 	if (isEmpty(leftClassName)) {
 		var index = getNowIndex(indicatorArrays);
 		if (index <= 0) {

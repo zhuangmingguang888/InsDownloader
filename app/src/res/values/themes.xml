@@ -6,10 +6,6 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        //开启暗黑模式
-        <item name="android:forceDarkAllowed">true</item>
     </style>
 
-    <style name="Theme.InsDownloader.light" parent="Theme.InsDownloader.NoActionBar">
-    </style>
 </resources>

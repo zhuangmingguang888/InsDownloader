@@ -6,7 +6,7 @@
         android:id="@+id/fl_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/windowBackground"
+        android:background="@color/activity_background"
         >
 
         <androidx.drawerlayout.widget.DrawerLayout
@@ -50,7 +50,7 @@
                 android:layout_width="@dimen/dp_309"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:background="@color/windowBackground"
+                android:background="@color/activity_background"
                 android:orientation="vertical"></com.tree.insdownloader.view.widget.MyNavigationView>
         </androidx.drawerlayout.widget.DrawerLayout>
 

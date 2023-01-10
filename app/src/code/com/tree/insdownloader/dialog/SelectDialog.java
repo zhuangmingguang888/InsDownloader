@@ -7,7 +7,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.tree.insdownloader.R;
-import com.tree.insdownloader.ThemeManager;
 import com.tree.insdownloader.base.BaseDialog;
 import com.tree.insdownloader.bean.SelectBean;
 import com.tree.insdownloader.util.DisplayUtil;
@@ -55,13 +54,6 @@ public class SelectDialog extends BaseDialog {
                 }
             }
         });
-
-        if (ThemeManager.getInstance().isDarkMode()) {
-            mContentView.setBackgroundColor(Color.parseColor("#262626"));
-        } else {
-            mContentView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-
-        }
 
     }
 

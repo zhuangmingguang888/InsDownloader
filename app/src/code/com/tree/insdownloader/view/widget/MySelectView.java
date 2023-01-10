@@ -17,11 +17,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.tree.insdownloader.R;
-import com.tree.insdownloader.ThemeManager;
-import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.bean.SelectBean;
 import com.tree.insdownloader.dialog.SelectDialog;
 import com.tree.insdownloader.util.SharedPreferencesUtil;
+import com.tree.insdownloader.util.TypefaceUtil;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class MySelectView extends LinearLayout implements CompoundButton.OnCheck
     public void initHead() {
         View headView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_select_head, this, false);
         textTitle = headView.findViewById(R.id.text_select_title);
-        semiBold = Typeface.createFromAsset(getContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
+        semiBold = TypefaceUtil.getSemiBoldTypeFace();
         addView(headView);
     }
 
@@ -62,13 +61,6 @@ public class MySelectView extends LinearLayout implements CompoundButton.OnCheck
             textView.setTypeface(semiBold);
             textTitle.setTypeface(semiBold);
             textTitle.setText(selectBean.type == SelectDialog.LANGUAGE_TYPE ? R.string.menu_language_options : R.string.menu_theme);
-            if (ThemeManager.getInstance().isDarkMode()) {
-                textView.setTextColor(Color.parseColor("#FFFFFF"));
-                textTitle.setTextColor(Color.parseColor("#CFCFCF"));
-            } else {
-                textView.setTextColor(Color.parseColor("#000000"));
-                textTitle.setTextColor(Color.parseColor("#000000"));
-            }
             addView(view);
         }
     }

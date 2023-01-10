@@ -9,7 +9,11 @@ import com.tree.insdownloader.app.App;
 
 public class TypefaceUtil {
 
-    public static Typeface getSemiBoldTypeFace(){
-        return Typeface.createFromAsset(App.getAppContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
+    private static Typeface typeface = Typeface.createFromAsset(App.getAppContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
+
+
+    public static Typeface getSemiBoldTypeFace() {
+        return typeface;
     }
+
 }

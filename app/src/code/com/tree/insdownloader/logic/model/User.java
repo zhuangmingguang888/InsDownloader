@@ -34,6 +34,16 @@ public class User implements Parcelable {
 
     private String url;
 
+    private String downloadUrl;
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
+    }
+
     public String getContentType() {
         return contentType;
     }
@@ -132,22 +142,6 @@ public class User implements Parcelable {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", displayUrl='" + displayUrl + '\'' +
-                ", videoUrl='" + videoUrl + '\'' +
-                ", headUrl='" + headUrl + '\'' +
-                ", userName='" + userName + '\'' +
-                ", describe='" + describe + '\'' +
-                ", headFileName='" + headFileName + '\'' +
-                ", fileName='" + fileName + '\'' +
-                ", contentLength='" + contentLength + '\'' +
-                ", time='" + time + '\'' +
-                '}';
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -166,6 +160,7 @@ public class User implements Parcelable {
         dest.writeString(this.time);
         dest.writeString(this.contentType);
         dest.writeString(this.url);
+        dest.writeString(this.downloadUrl);
     }
 
     public void readFromParcel(Parcel source) {
@@ -181,6 +176,7 @@ public class User implements Parcelable {
         this.time = source.readString();
         this.contentType = source.readString();
         this.url = source.readString();
+        this.downloadUrl = source.readString();
     }
 
     public User() {
@@ -199,9 +195,29 @@ public class User implements Parcelable {
         this.time = in.readString();
         this.contentType = in.readString();
         this.url = in.readString();
+        this.downloadUrl = in.readString();
     }
 
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", displayUrl='" + displayUrl + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", headUrl='" + headUrl + '\'' +
+                ", userName='" + userName + '\'' +
+                ", describe='" + describe + '\'' +
+                ", headFileName='" + headFileName + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", contentLength='" + contentLength + '\'' +
+                ", time='" + time + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", url='" + url + '\'' +
+                ", downloadUrl='" + downloadUrl + '\'' +
+                '}';
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);

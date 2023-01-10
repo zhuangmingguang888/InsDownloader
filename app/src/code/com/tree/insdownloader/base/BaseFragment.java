@@ -26,6 +26,13 @@ public abstract class BaseFragment<VM extends ViewModel, VDB extends ViewDataBin
     protected VDB binding;
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        Log.i("fragment","setUserVisibleHint clazz:" + this.getClass().getName());
+
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("fragment","onCreate clazz:" + this.getClass().getName());
@@ -54,9 +61,21 @@ public abstract class BaseFragment<VM extends ViewModel, VDB extends ViewDataBin
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Log.i("fragment","onStart clazz:" + this.getClass().getName());
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         Log.i("fragment","onResume clazz:" + this.getClass().getName());
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        Log.i("fragment","onHiddenChanged clazz:" + this.getClass().getName());
+        super.onHiddenChanged(hidden);
     }
 
     public abstract void processLogic();

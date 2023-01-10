@@ -1,31 +1,20 @@
 package com.tree.insdownloader.view.widget;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tree.insdownloader.R;
-import com.tree.insdownloader.ThemeManager;
-import com.tree.insdownloader.app.App;
 import com.tree.insdownloader.bean.MenuBean;
 import com.tree.insdownloader.dialog.AppraiseDialog;
 import com.tree.insdownloader.dialog.DisclaimerDialog;
 import com.tree.insdownloader.dialog.SelectDialog;
-import com.tree.insdownloader.util.DarkModeUtil;
-import com.tree.insdownloader.util.SharedPreferencesUtil;
 import com.tree.insdownloader.util.TypefaceUtil;
 
 import java.util.ArrayList;

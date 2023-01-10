@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tree.insdownloader.R;
 import com.tree.insdownloader.bean.StartBannerBean;
 import com.tree.insdownloader.databinding.ItemBannerGuideBinding;
+import com.tree.insdownloader.util.TypefaceUtil;
 import com.tree.insdownloader.view.widget.MyGuideView;
 import com.youth.banner.adapter.BannerAdapter;
 
@@ -59,7 +60,7 @@ public class StartBannerAdapter extends BannerAdapter<StartBannerBean, StartBann
         private ItemBannerGuideBinding guideBinding;
         public BannerViewHolder(@NonNull View itemView) {
             super(itemView);
-            Typeface semiBold = Typeface.createFromAsset(itemView.getContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
+            Typeface semiBold = TypefaceUtil.getSemiBoldTypeFace();
             guideBinding = ItemBannerGuideBinding.bind(itemView);
             guideBinding.tvGuideMethod.setTypeface(semiBold);
             guideBinding.tvGuideOperator.setTypeface(semiBold);

@@ -15,7 +15,6 @@
         android:layout_height="@dimen/dp_25"
         android:layout_marginLeft="@dimen/dp_32"
         android:src="@mipmap/ic_header_disclaimer"
-
         ></ImageView>
 
     <TextView
@@ -24,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_24"
         android:text="@string/menu_disclaimer"
-        android:textColor="@color/view_background"
+        android:textColor="@color/text_menu_item"
         android:textSize="@dimen/sp_18"></TextView>
 
 </LinearLayout>

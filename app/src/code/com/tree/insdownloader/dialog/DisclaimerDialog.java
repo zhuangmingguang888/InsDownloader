@@ -2,12 +2,10 @@ package com.tree.insdownloader.dialog;
 
 import static com.tree.insdownloader.config.JosefinSansFont.SEMI_BOLD_ASSETS_PATH;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,9 +15,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.tree.insdownloader.R;
-import com.tree.insdownloader.ThemeManager;
 import com.tree.insdownloader.base.BaseDialog;
 import com.tree.insdownloader.util.DisplayUtil;
+import com.tree.insdownloader.util.TypefaceUtil;
 
 public class DisclaimerDialog extends BaseDialog {
 
@@ -34,20 +32,10 @@ public class DisclaimerDialog extends BaseDialog {
         TextView disclaimerText = mContentView.findViewById(R.id.dialog_text_disclaimer);
         TextView disclaimerGo = mContentView.findViewById(R.id.tv_disclaimer_go);
         TextView disclaimerContentText = mContentView.findViewById(R.id.dialog_text_disclaimer_content);
-        Typeface semiBold = Typeface.createFromAsset(mContentView.getContext().getAssets(), SEMI_BOLD_ASSETS_PATH);
+        Typeface semiBold = TypefaceUtil.getSemiBoldTypeFace();
         disclaimerText.setTypeface(semiBold);
         disclaimerContentText.setTypeface(semiBold);
         disclaimerGo.setTypeface(semiBold);
-
-        if (ThemeManager.getInstance().isDarkMode()) {
-            mContentView.setBackgroundColor(Color.parseColor("#262626"));
-            disclaimerText.setTextColor(Color.parseColor("#FFFFFF"));
-            disclaimerContentText.setTextColor(Color.parseColor("#CFCFCF"));
-        } else {
-            mContentView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            disclaimerText.setTextColor(Color.parseColor("#000000"));
-            disclaimerContentText.setTextColor(Color.parseColor("#4B4B4B"));
-        }
 
         disclaimerGoFl.setOnClickListener(new View.OnClickListener() {
             @Override

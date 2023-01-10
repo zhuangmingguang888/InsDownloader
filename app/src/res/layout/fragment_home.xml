@@ -147,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_14"
-                android:textColor="@color/text_photo_name_color"
+                android:textColor="@color/text_photo_size_color"
                 android:textSize="@dimen/sp_12"
                 app:layout_constraintLeft_toLeftOf="@id/fl_toux"
                 app:layout_constraintTop_toBottomOf="@id/fl_toux"></TextView>
@@ -156,22 +156,20 @@
                 android:id="@+id/image_result"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_18"
-                android:layout_marginStart="@dimen/dp_91"
                 android:layout_marginRight="@dimen/dp_9"
                 android:src="@mipmap/ic_download_success"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/card_photo"
-                app:layout_constraintLeft_toRightOf="@id/card_photo"></ImageView>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/text_result"></ImageView>
 
             <io.netopen.hotbitmapgg.library.view.RingProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_18"
-                android:layout_marginStart="@dimen/dp_91"
                 android:layout_marginRight="@dimen/dp_9"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/card_photo"
-                app:layout_constraintLeft_toRightOf="@id/card_photo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/text_result"
                 app:max="100"
                 app:ringColor="@android:color/darker_gray"
                 app:ringProgressColor="#10C2C6"
@@ -184,14 +182,13 @@
                 android:id="@+id/text_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_9"
                 android:text="@string/text_download_result"
-                android:textColor="@color/view_background"
+                android:textColor="@color/text_photo_size_color"
                 android:textSize="@dimen/sp_12"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/image_result"
-                app:layout_constraintLeft_toRightOf="@id/image_result"
-                app:layout_constraintTop_toTopOf="@id/image_result"></TextView>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                ></TextView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -203,8 +200,8 @@
             android:layout_marginLeft="@dimen/dp_26"
             android:layout_marginTop="@dimen/dp_30"
             android:layout_marginRight="@dimen/dp_26"
-            android:background="@drawable/fragment_home_background"
             android:orientation="vertical"
+            android:background="@drawable/fragment_home_background"
             android:visibility="gone">
 
             <TextView
@@ -228,9 +225,8 @@
 
         <com.tree.insdownloader.view.widget.InsWebView
             android:id="@+id/home_web"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_100"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_1"
             ></com.tree.insdownloader.view.widget.InsWebView>
 
     </LinearLayout>

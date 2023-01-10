@@ -102,5 +102,6 @@ Batter Services</string>
     <string name="text_dialog_hint_delete">delete</string>
 
     <string name="text_copy_success">copy success</string>
+    <string name="text_operate_success">operate success</string>
 
 </resources>

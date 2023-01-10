@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_bg_guide">#41444A</color>
+    <color name="text_guide_method_color">#EE468C</color>
+    <color name="indicator_guide_normal_color">#FCFCFC</color>
+    <color name="text_disclaimer_content">#CFCFCF</color>
+    <color name="one_pixel">#666666</color>
+    <color name="text_disclaimer">#FFFFFF</color>
+    <color name="text_theme_unselect">#A3A3A3</color>
+    <color name="view_background">#666666</color>
+    <color name="text_unselect">#BABABA</color>
+    <color name="text_select">#EE468C</color>
+    <color name="text_edit_tips">#898C93</color>
+    <color name="text_color_privacy">#212121</color>
+    <color name="text_color_privacy_url">#999999</color>
+
+    <color name="dark_theme_color">#181818</color>
+    <color name="windowBackground">#FFFFFFFF</color>
+    <color name="text_nav_header_title">#FFFFFFFF</color>
+
+    <color name="hi_tabtop_selected_color">@android:color/holo_red_dark</color>
+    <color name="text_photo_name_color">#FFFFFF</color>
+    <color name="text_photo_more_color">#FFFFFF</color>
+    <color name="text_photo_size_color">#BABABA</color>
+    <color name="text_home_frequently">#FFFFFF</color>
+    <color name="text_photo_no_photo">#BABABA</color>
+    <color name="text_menu_item">#FFFFFF</color>
+
+    <color name="dialog_background">#262626</color>
+    <color name="activity_background">#181818</color>
+    <color name="dialog_more">#262626</color>
+
+</resources>

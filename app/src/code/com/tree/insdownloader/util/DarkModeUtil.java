@@ -1,13 +1,11 @@
 package com.tree.insdownloader.util;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.tree.insdownloader.ThemeManager;
 import com.tree.insdownloader.app.App;
 
 public class DarkModeUtil {

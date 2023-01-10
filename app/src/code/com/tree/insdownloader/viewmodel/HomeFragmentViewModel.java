@@ -18,19 +18,12 @@ import com.tree.insdownloader.logic.network.service.OkHttpHelper;
 import com.tree.insdownloader.logic.network.service.OnDownloadListener;
 import com.tree.insdownloader.util.ClipBoardUtil;
 import com.tree.insdownloader.util.FileUtil;
-import com.tree.insdownloader.util.SharedPreferencesUtil;
-import com.tree.insdownloader.util.ToastUtils;
+import com.tree.insdownloader.util.LogUtil;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executors;
 
-import kotlin.Pair;
-import okhttp3.Headers;
 import okhttp3.Response;
 
 public class HomeFragmentViewModel extends ViewModel {
@@ -52,7 +45,6 @@ public class HomeFragmentViewModel extends ViewModel {
 
     private final Object MEDIA_LOCK = new Object();
     private final Object HEAD_LOCK = new Object();
-    private CountDownLatch mCountDownLatch = new CountDownLatch(THREAD_NUM);
     private int mediaCount;
     private int headCount;
     private int currentCount;
@@ -72,6 +64,7 @@ public class HomeFragmentViewModel extends ViewModel {
     }
 
     public void setUser(User user) {
+        LogUtil.v("onDownloadSuccess setUser");
         if (user != null) {
             userMutableLiveData.postValue(user);
         }
@@ -92,24 +85,24 @@ public class HomeFragmentViewModel extends ViewModel {
         User user = new User();
         String photoFileName;
         String mediaUrl;
-        String prefix;
         String headUrl;
+        String prefix = FileUtil.generateSuffix();
 
         if (!TextUtils.isEmpty(userInfo.getDisplayUrl())) {
             mediaUrl = userInfo.getDisplayUrl();
             user.setDisplayUrl(mediaUrl);
-            prefix = mediaUrl.split("_")[1];
             photoFileName = prefix + ".jpeg";
             user.setContentType("image/jpeg");
         } else {
             mediaUrl = userInfo.getVideoUrl();
             user.setVideoUrl(mediaUrl);
-            int start = mediaUrl.indexOf("m82/") + 4;
+           /* int start = mediaUrl.indexOf("m82/") + 4;
             int end = mediaUrl.indexOf("_");
-            prefix = mediaUrl.substring(start, end);
+            prefix = mediaUrl.substring(start, end);*/
             photoFileName = prefix + ".mp4";
             user.setContentType("video/mp4");
         }
+
         String headFileName = "head" + prefix + ".jpeg";
         headUrl = userInfo.getUserProfile().getHeadUrl();
         user.setHeadUrl(headUrl);
@@ -118,14 +111,23 @@ public class HomeFragmentViewModel extends ViewModel {
         user.setHeadFileName(headFileName);
         user.setFileName(photoFileName);
         user.setUrl(App.getUrl());
+        user.setDownloadUrl(mediaUrl);
         setUserInfo(userInfo);
-        if (currentCount == length - 1) {
-            userList.add(user);
-        } else {
+        if (length == 1) {
             userList.add(user);
             currentCount++;
-            return;
+        } else {
+            currentCount++;
+            userList.add(user);
+            if (currentCount != length) {
+                return;
+            }
         }
+
+        //数据库已有则不下载
+        //计数器复位
+        CountDownLatch countDownLatch = new CountDownLatch(THREAD_NUM);
+
 
 /*        User userByFileName = userDao.getUserByFileName(photoFileName);
         if (userByFileName != null){
@@ -134,102 +136,50 @@ public class HomeFragmentViewModel extends ViewModel {
         }*/
 
         for (User us : userList) {
-            String contentType = us.getContentType();
-            if (contentType.contains("image/jpeg")) {
-                okHttpHelper.download(us.getDisplayUrl(), new OnDownloadListener() {
-                    @Override
-                    public void onDownloadSuccess(Response response) {
-                        if (response == null) return;
-                        try {
-                            synchronized (MEDIA_LOCK) {
-                                User user = userList.get(mediaCount);
-                                if (user == null) return;
-                                FileUtil.contentLength = response.body().contentLength();
-                                FileUtil.saveMediaFileToSdcard(user.getFileName(), response.body().byteStream(), this);
-                                if (user.getContentType().equals("video/mp4")) {
-                                    Date date = FileUtil.getVideoTime(user.getFileName());
-                                    user.setTime(date.getMinutes() + ":" + date.getSeconds());
-                                }
-                                double contentLength = FileUtil.getFileOrFilesSize(FileUtil.DOWN_LOAD_PATH + user.getFileName(), FileUtil.SIZETYPE_MB);
+            okHttpHelper.download(us.getDownloadUrl(), new OnDownloadListener() {
+                @Override
+                public void onDownloadSuccess(Response response) {
+                    if (response == null) return;
+                    try {
+                        synchronized (MEDIA_LOCK) {
+                            User user = userList.get(mediaCount);
+                            if (user == null) return;
+                            long mediaLength = response.body().contentLength();
+                            LogUtil.v(TAG,"" + mediaLength);
+                            FileUtil.saveMediaFileToSdcard(user.getFileName(), response.body().byteStream(), this, mediaLength);
+                            if (user.getContentType().equals("video/mp4")) {
+                                double contentLength = FileUtil.contentLength2Mb(mediaLength);
                                 user.setContentLength(contentLength + "MB");
-                                setUser(user);
-                                userDao.insertUser(user);
-                                mediaCount++;
-                                if (mediaCount == length) {
-                                    mCountDownLatch.countDown();
-                                }
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onDownloading(int progress) {
-                        //3.回调进度
-                        setProgress(progress);
-                    }
-
-                    @Override
-                    public void onDownloadFailed(Exception e) {
-                        Log.d(TAG, "onDownloadFailed" + e);
-
-                    }
-
-                    @Override
-                    public void onDownloadStart() {
-                        setUser(user);
-                    }
-                });
-            } else if (contentType.contains("video/mp4")) {
-                okHttpHelper.download(us.getVideoUrl(), new OnDownloadListener() {
-
-                    @Override
-                    public void onDownloadSuccess(Response response) {
-                        if (response == null) return;
-                        try {
-                            synchronized (MEDIA_LOCK) {
-                                User user = userList.get(mediaCount);
-                                if (user == null) return;
-                                FileUtil.contentLength = response.body().contentLength();
-                                FileUtil.saveMediaFileToSdcard(user.getFileName(), response.body().byteStream(), this);
-                                if (user.getContentType().equals("video/mp4")) {
-                                    Date date = FileUtil.getVideoTime(user.getFileName());
-                                    user.setTime(date.getMinutes() + ":" + date.getSeconds());
-                                }
-                                double contentLength = FileUtil.getFileOrFilesSize(FileUtil.DOWN_LOAD_PATH + user.getFileName(), FileUtil.SIZETYPE_MB);
-                                user.setContentLength(contentLength + "MB");
-                                setUser(user);
-                                userDao.insertUser(user);
-                                mediaCount++;
-                                if (mediaCount == length) {
-                                    mCountDownLatch.countDown();
-                                }
+                            setUser(user);
+                            userDao.insertUser(user);
+                            mediaCount++;
+                            if (mediaCount == length) {
+                                countDownLatch.countDown();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                        Log.d(TAG, "onDownloadSuccess");
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                }
 
-                    @Override
-                    public void onDownloading(int progress) {
-                        //3.回调进度
-                        setProgress(progress);
-                    }
+                @Override
+                public void onDownloading(int progress) {
+                    //3.回调进度
+                    setProgress(progress);
+                }
 
-                    @Override
-                    public void onDownloadFailed(Exception e) {
-                        Log.d(TAG, "onDownloadFailed" + e);
+                @Override
+                public void onDownloadFailed(Exception e) {
+                    Log.d(TAG, "onDownloadFailed" + e);
 
-                    }
+                }
 
-                    @Override
-                    public void onDownloadStart() {
-                        setUser(user);
-                    }
-                });
-            }
+                @Override
+                public void onDownloadStart() {
+                    setUser(user);
+                }
+            });
             okHttpHelper.download(us.getHeadUrl(), new OnDownloadListener() {
                 @Override
                 public void onDownloadSuccess(Response response) {
@@ -238,11 +188,12 @@ public class HomeFragmentViewModel extends ViewModel {
                         try {
                             User user = userList.get(headCount);
                             if (user == null) return;
-                            FileUtil.contentLength = response.body().contentLength();
-                            FileUtil.saveMediaFileToSdcard(user.getHeadFileName(), response.body().byteStream(), null);
+                            long headLength = response.body().contentLength();
+                            FileUtil.saveMediaFileToSdcard(user.getHeadFileName(), response.body().byteStream(), null, headLength);
                             headCount++;
                             if (headCount == length) {
-                                mCountDownLatch.countDown();
+                                countDownLatch.countDown();
+                                LogUtil.v("countDownLatch " + countDownLatch.getCount());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -269,9 +220,13 @@ public class HomeFragmentViewModel extends ViewModel {
         }
         try {
             //等待所有线程执行完毕
-            mCountDownLatch.await();
+            LogUtil.v("clearState e" + countDownLatch.getCount());
+
+            countDownLatch.await();
+            LogUtil.v("clearState x");
+
             clearState();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

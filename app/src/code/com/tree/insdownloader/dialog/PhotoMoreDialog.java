@@ -1,5 +1,9 @@
 package com.tree.insdownloader.dialog;
 
+import static com.tree.insdownloader.view.widget.MyDetailView.DELETE;
+import static com.tree.insdownloader.view.widget.MyDetailView.TAGS;
+
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,17 +18,26 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.tree.insdownloader.AppManager;
 import com.tree.insdownloader.R;
+import com.tree.insdownloader.adapter.PhotoAdapter;
 import com.tree.insdownloader.base.BaseDialog;
 import com.tree.insdownloader.bean.PhotoMoreBean;
+import com.tree.insdownloader.logic.model.User;
+import com.tree.insdownloader.util.ClipBoardUtil;
 import com.tree.insdownloader.util.DisplayUtil;
+import com.tree.insdownloader.util.ToastUtils;
+import com.tree.insdownloader.util.TypefaceUtil;
+import com.tree.insdownloader.view.activity.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoMoreDialog extends BaseDialog {
+public class PhotoMoreDialog extends BaseDialog implements View.OnClickListener {
 
     private LinearLayout llContent;
+    private PhotoAdapter.OnItemMoreListener listener;
+    private User currentUser;
 
     public PhotoMoreDialog(@NonNull Context context) {
         super(context);
@@ -34,7 +47,6 @@ public class PhotoMoreDialog extends BaseDialog {
     protected void initView() {
         llContent = mContentView.findViewById(R.id.ll_content);
         initData();
-
     }
 
     private void initData() {
@@ -58,12 +70,16 @@ public class PhotoMoreDialog extends BaseDialog {
 
     public void inflate(List<PhotoMoreBean> photoMoreBeanList) {
         if (photoMoreBeanList != null && photoMoreBeanList.size() > 0) {
-            for (PhotoMoreBean photoMoreBean : photoMoreBeanList) {
+            for (int index = 0; index < photoMoreBeanList.size(); index++) {
+                PhotoMoreBean photoMoreBean = photoMoreBeanList.get(index);
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.item_photo_more, null);
                 TextView textName = view.findViewById(R.id.text_name);
                 ImageView imagePhoto = view.findViewById(R.id.image_photo);
                 textName.setText(photoMoreBean.getName());
+                textName.setTypeface(TypefaceUtil.getSemiBoldTypeFace());
                 imagePhoto.setImageResource(photoMoreBean.getPhoto());
+                view.setTag(index);
+                view.setOnClickListener(this);
                 llContent.addView(view);
             }
         }
@@ -90,5 +106,25 @@ public class PhotoMoreDialog extends BaseDialog {
         layoutParams.y = y;
         getWindow().setAttributes(layoutParams);
         getWindow().getDecorView().setPadding(0, 0, 0, 0);
+    }
+
+    public void setItemMoreListener(PhotoAdapter.OnItemMoreListener listener) {
+        this.listener = listener;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        if (listener != null) {
+            int index = (int) view.getTag();
+            listener.onItemClick(index, currentUser);
+            if (isShowing()) {
+                dismiss();
+            }
+        }
     }
 }

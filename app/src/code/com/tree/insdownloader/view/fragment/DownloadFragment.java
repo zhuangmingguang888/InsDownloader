@@ -1,12 +1,16 @@
 package com.tree.insdownloader.view.fragment;
 
+import static androidx.viewpager2.widget.ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT;
+
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
@@ -73,7 +77,7 @@ public class DownloadFragment extends BaseFragment<DownloadFragmentViewModel, Fr
         AppCompatActivity topActivity = (AppCompatActivity) AppManager.getInstance().getTopActivity();
         FragmentAdapter fragmentAdapter = new
                 FragmentAdapter(topActivity, fragments);
-
+        binding.viewPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT_DEFAULT);
         binding.viewPager.setAdapter(fragmentAdapter);
         binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -92,7 +96,7 @@ public class DownloadFragment extends BaseFragment<DownloadFragmentViewModel, Fr
     }
 
     public void setUser(User user) {
-        if (user.getContentType().contains("jpeg")) {
+        if (!TextUtils.isEmpty(user.getDisplayUrl())) {
             photoFragment.setUser(user);
         } else {
             videoFragment.setUser(user);
